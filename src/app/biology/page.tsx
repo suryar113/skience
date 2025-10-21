@@ -67,7 +67,7 @@ export default function BiologyPage() {
         <main className="flex-1 flex flex-col items-center pt-8 md:pt-16">
             <div className="w-full max-w-4xl flex justify-end mb-4">
                 <DialogTrigger asChild>
-                    <Button onClick={handleSurpriseMe} className="button-gradient-hover">
+                    <Button onClick={handleSurpriseMe}>
                         <RotateCw className="mr-2 h-4 w-4" />
                         Surprise Me
                     </Button>
@@ -103,12 +103,12 @@ export default function BiologyPage() {
                         )}
                       </TableCell>
                       <TableCell className="text-center">
-                        <Button asChild className="button-gradient-hover">
+                        <Button asChild>
                           <Link href={note.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-orange">Link</Link>
                         </Button>
                       </TableCell>
                        <TableCell className="text-center">
-                          <Button asChild className="button-gradient-hover">
+                          <Button asChild>
                             <Link href={note.quizletUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-purple">Link</Link>
                           </Button>
                       </TableCell>
@@ -129,13 +129,13 @@ export default function BiologyPage() {
           <DialogHeader className="p-4 border-b flex flex-row items-center justify-between">
             <DialogTitle>Notes Viewer</DialogTitle>
              <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="h-8 w-8 button-gradient-hover" asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
                 <Link href={selectedUrl} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="h-4 w-4" />
                    <span className="sr-only">Open in new tab</span>
                 </Link>
               </Button>
-              <DialogClose className="h-8 w-8 flex items-center justify-center rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground button-gradient-hover">
+              <DialogClose className="h-8 w-8 flex items-center justify-center rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
                 <X className="h-4 w-4" />
                 <span className="sr-only">Close</span>
               </DialogClose>

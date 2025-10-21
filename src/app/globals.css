@@ -93,20 +93,4 @@ body {
   .text-gradient-orange {
     @apply bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent animated-gradient;
   }
-
-  .button-gradient-hover {
-    @apply relative overflow-hidden;
-  }
-
-  .button-gradient-hover::before {
-    content: '';
-    @apply absolute -inset-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 opacity-0 transition-opacity duration-300;
-    z-index: -1;
-    filter: blur(10px);
-  }
-
-  .button-gradient-hover:hover::before {
-    @apply opacity-75;
-    animation: gradient-animation 4s ease-in-out infinite;
-  }
 }
