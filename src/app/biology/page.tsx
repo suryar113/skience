@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -11,31 +11,55 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose,
-} from '@/components/ui/dialog';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ExternalLink, X, RotateCw, BookOpen, FileText, Link as LinkIcon, HelpCircle } from 'lucide-react';
-import { SiteHeader } from '@/components/site-header';
+} from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  ExternalLink,
+  X,
+  RotateCw,
+  BookOpen,
+  FileText,
+  Link as LinkIcon,
+  HelpCircle,
+} from "lucide-react";
+import { SiteHeader } from "@/components/site-header";
 
 const notes = [
   {
-    topic: 'CHARACTERISTICS OF LIVING THINGS',
-    notesUrl: 'https://drinks-hunt-3eb.craft.me/asdasdasdasdas',
-    pdfUrl: 'https://drive.google.com/drive/folders/1Xdo1VFXf9z6dhP_b2iU_Om4dImFpqbu6?usp=sharing',
-    quizletUrl: '#'
+    topic: "CHARACTERISTICS OF LIVING THINGS",
+    notesUrl: "https://drinks-hunt-3eb.craft.me/asdasdasdasdas",
+    pdfUrl:
+      "https://drive.google.com/drive/folders/1Xdo1VFXf9z6dhP_b2iU_Om4dImFpqbu6?usp=sharing",
+    quizletUrl: "#",
   },
   {
-    topic: 'ORGANIC MOLECULES',
-    notesUrl: 'https://drinks-hunt-3eb.craft.me/asfdsafadsfdsfs',
-    pdfUrl: 'https://drive.google.com/drive/folders/160OPAQYfAuRNVn-jtAW35uyzMExr93UR?usp=sharing',
-    quizletUrl: '#'
+    topic: "ORGANIC MOLECULES",
+    notesUrl: "https://drinks-hunt-3eb.craft.me/asfdsafadsfdsfs",
+    pdfUrl:
+      "https://drive.google.com/drive/folders/160OPAQYfAuRNVn-jtAW35uyzMExr93UR?usp=sharing",
+    quizletUrl: "#",
   },
   {
-    topic: 'ENZYMES',
-    notesUrl: 'https://drinks-hunt-3eb.craft.me/fdgdfgdfgdfgdfgdf',
-    pdfUrl: 'https://drive.google.com/drive/folders/1P6jHR7n_gQww9U2vr5ZJXlIPeMrjXc4r?usp=sharing',
-    quizletUrl: '#'
+    topic: "ENZYMES",
+    notesUrl: "https://drinks-hunt-3eb.craft.me/fdgdfgdfgdfgdfgdf",
+    pdfUrl:
+      "https://drive.google.com/drive/folders/1P6jHR7n_gQww9U2vr5ZJXlIPeMrjXc4r?usp=sharing",
+    quizletUrl: "#",
   },
-  { topic: 'THE CELL', notesUrl: 'https://example.com', pdfUrl: '#', quizletUrl: '#' },
+  {
+    topic: "THE CELL",
+    notesUrl: "https://drinks-hunt-3eb.craft.me/BWwKgb2BT5sgbZ",
+    pdfUrl:
+      "https://drive.google.com/drive/folders/10BOS_ghIpDbgTZaoRsImsM8_0qWBruVo?usp=sharing",
+    quizletUrl: "#",
+  },
 ];
 
 export default function BiologyPage() {
@@ -48,7 +72,7 @@ export default function BiologyPage() {
 
   const handleSurpriseMe = () => {
     if (!isMounted) return;
-    const validNotes = notes.filter(note => note.notesUrl !== '#');
+    const validNotes = notes.filter((note) => note.notesUrl !== "#");
     if (validNotes.length > 0) {
       const randomIndex = Math.floor(Math.random() * validNotes.length);
       setSelectedUrl(validNotes[randomIndex].notesUrl);
@@ -57,7 +81,7 @@ export default function BiologyPage() {
 
   const closeDialogs = () => {
     setSelectedUrl(null);
-  }
+  };
 
   return (
     <Dialog onOpenChange={(open) => !open && closeDialogs()}>
@@ -65,52 +89,88 @@ export default function BiologyPage() {
         <SiteHeader />
 
         <main className="flex-1 flex flex-col items-center pt-8 md:pt-16">
-            <div className="w-full max-w-4xl flex justify-end mb-4">
-                <DialogTrigger asChild>
-                    <Button onClick={handleSurpriseMe}>
-                        <RotateCw className="mr-2 h-4 w-4" />
-                        Surprise Me
-                    </Button>
-                </DialogTrigger>
-            </div>
+          <div className="w-full max-w-4xl flex justify-end mb-4">
+            <DialogTrigger asChild>
+              <Button onClick={handleSurpriseMe}>
+                <RotateCw className="mr-2 h-4 w-4" />
+                Surprise Me
+              </Button>
+            </DialogTrigger>
+          </div>
           <Card className="w-full max-w-4xl rounded-3xl">
             <CardHeader>
-              <CardTitle className="text-center uppercase tracking-widest text-gradient-blue">BIOLOGY NOTES</CardTitle>
+              <CardTitle className="text-center uppercase tracking-widest text-gradient-blue">
+                BIOLOGY NOTES
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[50%]"><BookOpen size={16} className="inline-block mr-2"/>TOPIC</TableHead>
-                    <TableHead className="w-[15%] text-right"><LinkIcon size={16} className="inline-block mr-2"/>NOTES</TableHead>
-                    <TableHead className="w-[15%] text-right"><FileText size={16} className="inline-block mr-2"/>PDF</TableHead>
-                    <TableHead className="w-[20%] text-center"><HelpCircle size={16} className="inline-block mr-2"/>QUIZLET</TableHead>
+                    <TableHead className="w-[50%]">
+                      <BookOpen size={16} className="inline-block mr-2" />
+                      TOPIC
+                    </TableHead>
+                    <TableHead className="w-[15%] text-right">
+                      <LinkIcon size={16} className="inline-block mr-2" />
+                      NOTES
+                    </TableHead>
+                    <TableHead className="w-[15%] text-right">
+                      <FileText size={16} className="inline-block mr-2" />
+                      PDF
+                    </TableHead>
+                    <TableHead className="w-[20%] text-center">
+                      <HelpCircle size={16} className="inline-block mr-2" />
+                      QUIZLET
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {notes.map((note) => (
                     <TableRow key={note.topic}>
-                      <TableCell className="font-medium">{note.topic}</TableCell>
+                      <TableCell className="font-medium">
+                        {note.topic}
+                      </TableCell>
                       <TableCell className="text-right">
-                        {note.notesUrl !== '#' ? (
+                        {note.notesUrl !== "#" ? (
                           <DialogTrigger asChild>
-                             <Button variant="link" onClick={() => setSelectedUrl(note.notesUrl)} className="text-gradient-green p-0">
+                            <Button
+                              variant="link"
+                              onClick={() => setSelectedUrl(note.notesUrl)}
+                              className="text-gradient-green p-0"
+                            >
                               View
                             </Button>
                           </DialogTrigger>
                         ) : (
-                          <Button variant="link" disabled className="p-0">View</Button>
+                          <Button variant="link" disabled className="p-0">
+                            View
+                          </Button>
                         )}
                       </TableCell>
                       <TableCell className="text-right">
                         <Button asChild variant="link" className="p-0">
-                          <Link href={note.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-orange">Link</Link>
+                          <Link
+                            href={note.pdfUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gradient-orange"
+                          >
+                            Link
+                          </Link>
                         </Button>
                       </TableCell>
-                       <TableCell className="text-center">
-                          <Button asChild variant="link" className="p-0">
-                            <Link href={note.quizletUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-purple">Link</Link>
-                          </Button>
+                      <TableCell className="text-center">
+                        <Button asChild variant="link" className="p-0">
+                          <Link
+                            href={note.quizletUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gradient-purple"
+                          >
+                            Link
+                          </Link>
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -125,14 +185,18 @@ export default function BiologyPage() {
         </footer>
       </div>
       {selectedUrl && (
-         <DialogContent className="max-w-4xl h-[80vh] flex flex-col p-0 rounded-3xl">
+        <DialogContent className="max-w-4xl h-[80vh] flex flex-col p-0 rounded-3xl">
           <DialogHeader className="p-4 border-b flex flex-row items-center justify-between">
             <DialogTitle>Notes Viewer</DialogTitle>
-             <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
-                <Link href={selectedUrl} target="_blank" rel="noopener noreferrer">
+                <Link
+                  href={selectedUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <ExternalLink className="h-4 w-4" />
-                   <span className="sr-only">Open in new tab</span>
+                  <span className="sr-only">Open in new tab</span>
                 </Link>
               </Button>
               <DialogClose className="h-8 w-8 flex items-center justify-center rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
