@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -14,8 +14,6 @@ import {
 } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ExternalLink, X } from 'lucide-react';
-import { useUser, useAuth } from '@/firebase';
-import { useRouter } from 'next/navigation';
 
 const notes = [
   {
@@ -38,23 +36,6 @@ const notes = [
 
 export default function BiologyPage() {
   const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
-  const { user, isUserLoading } = useUser();
-  const auth = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isUserLoading && !user) {
-      router.push('/login');
-    }
-  }, [user, isUserLoading, router]);
-
-  if (isUserLoading || !user) {
-    return (
-      <div className="flex flex-col min-h-screen items-center justify-center p-4 md:p-8 bg-background text-foreground">
-        <p>Loading...</p>
-      </div>
-    );
-  }
 
   return (
     <Dialog onOpenChange={(open) => !open && setSelectedUrl(null)}>
@@ -68,20 +49,6 @@ export default function BiologyPage() {
             <Button variant="outline" size="sm" asChild>
               <Link href="/biology">BIOLOGY</Link>
             </Button>
-            {isUserLoading ? null : user ? (
-              <Button variant="outline" size="sm" onClick={() => auth.signOut()}>
-                LOGOUT
-              </Button>
-            ) : (
-              <>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="/login">LOGIN</Link>
-                </Button>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="/signup">SIGN UP</Link>
-                </Button>
-              </>
-            )}
           </nav>
         </header>
 
@@ -142,7 +109,7 @@ export default function BiologyPage() {
                    <span className="sr-only">Open in new tab</span>
                 </Link>
               </Button>
-              <DialogClose className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+              <DialogClose className="h-8 w-8 flex items-center justify-center rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
                 <X className="h-4 w-4" />
                 <span className="sr-only">Close</span>
               </DialogClose>
