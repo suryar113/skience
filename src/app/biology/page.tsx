@@ -13,6 +13,7 @@ import {
   DialogClose,
 } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { ExternalLink } from 'lucide-react';
 
 const notes = [
   {
@@ -99,8 +100,18 @@ export default function BiologyPage() {
       </div>
       {selectedUrl && (
          <DialogContent className="max-w-4xl h-[80vh] flex flex-col p-0">
-          <DialogHeader className="p-4 border-b">
+          <DialogHeader className="p-4 border-b flex flex-row items-center justify-between">
             <DialogTitle>Notes</DialogTitle>
+             <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" className="h-6 w-6" asChild>
+                <Link href={selectedUrl} target="_blank">
+                  <ExternalLink className="h-4 w-4" />
+                </Link>
+              </Button>
+              <DialogClose className="relative rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                <ExternalLink className="h-4 w-4 hidden" /> {/* Hidden but keeps alignment */}
+              </DialogClose>
+            </div>
           </DialogHeader>
           <div className="flex-1 p-0 m-0">
             <iframe
