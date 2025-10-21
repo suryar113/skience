@@ -75,16 +75,16 @@ export default function BiologyPage() {
             </div>
           <Card className="w-full max-w-4xl">
             <CardHeader>
-              <CardTitle className="text-center uppercase tracking-widest">BIOLOGY NOTES</CardTitle>
+              <CardTitle className="text-center uppercase tracking-widest text-gradient-blue">BIOLOGY NOTES</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[50%] uppercase flex items-center gap-2"><BookOpen size={16}/>TOPIC</TableHead>
-                    <TableHead className="w-[15%] text-center uppercase border-l flex items-center justify-center gap-2"><LinkIcon size={16}/>NOTES</TableHead>
-                    <TableHead className="w-[15%] text-center uppercase border-l flex items-center justify-center gap-2"><FileText size={16}/>PDF</TableHead>
-                    <TableHead className="w-[20%] text-center uppercase border-l flex items-center justify-center gap-2"><HelpCircle size={16}/>QUIZLET</TableHead>
+                    <TableHead className="w-[50%]"><span className="flex items-center gap-2"><BookOpen size={16}/>TOPIC</span></TableHead>
+                    <TableHead className="w-[15%] text-center border-l"><span className="flex items-center justify-center gap-2 text-gradient-green"><LinkIcon size={16}/>NOTES</span></TableHead>
+                    <TableHead className="w-[15%] text-center border-l"><span className="flex items-center justify-center gap-2 text-gradient-orange"><FileText size={16}/>PDF</span></TableHead>
+                    <TableHead className="w-[20%] text-center border-l"><span className="flex items-center justify-center gap-2 text-gradient-purple"><HelpCircle size={16}/>QUIZLET</span></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -94,7 +94,7 @@ export default function BiologyPage() {
                       <TableCell className="text-center border-l">
                         {note.notesUrl !== '#' ? (
                           <DialogTrigger asChild>
-                            <Button variant="link" onClick={() => setSelectedUrl(note.notesUrl)}>
+                            <Button variant="link" onClick={() => setSelectedUrl(note.notesUrl)} className="text-gradient-green">
                               View
                             </Button>
                           </DialogTrigger>
@@ -104,12 +104,12 @@ export default function BiologyPage() {
                       </TableCell>
                       <TableCell className="text-center border-l">
                         <Button variant="link" asChild>
-                          <Link href={note.pdfUrl} target="_blank" rel="noopener noreferrer">Link</Link>
+                          <Link href={note.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-orange">Link</Link>
                         </Button>
                       </TableCell>
                        <TableCell className="text-center border-l">
                           <Button variant="link" asChild>
-                            <Link href={note.quizletUrl} target="_blank" rel="noopener noreferrer">Link</Link>
+                            <Link href={note.quizletUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-purple">Link</Link>
                           </Button>
                       </TableCell>
                     </TableRow>
@@ -121,7 +121,7 @@ export default function BiologyPage() {
         </main>
 
         <footer className="text-center p-6 mt-16">
-          <p className="text-sm text-muted-foreground">Empowering students with knowledge.</p>
+          <p className="text-sm text-muted-foreground">you better study</p>
         </footer>
       </div>
       {selectedUrl && (
