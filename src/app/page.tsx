@@ -1,31 +1,24 @@
 'use client';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { SiteHeader } from '@/components/site-header';
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen p-4 md:p-8 bg-background text-foreground">
-      <header className="flex justify-between items-center mb-16">
-        <h1 className="text-2xl font-bold tracking-widest uppercase">Skience</h1>
-        <nav className="flex items-center gap-4">
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/">HOME</Link>
-          </Button>
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/biology">BIOLOGY</Link>
-          </Button>
-        </nav>
-      </header>
-
-      <main className="flex-1 flex flex-col items-center justify-center text-center">
-        <h2 className="text-4xl font-light mb-8 uppercase">theres only 4 buttons on the screen</h2>
-        <Button variant="outline" asChild>
-            <Link href="/biology">BIOLOGY FOR YOU NOOBS</Link>
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
+      <SiteHeader />
+      <main className="flex-1 flex flex-col items-center justify-center text-center px-4">
+        <h2 className="text-4xl md:text-5xl font-bold mb-4">Welcome to Skience</h2>
+        <p className="text-lg text-muted-foreground mb-8 max-w-2xl">
+          Your centralized hub for high-quality science notes. Dive into biology, chemistry, and more, all in one place.
+        </p>
+        <Button size="lg" asChild>
+          <Link href="/biology">Explore Biology Notes</Link>
         </Button>
       </main>
 
-      <footer className="text-center mt-16">
-        <p className="text-sm text-muted-foreground uppercase">howd u use this to study and still fail</p>
+      <footer className="text-center p-6">
+        <p className="text-sm text-muted-foreground">Empowering students with knowledge.</p>
       </footer>
     </div>
   );
