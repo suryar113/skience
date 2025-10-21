@@ -82,8 +82,8 @@ export default function BiologyPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[50%]"><span className="flex items-center gap-2"><BookOpen size={16}/>TOPIC</span></TableHead>
-                    <TableHead className="w-[15%] text-center"><span className="flex items-center justify-center gap-2 text-gradient-green"><LinkIcon size={16}/>NOTES</span></TableHead>
-                    <TableHead className="w-[15%] text-center"><span className="flex items-center justify-center gap-2 text-gradient-orange"><FileText size={16}/>PDF</span></TableHead>
+                    <TableHead className="w-[15%]"><span className="flex items-center gap-2 text-gradient-green"><LinkIcon size={16}/>NOTES</span></TableHead>
+                    <TableHead className="w-[15%]"><span className="flex items-center gap-2 text-gradient-orange"><FileText size={16}/>PDF</span></TableHead>
                     <TableHead className="w-[20%] text-center"><span className="flex items-center justify-center gap-2 text-gradient-purple"><HelpCircle size={16}/>QUIZLET</span></TableHead>
                   </TableRow>
                 </TableHeader>
@@ -91,24 +91,24 @@ export default function BiologyPage() {
                   {notes.map((note) => (
                     <TableRow key={note.topic}>
                       <TableCell className="font-medium">{note.topic}</TableCell>
-                      <TableCell className="text-center">
+                      <TableCell>
                         {note.notesUrl !== '#' ? (
                           <DialogTrigger asChild>
-                            <Button variant="link" onClick={() => setSelectedUrl(note.notesUrl)} className="text-gradient-green">
+                            <Button variant="link" onClick={() => setSelectedUrl(note.notesUrl)} className="text-gradient-green p-0">
                               View
                             </Button>
                           </DialogTrigger>
                         ) : (
-                          <Button variant="link" disabled>View</Button>
+                          <Button variant="link" disabled className="p-0">View</Button>
                         )}
                       </TableCell>
-                      <TableCell className="text-center">
-                        <Button asChild>
+                      <TableCell>
+                        <Button asChild variant="link" className="p-0">
                           <Link href={note.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-orange">Link</Link>
                         </Button>
                       </TableCell>
                        <TableCell className="text-center">
-                          <Button asChild>
+                          <Button asChild variant="link" className="p-0">
                             <Link href={note.quizletUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-purple">Link</Link>
                           </Button>
                       </TableCell>
