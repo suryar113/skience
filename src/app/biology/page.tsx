@@ -2,8 +2,10 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 
+// To add a new row to the table, just copy and paste one of the lines below.
+// For example, to add a "GENETICS" topic, you would add:
+// { topic: 'GENETICS', notesUrl: '#', pdfUrl: '#' },
 const notes = [
   { topic: 'CELLS', notesUrl: '#', pdfUrl: '#' },
   { topic: 'ORGANISM', notesUrl: '#', pdfUrl: '#' },
