@@ -8,15 +8,19 @@ export default function Home() {
         <h1 className="text-2xl font-bold tracking-widest uppercase">Skience</h1>
         <nav className="flex items-center gap-4">
           <Button variant="outline" size="sm" asChild>
-            <Link href="#">HOME</Link>
+            <Link href="/">HOME</Link>
           </Button>
-          <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase">BIOLOGY</Link>
+          <Button variant="outline" size="sm" asChild>
+            <Link href="/biology">BIOLOGY</Link>
+          </Button>
         </nav>
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center text-center">
         <h2 className="text-4xl font-light mb-8 uppercase">theres only 4 buttons on the screen</h2>
-        <Button variant="outline">BIOLOGY FOR YOU NOOBS</Button>
+        <Button variant="outline" asChild>
+            <Link href="/biology">BIOLOGY FOR YOU NOOBS</Link>
+        </Button>
       </main>
 
       <footer className="text-center mt-16">
