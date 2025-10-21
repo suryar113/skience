@@ -13,7 +13,7 @@ import {
   DialogClose,
 } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, X } from 'lucide-react';
 
 const notes = [
   {
@@ -38,7 +38,7 @@ export default function BiologyPage() {
   const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={(open) => !open && setSelectedUrl(null)}>
       <div className="flex flex-col min-h-screen p-4 md:p-8 bg-background text-foreground">
         <header className="flex justify-between items-center mb-16">
           <h1 className="text-2xl font-bold tracking-widest uppercase">Skience</h1>
@@ -103,13 +103,15 @@ export default function BiologyPage() {
           <DialogHeader className="p-4 border-b flex flex-row items-center justify-between">
             <DialogTitle>Notes</DialogTitle>
              <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="h-6 w-6" asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
                 <Link href={selectedUrl} target="_blank">
                   <ExternalLink className="h-4 w-4" />
+                   <span className="sr-only">Open in new tab</span>
                 </Link>
               </Button>
-              <DialogClose className="relative rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-                <ExternalLink className="h-4 w-4 hidden" /> {/* Hidden but keeps alignment */}
+              <DialogClose className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
               </DialogClose>
             </div>
           </DialogHeader>
