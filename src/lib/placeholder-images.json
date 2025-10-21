@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-abstract",
+      "description": "Abstract blue and purple geometric shapes",
+      "imageUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhYnN0cmFjdCUyMGRlc2lnbnxlbnwwfHx8fDE3NjA5NTY2Mjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract design"
+    },
+    {
+      "id": "feature-1",
+      "description": "A person customizing a design on a digital tablet",
+      "imageUrl": "https://images.unsplash.com/photo-1628068431732-b8d752c52523?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkZXNpZ24lMjBjdXN0b21pemF0aW9ufGVufDB8fHx8MTc2MTAxMTUxMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "design customization"
+    },
+    {
+      "id": "feature-2",
+      "description": "A website shown on a desktop, tablet, and phone screen side-by-side",
+      "imageUrl": "https://images.unsplash.com/photo-1541462608143-67571c6738dd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyZXNwb25zaXZlJTIwZGVzaWdufGVufDB8fHx8MTc2MDk4MTkzNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "responsive design"
+    },
+    {
+      "id": "feature-3",
+      "description": "Abstract lines representing speed and performance",
+      "imageUrl": "https://images.unsplash.com/photo-1753989238513-a493ac80b197?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzcGVlZCUyMHBlcmZvcm1hbmNlfGVufDB8fHx8MTc2MTAxMTUxMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "speed performance"
+    }
+  ]
 }
