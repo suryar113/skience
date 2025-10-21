@@ -29,42 +29,46 @@ export default function Home() {
       </header>
 
       <main className="flex-1 flex flex-col items-center">
-        <h2 className="text-4xl font-light mb-12">hey there</h2>
+        <h2 className="text-4xl font-light mb-12 uppercase">hey there</h2>
         
         <div className="w-full max-w-4xl">
           <Card>
             <CardHeader>
-              <CardTitle>Science Notes</CardTitle>
+              <CardTitle className="uppercase">Science Notes</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-1/3">Name of note</TableHead>
-                    <TableHead className="w-1/3">Notes Link</TableHead>
-                    <TableHead className="w-1/3">PDF</TableHead>
+                    <TableHead className="w-1/3 uppercase">Name of note</TableHead>
+                    <TableHead className="w-1/3 uppercase">Notes Link</TableHead>
+                    <TableHead className="w-1/3 uppercase">PDF</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {notes.map((note, index) => (
                     <TableRow key={index}>
-                      <TableCell>{note.name}</TableCell>
+                      <TableCell className="uppercase">{note.name}</TableCell>
                       <TableCell>
                         {note.notesLink.startsWith('Coming') ? (
-                          <span className="text-muted-foreground">{note.notesLink}</span>
+                          <span className="text-muted-foreground uppercase">{note.notesLink}</span>
                         ) : (
-                          <Link href={note.notesLink} className="underline hover:text-primary transition-colors">
-                            {note.notesLink.substring(1).replace(/-/g, ' ')}
-                          </Link>
+                          <Button variant="ghost" asChild>
+                            <Link href={note.notesLink} className="uppercase">
+                              {note.notesLink.substring(1).replace(/-/g, ' ')}
+                            </Link>
+                          </Button>
                         )}
                       </TableCell>
                       <TableCell>
                         {note.pdfLink.startsWith('I said') ? (
-                          <span className="text-muted-foreground">{note.pdfLink}</span>
+                          <span className="text-muted-foreground uppercase">{note.pdfLink}</span>
                         ) : (
-                          <Link href={note.pdfLink} className="underline hover:text-primary transition-colors">
-                            pdf
-                          </Link>
+                           <Button variant="ghost" asChild>
+                            <Link href={note.pdfLink} className="uppercase">
+                              pdf
+                            </Link>
+                          </Button>
                         )}
                       </TableCell>
                     </TableRow>
@@ -77,7 +81,7 @@ export default function Home() {
       </main>
 
       <footer className="text-center mt-16">
-        <p className="text-sm text-muted-foreground">howd u use this to study and still fail</p>
+        <p className="text-sm text-muted-foreground uppercase">howd u use this to study and still fail</p>
       </footer>
     </div>
   );
