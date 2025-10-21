@@ -5,11 +5,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 
 const notes = [
-  { unit: 'UNIT 1', topic: 'CELLS', notesUrl: '#', pdfUrl: '#' },
-  { unit: 'UNIT 2', topic: 'ORGANISM', notesUrl: '#', pdfUrl: '#' },
-  { unit: 'UNIT 3', topic: 'POPULATION', notesUrl: '#', pdfUrl: '#' },
-  { unit: 'UNIT 4', topic: 'EVOLUTION', notesUrl: '#', pdfUrl: '#' },
-  { unit: 'UNIT 5', topic: 'ECOSYSTEM', notesUrl: '#', pdfUrl: '#' },
+  { topic: 'CELLS', notesUrl: '#', pdfUrl: '#' },
+  { topic: 'ORGANISM', notesUrl: '#', pdfUrl: '#' },
+  { topic: 'POPULATION', notesUrl: '#', pdfUrl: '#' },
+  { topic: 'EVOLUTION', notesUrl: '#', pdfUrl: '#' },
+  { topic: 'ECOSYSTEM', notesUrl: '#', pdfUrl: '#' },
 ];
 
 export default function BiologyPage() {
@@ -36,19 +36,15 @@ export default function BiologyPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[20%] uppercase">UNIT</TableHead>
-                  <TableHead className="w-[50%] uppercase border-l">TOPIC</TableHead>
+                  <TableHead className="w-[70%] uppercase">TOPIC</TableHead>
                   <TableHead className="w-[15%] text-center uppercase border-l">NOTES LINK</TableHead>
                   <TableHead className="w-[15%] text-center uppercase border-l">PDF</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {notes.map((note) => (
-                  <TableRow key={note.unit}>
-                    <TableCell>
-                      <Badge variant="outline">{note.unit}</Badge>
-                    </TableCell>
-                    <TableCell className="border-l">{note.topic}</TableCell>
+                  <TableRow key={note.topic}>
+                    <TableCell>{note.topic}</TableCell>
                     <TableCell className="text-center border-l">
                       <Button variant="link" asChild>
                         <Link href={note.notesUrl}>LINK</Link>
