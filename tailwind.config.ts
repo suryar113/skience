@@ -17,8 +17,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
+        body: ['Roboto Mono', 'monospace'],
+        headline: ['Roboto Mono', 'monospace'],
         code: ['monospace'],
       },
       colors: {
