@@ -1,66 +1,97 @@
-{
-  "name": "nextn",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack -p 9002",
-    "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
-    "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
-    "build": "NODE_ENV=production next build",
-    "start": "next start",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@genkit-ai/google-genai": "^1.20.0",
-    "@genkit-ai/next": "^1.20.0",
-    "@hookform/resolvers": "^4.1.3",
-    "@radix-ui/react-accordion": "^1.2.3",
-    "@radix-ui/react-alert-dialog": "^1.1.6",
-    "@radix-ui/react-avatar": "^1.1.3",
-    "@radix-ui/react-checkbox": "^1.1.4",
-    "@radix-ui/react-collapsible": "^1.1.11",
-    "@radix-ui/react-dialog": "^1.1.6",
-    "@radix-ui/react-dropdown-menu": "^2.1.6",
-    "@radix-ui/react-label": "^2.1.2",
-    "@radix-ui/react-menubar": "^1.1.6",
-    "@radix-ui/react-popover": "^1.1.6",
-    "@radix-ui/react-progress": "^1.1.2",
-    "@radix-ui/react-radio-group": "^1.2.3",
-    "@radix-ui/react-scroll-area": "^1.2.3",
-    "@radix-ui/react-select": "^2.1.6",
-    "@radix-ui/react-separator": "^1.1.2",
-    "@radix-ui/react-slider": "^1.2.3",
-    "@radix-ui/react-slot": "^1.2.3",
-    "@radix-ui/react-switch": "^1.1.3",
-    "@radix-ui/react-tabs": "^1.1.3",
-    "@radix-ui/react-toast": "^1.2.6",
-    "@radix-ui/react-tooltip": "^1.1.8",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "date-fns": "^3.6.0",
-    "dotenv": "^16.5.0",
-    "embla-carousel-react": "^8.6.0",
-    "genkit": "^1.20.0",
-    "lucide-react": "^0.475.0",
-    "next": "15.3.3",
-    "patch-package": "^8.0.0",
-    "react": "^18.3.1",
-    "react-day-picker": "^8.10.1",
-    "react-dom": "^18.3.1",
-    "react-hook-form": "^7.54.2",
-    "recharts": "^2.15.1",
-    "tailwind-merge": "^3.0.1",
-    "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.24.2"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "genkit-cli": "^1.20.0",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+'use client';
+
+import { useState, useEffect } from 'react';
+import {
+  doc,
+  onSnapshot,
+  DocumentReference,
+  DocumentData,
+  FirestoreError,
+  DocumentSnapshot,
+} from 'firebase/firestore';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
+import { useFirestore } from '@/firebase';
+
+/** Utility type to add an 'id' field to a given type T. */
+export type WithId<T> = T & { id: string };
+
+/**
+ * Interface for the return value of the useDocument hook.
+ * @template T Type of the document data.
+ */
+export interface UseDocumentResult<T> {
+  data: WithId<T> | null;
+  isLoading: boolean;
+  error: FirestoreError | null;
+}
+
+/**
+ * React hook to subscribe to a Firestore document in real-time.
+ * It gracefully handles cases where the document reference might be null or undefined.
+ *
+ * IMPORTANT! YOU MUST MEMOIZE the inputted memoizedDocRef or BAD THINGS WILL HAPPEN
+ * use useMemo to memoize it per React guidence.  Also make sure that it's dependencies are stable
+ * references
+ *
+ * @template T The expected type of the document data.
+ * @param {DocumentReference<DocumentData> | null | undefined} docRef - The Firestore document reference
+ * to subscribe to. If null or undefined, the hook will not fetch data.
+ * @returns {UseDocumentResult<T>} An object containing the document data, loading state, and error state.
+ */
+export function useDocument<T = any>(
+  memoizedDocRef: (DocumentReference<DocumentData> & {__memo?: boolean}) | null | undefined
+): UseDocumentResult<T> {
+  const [data, setData] = useState<WithId<T> | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<FirestoreError | null>(null);
+
+  useEffect(() => {
+    // If the document reference is not provided, reset state and do nothing.
+    if (!memoizedDocRef) {
+      setData(null);
+      setIsLoading(false);
+      setError(null);
+      return;
+    }
+
+    setIsLoading(true);
+
+    const unsubscribe = onSnapshot(
+      memoizedDocRef,
+      (snapshot: DocumentSnapshot<DocumentData>) => {
+        if (snapshot.exists()) {
+          // Document exists, update data state.
+          setData({ ...(snapshot.data() as T), id: snapshot.id });
+          setError(null);
+        } else {
+          // Document does not exist.
+          setData(null);
+          // Not necessarily an error, so we don't set error state here.
+          // Could be handled as a specific case in the component.
+        }
+        setIsLoading(false);
+      },
+      (err: FirestoreError) => {
+        // Handle errors, including permission denied.
+        setError(err);
+        const contextualError = new FirestorePermissionError({
+          operation: 'read',
+          path: memoizedDocRef.path,
+        });
+        errorEmitter.emit('permission-error', contextualError);
+        setData(null);
+        setIsLoading(false);
+      }
+    );
+
+    // Cleanup subscription on component unmount or when docRef changes.
+    return () => unsubscribe();
+  }, [memoizedDocRef]); // Dependency array ensures effect re-runs if docRef changes.
+
+  if(memoizedDocRef && !memoizedDocRef.__memo) {
+    throw new Error(memoizedDocRef.path + ' was not properly memoized using useMemoFirebase');
   }
+
+  return { data, isLoading, error };
 }
