@@ -35,7 +35,7 @@ const notes = [
     pdfUrl: 'https://drive.google.com/drive/folders/1P6jHR7n_gQww9U2vr5ZJXlIPeMrjXc4r?usp=sharing',
     quizletUrl: '#'
   },
-  { topic: 'THE CELL', notesUrl: '#', pdfUrl: '#', quizletUrl: '#' },
+  { topic: 'THE CELL', notesUrl: 'https://example.com', pdfUrl: '#', quizletUrl: '#' },
 ];
 
 export default function BiologyPage() {
