@@ -26,6 +26,9 @@ const notes = [
         { question: 'What is Sensitivity?', answer: 'The ability to detect or sense stimuli in the internal or external environment and to make appropriate responses.' },
         { question: 'Define Growth.', answer: 'A permanent increase in size and dry mass by an increase in cell number or cell size or both.' },
         { question: 'What is Excretion?', answer: 'Removal from organisms of the waste products of metabolism, toxic materials, and substances in excess of requirements.' },
+        { question: 'What is Nutrition?', answer: 'The intake of nutrients from which organisms derive energy for growth and maintain life.' },
+        { question: 'Differentiate between sexual and asexual reproduction.', answer: 'Sexual reproduction involves two parents and produces genetically unique offspring, while asexual reproduction involves a single parent and produces genetically identical offspring.' },
+        { question: 'What is movement in plants called?', answer: 'Tropism, which is a growth response to a stimulus like light (phototropism) or gravity (gravitropism).' },
     ]
   },
   {
@@ -35,7 +38,12 @@ const notes = [
     flashcards: [
         { question: 'What are the main types of organic molecules?', answer: 'Carbohydrates, Proteins, Lipids, and Nucleic Acids.' },
         { question: 'What are the building blocks of proteins?', answer: 'Amino acids.' },
-        { question: 'What is the function of carbohydrates?', answer: 'To provide energy for the body.' },
+        { question: 'What is the function of carbohydrates?', answer: 'To provide a primary source of energy for the body.' },
+        { question: 'What are lipids?', answer: 'Fats, oils, and waxes that are insoluble in water. They are used for energy storage and insulation.' },
+        { question: 'What are the two types of nucleic acids?', answer: 'Deoxyribonucleic acid (DNA) and Ribonucleic acid (RNA).' },
+        { question: 'What is the monomer of carbohydrates?', answer: 'Monosaccharides (e.g., glucose, fructose).' },
+        { question: 'How are proteins denatured?', answer: 'By extreme changes in temperature or pH, which cause them to lose their shape and function.' },
+        { question: 'What is the role of DNA?', answer: 'It stores the genetic instructions for the development, functioning, growth, and reproduction of all known organisms and many viruses.' },
     ]
   },
   {
@@ -43,15 +51,25 @@ const notes = [
     notesUrl: 'https://drinks-hunt-3eb.craft.me/fdgdfgdfgdfgdfgdf',
     pdfUrl: 'https://drive.google.com/drive/folders/1P6jHR7n_gQww9U2vr5ZJXlIPeMrjXc4r?usp=sharing',
     flashcards: [
-        { question: 'What is an enzyme?', answer: 'A biological catalyst that speeds up chemical reactions.' },
-        { question: 'What is the "lock and key" hypothesis?', answer: 'It describes how an enzyme and its substrate fit together perfectly at the active site.' },
-        { question: 'How does temperature affect enzyme activity?', answer: 'Activity increases with temperature up to an optimal point, then denatures and activity decreases rapidly.' },
+        { question: 'What is an enzyme?', answer: 'A biological catalyst, typically a protein, that speeds up biochemical reactions.' },
+        { question: 'What is the "lock and key" hypothesis?', answer: 'A model explaining that the shape of an enzyme\'s active site is a perfect complement to the shape of its specific substrate.' },
+        { question: 'How does temperature affect enzyme activity?', answer: 'Activity increases with temperature up to an optimal point, beyond which the enzyme denatures and activity decreases rapidly.' },
+        { question: 'What is an active site?', answer: 'The specific region of an enzyme where a substrate binds and the chemical reaction occurs.' },
+        { question: 'What is the "induced fit" model?', answer: 'A modification of the lock-and-key model, suggesting the active site changes shape slightly to bind the substrate more securely.' },
+        { question: 'How does pH affect enzyme activity?', answer: 'Each enzyme has an optimal pH range. Extreme pH values can cause the enzyme to denature and lose its activity.' },
+        { question: 'What is a substrate?', answer: 'The molecule upon which an enzyme acts.' },
+        { question: 'Can an enzyme be reused?', answer: 'Yes, enzymes are not consumed in the reactions they catalyze, so they can be used over and over again.' },
     ]
   },
   { topic: 'THE CELL', notesUrl: '#', pdfUrl: '#', flashcards: [
-      { question: 'What is the powerhouse of the cell?', answer: 'Mitochondria' },
-      { question: 'What contains the genetic material in a eukaryotic cell?', answer: 'The Nucleus' },
-      { question: 'What is the function of the cell membrane?', answer: 'It controls what substances enter and leave the cell.' }
+      { question: 'What is the powerhouse of the cell?', answer: 'Mitochondria, which generate most of the cell\'s supply of adenosine triphosphate (ATP).' },
+      { question: 'What contains the genetic material in a eukaryotic cell?', answer: 'The Nucleus.' },
+      { question: 'What is the function of the cell membrane?', answer: 'It is a semi-permeable barrier that controls what substances enter and leave the cell.' },
+      { question: 'What is cytoplasm?', answer: 'The jelly-like substance filling the cell, where organelles are suspended.' },
+      { question: 'What is the function of ribosomes?', answer: 'They are responsible for protein synthesis.' },
+      { question: 'What is the difference between a plant cell and an animal cell?', answer: 'Plant cells have a cell wall, chloroplasts, and a large central vacuole, which are absent in animal cells.' },
+      { question:- 'What do chloroplasts do?', answer: 'They are the site of photosynthesis in plant cells.' },
+      { question: 'What is the cell wall made of in plants?', answer: 'Cellulose, which provides structural support.' },
   ]},
 ];
 
