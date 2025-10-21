@@ -67,13 +67,13 @@ export default function BiologyPage() {
         <main className="flex-1 flex flex-col items-center pt-8 md:pt-16">
             <div className="w-full max-w-4xl flex justify-end mb-4">
                 <DialogTrigger asChild>
-                    <Button onClick={handleSurpriseMe}>
+                    <Button onClick={handleSurpriseMe} className="button-gradient-hover">
                         <RotateCw className="mr-2 h-4 w-4" />
                         Surprise Me
                     </Button>
                 </DialogTrigger>
             </div>
-          <Card className="w-full max-w-4xl">
+          <Card className="w-full max-w-4xl rounded-3xl">
             <CardHeader>
               <CardTitle className="text-center uppercase tracking-widest text-gradient-blue">BIOLOGY NOTES</CardTitle>
             </CardHeader>
@@ -82,16 +82,16 @@ export default function BiologyPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[50%]"><span className="flex items-center gap-2"><BookOpen size={16}/>TOPIC</span></TableHead>
-                    <TableHead className="w-[15%] text-center border-l"><span className="flex items-center justify-center gap-2 text-gradient-green"><LinkIcon size={16}/>NOTES</span></TableHead>
-                    <TableHead className="w-[15%] text-center border-l"><span className="flex items-center justify-center gap-2 text-gradient-orange"><FileText size={16}/>PDF</span></TableHead>
-                    <TableHead className="w-[20%] text-center border-l"><span className="flex items-center justify-center gap-2 text-gradient-purple"><HelpCircle size={16}/>QUIZLET</span></TableHead>
+                    <TableHead className="w-[15%] text-center"><span className="flex items-center justify-center gap-2 text-gradient-green"><LinkIcon size={16}/>NOTES</span></TableHead>
+                    <TableHead className="w-[15%] text-center"><span className="flex items-center justify-center gap-2 text-gradient-orange"><FileText size={16}/>PDF</span></TableHead>
+                    <TableHead className="w-[20%] text-center"><span className="flex items-center justify-center gap-2 text-gradient-purple"><HelpCircle size={16}/>QUIZLET</span></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {notes.map((note) => (
                     <TableRow key={note.topic}>
                       <TableCell className="font-medium">{note.topic}</TableCell>
-                      <TableCell className="text-center border-l">
+                      <TableCell className="text-center">
                         {note.notesUrl !== '#' ? (
                           <DialogTrigger asChild>
                             <Button variant="link" onClick={() => setSelectedUrl(note.notesUrl)} className="text-gradient-green">
@@ -102,13 +102,13 @@ export default function BiologyPage() {
                           <Button variant="link" disabled>View</Button>
                         )}
                       </TableCell>
-                      <TableCell className="text-center border-l">
-                        <Button variant="link" asChild>
+                      <TableCell className="text-center">
+                        <Button variant="link" asChild className="button-gradient-hover">
                           <Link href={note.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-orange">Link</Link>
                         </Button>
                       </TableCell>
-                       <TableCell className="text-center border-l">
-                          <Button variant="link" asChild>
+                       <TableCell className="text-center">
+                          <Button variant="link" asChild className="button-gradient-hover">
                             <Link href={note.quizletUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-purple">Link</Link>
                           </Button>
                       </TableCell>
@@ -125,17 +125,17 @@ export default function BiologyPage() {
         </footer>
       </div>
       {selectedUrl && (
-         <DialogContent className="max-w-4xl h-[80vh] flex flex-col p-0">
+         <DialogContent className="max-w-4xl h-[80vh] flex flex-col p-0 rounded-3xl">
           <DialogHeader className="p-4 border-b flex flex-row items-center justify-between">
             <DialogTitle>Notes Viewer</DialogTitle>
              <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8 button-gradient-hover" asChild>
                 <Link href={selectedUrl} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="h-4 w-4" />
                    <span className="sr-only">Open in new tab</span>
                 </Link>
               </Button>
-              <DialogClose className="h-8 w-8 flex items-center justify-center rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+              <DialogClose className="h-8 w-8 flex items-center justify-center rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground button-gradient-hover">
                 <X className="h-4 w-4" />
                 <span className="sr-only">Close</span>
               </DialogClose>

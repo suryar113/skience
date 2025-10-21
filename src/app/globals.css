@@ -27,6 +27,7 @@ body {
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
+    --radius: 1rem;
   }
  
   .dark {
@@ -49,6 +50,7 @@ body {
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+    --radius: 1rem;
   }
 }
 
@@ -61,17 +63,50 @@ body {
   }
 }
 
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 @layer utilities {
+  .animated-gradient {
+    background-size: 200% auto;
+    animation: gradient-animation 4s ease-in-out infinite;
+  }
+
   .text-gradient-purple {
-    @apply bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent animated-gradient;
   }
   .text-gradient-blue {
-    @apply bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent animated-gradient;
   }
   .text-gradient-green {
-    @apply bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent animated-gradient;
   }
   .text-gradient-orange {
-    @apply bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent animated-gradient;
+  }
+
+  .button-gradient-hover {
+    @apply relative overflow-hidden;
+  }
+
+  .button-gradient-hover::before {
+    content: '';
+    @apply absolute -inset-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 opacity-0 transition-opacity duration-300;
+    z-index: -1;
+    filter: blur(10px);
+  }
+
+  .button-gradient-hover:hover::before {
+    @apply opacity-75;
+    animation: gradient-animation 4s ease-in-out infinite;
   }
 }
