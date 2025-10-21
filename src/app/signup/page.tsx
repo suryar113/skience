@@ -20,10 +20,12 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { useAuth, initiateEmailSignIn } from '@/firebase';
+import { useAuth, initiateEmailSignUp } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/firebase';
 import { useEffect } from 'react';
+import Link from 'next/link';
+
 
 const formSchema = z.object({
   email: z.string().email({
@@ -34,10 +36,10 @@ const formSchema = z.object({
   }),
 });
 
-export default function LoginPage() {
+export default function SignupPage() {
   const auth = useAuth();
   const router = useRouter();
-  const { user } = useUser();
+  const { user, isUserLoading } = useUser();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,22 +50,30 @@ export default function LoginPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    initiateEmailSignIn(auth, values.email, values.password);
-  }
+    initiateEmailSignUp(auth, values.email, values.password);
+}
 
   useEffect(() => {
-    if (user) {
-      router.push('/');
+    if (!isUserLoading && user) {
+      router.push('/biology');
     }
-  }, [user, router]);
+  }, [user, isUserLoading, router]);
+
+  if (isUserLoading || user) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center p-4 md:p-8 bg-background text-foreground">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4 md:p-8 bg-background text-foreground">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl">Sign Up</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account.
+            Enter your information to create an account.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -96,10 +106,16 @@ export default function LoginPage() {
                 )}
               />
               <Button type="submit" className="w-full">
-                Login
+                Create an account
               </Button>
             </form>
           </Form>
+           <div className="mt-4 text-center text-sm">
+            Already have an account?{' '}
+            <Link href="/login" className="underline">
+              Login
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </div>

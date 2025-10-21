@@ -24,20 +24,21 @@ import { useAuth, initiateEmailSignIn } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/firebase';
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 const formSchema = z.object({
   email: z.string().email({
     message: 'Invalid email address.',
   }),
-  password: z.string().min(6, {
-    message: 'Password must be at least 6 characters.',
+  password: z.string().min(1, {
+    message: 'Password is required.',
   }),
 });
 
 export default function LoginPage() {
   const auth = useAuth();
   const router = useRouter();
-  const { user } = useUser();
+  const { user, isUserLoading } = useUser();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,10 +53,19 @@ export default function LoginPage() {
   }
 
   useEffect(() => {
-    if (user) {
-      router.push('/');
+    if (!isUserLoading && user) {
+      router.push('/biology');
     }
-  }, [user, router]);
+  }, [user, isUserLoading, router]);
+
+  if (isUserLoading || user) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center p-4 md:p-8 bg-background text-foreground">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4 md:p-8 bg-background text-foreground">
@@ -96,3 +106,18 @@ export default function LoginPage() {
                 )}
               />
               <Button type="submit" className="w-full">
+                Login
+              </Button>
+            </form>
+          </Form>
+          <div className="mt-4 text-center text-sm">
+            Don't have an account?{' '}
+            <Link href="/signup" className="underline">
+              Sign up
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

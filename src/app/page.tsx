@@ -1,8 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { useUser } from '@/firebase';
-import { useAuth } from '@/firebase';
+import { useUser, useAuth } from '@/firebase';
 
 export default function Home() {
   const { user, isUserLoading } = useUser();
@@ -24,9 +23,14 @@ export default function Home() {
               LOGOUT
             </Button>
           ) : (
-            <Button variant="outline" size="sm" asChild>
-              <Link href="/login">LOGIN</Link>
-            </Button>
+            <>
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/login">LOGIN</Link>
+              </Button>
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/signup">SIGN UP</Link>
+              </Button>
+            </>
           )}
         </nav>
       </header>
