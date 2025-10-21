@@ -84,7 +84,7 @@ export default function BiologyPage() {
                     <TableHead className="w-[50%]"><span className="flex items-center gap-2"><BookOpen size={16}/>TOPIC</span></TableHead>
                     <TableHead className="w-[15%] text-gradient-green"><LinkIcon size={16} className="inline-block mr-2"/>NOTES</TableHead>
                     <TableHead className="w-[15%] text-gradient-orange"><FileText size={16} className="inline-block mr-2"/>PDF</TableHead>
-                    <TableHead className="w-[20%] text-center"><span className="flex items-center justify-center gap-2 text-gradient-purple"><HelpCircle size={16}/>QUIZLET</span></TableHead>
+                    <TableHead className="w-[20%] text-gradient-purple"><HelpCircle size={16} className="inline-block mr-2"/>QUIZLET</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -107,7 +107,7 @@ export default function BiologyPage() {
                           <Link href={note.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-orange">Link</Link>
                         </Button>
                       </TableCell>
-                       <TableCell className="text-center">
+                       <TableCell>
                           <Button asChild variant="link" className="p-0">
                             <Link href={note.quizletUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-purple">Link</Link>
                           </Button>
