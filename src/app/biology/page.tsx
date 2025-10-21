@@ -82,8 +82,8 @@ export default function BiologyPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[50%]"><span className="flex items-center gap-2"><BookOpen size={16}/>TOPIC</span></TableHead>
-                    <TableHead className="w-[15%]"><span className="flex items-center gap-2 text-gradient-green"><LinkIcon size={16}/>NOTES</span></TableHead>
-                    <TableHead className="w-[15%]"><span className="flex items-center gap-2 text-gradient-orange"><FileText size={16}/>PDF</span></TableHead>
+                    <TableHead className="w-[15%] text-gradient-green"><LinkIcon size={16} className="inline-block mr-2"/>NOTES</TableHead>
+                    <TableHead className="w-[15%] text-gradient-orange"><FileText size={16} className="inline-block mr-2"/>PDF</TableHead>
                     <TableHead className="w-[20%] text-center"><span className="flex items-center justify-center gap-2 text-gradient-purple"><HelpCircle size={16}/>QUIZLET</span></TableHead>
                   </TableRow>
                 </TableHeader>
