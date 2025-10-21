@@ -14,6 +14,8 @@ import {
 } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ExternalLink, X } from 'lucide-react';
+import { useUser } from '@/firebase';
+import { useAuth } from '@/firebase';
 
 const notes = [
   {
@@ -36,6 +38,8 @@ const notes = [
 
 export default function BiologyPage() {
   const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
+  const { user, isUserLoading } = useUser();
+  const auth = useAuth();
 
   return (
     <Dialog onOpenChange={(open) => !open && setSelectedUrl(null)}>
@@ -49,6 +53,15 @@ export default function BiologyPage() {
             <Button variant="outline" size="sm" asChild>
               <Link href="/biology">BIOLOGY</Link>
             </Button>
+            {isUserLoading ? null : user ? (
+              <Button variant="outline" size="sm" onClick={() => auth.signOut()}>
+                LOGOUT
+              </Button>
+            ) : (
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/login">LOGIN</Link>
+              </Button>
+            )}
           </nav>
         </header>
 

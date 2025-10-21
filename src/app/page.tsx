@@ -1,7 +1,13 @@
+'use client';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { useUser } from '@/firebase';
+import { useAuth } from '@/firebase';
 
 export default function Home() {
+  const { user, isUserLoading } = useUser();
+  const auth = useAuth();
+
   return (
     <div className="flex flex-col min-h-screen p-4 md:p-8 bg-background text-foreground">
       <header className="flex justify-between items-center mb-16">
@@ -13,6 +19,15 @@ export default function Home() {
           <Button variant="outline" size="sm" asChild>
             <Link href="/biology">BIOLOGY</Link>
           </Button>
+          {isUserLoading ? null : user ? (
+            <Button variant="outline" size="sm" onClick={() => auth.signOut()}>
+              LOGOUT
+            </Button>
+          ) : (
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/login">LOGIN</Link>
+            </Button>
+          )}
         </nav>
       </header>
 
