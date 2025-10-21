@@ -103,12 +103,12 @@ export default function BiologyPage() {
                         )}
                       </TableCell>
                       <TableCell className="text-center">
-                        <Button variant="link" asChild className="button-gradient-hover">
+                        <Button asChild className="button-gradient-hover">
                           <Link href={note.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-orange">Link</Link>
                         </Button>
                       </TableCell>
                        <TableCell className="text-center">
-                          <Button variant="link" asChild className="button-gradient-hover">
+                          <Button asChild className="button-gradient-hover">
                             <Link href={note.quizletUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-purple">Link</Link>
                           </Button>
                       </TableCell>
