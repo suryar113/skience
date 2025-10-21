@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/componentsui/card';
 import {
   Dialog,
   DialogContent,
@@ -13,37 +13,58 @@ import {
   DialogClose,
 } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ExternalLink, X, RotateCw, Loader2, BrainCircuit } from 'lucide-react';
-import { generateFlashcards, GenerateFlashcardsOutput } from '@/ai/flows/flashcard-flow';
+import { ExternalLink, X, RotateCw, BrainCircuit } from 'lucide-react';
 
 const notes = [
   {
     topic: 'CHARACTERISTICS OF LIVING THINGS',
     notesUrl: 'https://drinks-hunt-3eb.craft.me/asdasdasdasdas',
     pdfUrl: 'https://drive.google.com/drive/folders/1Xdo1VFXf9z6dhP_b2iU_Om4dImFpqbu6?usp=sharing',
+    flashcards: [
+        { question: 'What are the 7 characteristics of living things?', answer: 'Movement, Respiration, Sensitivity, Growth, Reproduction, Excretion, Nutrition' },
+        { question: 'Define Respiration.', answer: 'The chemical reactions in cells that break down nutrient molecules and release energy for metabolism.' },
+        { question: 'What is Sensitivity?', answer: 'The ability to detect or sense stimuli in the internal or external environment and to make appropriate responses.' },
+        { question: 'Define Growth.', answer: 'A permanent increase in size and dry mass by an increase in cell number or cell size or both.' },
+        { question: 'What is Excretion?', answer: 'Removal from organisms of the waste products of metabolism, toxic materials, and substances in excess of requirements.' },
+    ]
   },
   {
     topic: 'ORGANIC MOLECULES',
     notesUrl: 'https://drinks-hunt-3eb.craft.me/asfdsafadsfdsfs',
     pdfUrl: 'https://drive.google.com/drive/folders/160OPAQYfAuRNVn-jtAW35uyzMExr93UR?usp=sharing',
+    flashcards: [
+        { question: 'What are the main types of organic molecules?', answer: 'Carbohydrates, Proteins, Lipids, and Nucleic Acids.' },
+        { question: 'What are the building blocks of proteins?', answer: 'Amino acids.' },
+        { question: 'What is the function of carbohydrates?', answer: 'To provide energy for the body.' },
+    ]
   },
   {
     topic: 'ENZYMES',
     notesUrl: 'https://drinks-hunt-3eb.craft.me/fdgdfgdfgdfgdfgdf',
     pdfUrl: 'https://drive.google.com/drive/folders/1P6jHR7n_gQww9U2vr5ZJXlIPeMrjXc4r?usp=sharing',
+    flashcards: [
+        { question: 'What is an enzyme?', answer: 'A biological catalyst that speeds up chemical reactions.' },
+        { question: 'What is the "lock and key" hypothesis?', answer: 'It describes how an enzyme and its substrate fit together perfectly at the active site.' },
+        { question: 'How does temperature affect enzyme activity?', answer: 'Activity increases with temperature up to an optimal point, then denatures and activity decreases rapidly.' },
+    ]
   },
-  { topic: 'THE CELL', notesUrl: '#', pdfUrl: '#' },
+  { topic: 'THE CELL', notesUrl: '#', pdfUrl: '#', flashcards: [
+      { question: 'What is the powerhouse of the cell?', answer: 'Mitochondria' },
+      { question: 'What contains the genetic material in a eukaryotic cell?', answer: 'The Nucleus' },
+      { question: 'What is the function of the cell membrane?', answer: 'It controls what substances enter and leave the cell.' }
+  ]},
 ];
+
+type Flashcard = {
+    question: string;
+    answer: string;
+}
 
 export default function BiologyPage() {
   const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
-  const [flashcardState, setFlashcardState] = useState<{
-    topic: string;
-    loading: boolean;
-    data: GenerateFlashcardsOutput | null;
-    error: string | null;
-    showAnswer: boolean[];
-  } | null>(null);
+  const [activeFlashcards, setActiveFlashcards] = useState<{ topic: string; cards: Flashcard[] } | null>(null);
+  const [showAnswer, setShowAnswer] = useState<boolean[]>([]);
+
 
   const handleSurpriseMe = () => {
     const validNotes = notes.filter(note => note.notesUrl !== '#');
@@ -53,28 +74,20 @@ export default function BiologyPage() {
     }
   };
 
-  const handleGenerateFlashcards = async (topic: string) => {
-    setFlashcardState({ topic, loading: true, data: null, error: null, showAnswer: [] });
-    try {
-      const result = await generateFlashcards({ topic });
-      setFlashcardState({ topic, loading: false, data: result, error: null, showAnswer: new Array(result.flashcards.length).fill(false) });
-    } catch (e) {
-      console.error(e);
-      setFlashcardState({ topic, loading: false, data: null, error: 'Failed to generate flashcards.', showAnswer: [] });
-    }
+  const handleShowFlashcards = (topic: string, cards: Flashcard[]) => {
+    setActiveFlashcards({ topic, cards });
+    setShowAnswer(new Array(cards.length).fill(false));
   };
   
   const toggleAnswer = (index: number) => {
-    if (flashcardState) {
-        const newShowAnswer = [...flashcardState.showAnswer];
-        newShowAnswer[index] = !newShowAnswer[index];
-        setFlashcardState({ ...flashcardState, showAnswer: newShowAnswer });
-    }
+    const newShowAnswer = [...showAnswer];
+    newShowAnswer[index] = !newShowAnswer[index];
+    setShowAnswer(newShowAnswer);
   };
 
   const closeDialogs = () => {
     setSelectedUrl(null);
-    setFlashcardState(null);
+    setActiveFlashcards(null);
   }
 
   return (
@@ -137,7 +150,7 @@ export default function BiologyPage() {
                       </TableCell>
                        <TableCell className="text-center border-l">
                           <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon" onClick={() => handleGenerateFlashcards(note.topic)}>
+                            <Button variant="ghost" size="icon" onClick={() => handleShowFlashcards(note.topic, note.flashcards)}>
                                 <BrainCircuit className="h-5 w-5" />
                             </Button>
                           </DialogTrigger>
@@ -180,30 +193,22 @@ export default function BiologyPage() {
           </div>
         </DialogContent>
       )}
-      {flashcardState && (
+      {activeFlashcards && (
         <DialogContent>
             <DialogHeader>
-                <DialogTitle>Flashcards for {flashcardState.topic}</DialogTitle>
+                <DialogTitle>Flashcards for {activeFlashcards.topic}</DialogTitle>
             </DialogHeader>
-            {flashcardState.loading ? (
-                <div className="flex items-center justify-center h-64">
-                    <Loader2 className="h-8 w-8 animate-spin" />
-                </div>
-            ) : flashcardState.error ? (
-                <div className="text-destructive text-center h-64 flex items-center justify-center">{flashcardState.error}</div>
-            ) : (
-                <div className="space-y-4">
-                    {flashcardState.data?.flashcards.map((card, index) => (
-                        <Card key={index} className="cursor-pointer" onClick={() => toggleAnswer(index)}>
-                            <CardContent className="p-4">
-                               <div className="h-32 flex items-center justify-center text-center">
-                                {flashcardState.showAnswer[index] ? <p>{card.answer}</p> : <p className="font-semibold">{card.question}</p>}
-                               </div>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-            )}
+            <div className="space-y-4">
+                {activeFlashcards.cards.map((card, index) => (
+                    <Card key={index} className="cursor-pointer" onClick={() => toggleAnswer(index)}>
+                        <CardContent className="p-4">
+                           <div className="h-32 flex items-center justify-center text-center">
+                            {showAnswer[index] ? <p>{card.answer}</p> : <p className="font-semibold">{card.question}</p>}
+                           </div>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
         </DialogContent>
       )}
     </Dialog>
