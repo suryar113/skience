@@ -81,17 +81,17 @@ export default function BiologyPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[50%]"><span className="flex items-center gap-2"><BookOpen size={16}/>TOPIC</span></TableHead>
-                    <TableHead className="w-[15%] text-gradient-green"><LinkIcon size={16} className="inline-block mr-2"/>NOTES</TableHead>
-                    <TableHead className="w-[15%] text-gradient-orange"><FileText size={16} className="inline-block mr-2"/>PDF</TableHead>
-                    <TableHead className="w-[20%] text-gradient-purple"><HelpCircle size={16} className="inline-block mr-2"/>QUIZLET</TableHead>
+                    <TableHead className="w-[50%]"><BookOpen size={16} className="inline-block mr-2"/>TOPIC</TableHead>
+                    <TableHead className="w-[15%] text-gradient-green text-center"><LinkIcon size={16} className="inline-block mr-2"/>NOTES</TableHead>
+                    <TableHead className="w-[15%] text-gradient-orange text-center"><FileText size={16} className="inline-block mr-2"/>PDF</TableHead>
+                    <TableHead className="w-[20%] text-gradient-purple text-center"><HelpCircle size={16} className="inline-block mr-2"/>QUIZLET</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {notes.map((note) => (
                     <TableRow key={note.topic}>
                       <TableCell className="font-medium">{note.topic}</TableCell>
-                      <TableCell>
+                      <TableCell className="text-center">
                         {note.notesUrl !== '#' ? (
                           <DialogTrigger asChild>
                             <Button variant="link" onClick={() => setSelectedUrl(note.notesUrl)} className="text-gradient-green p-0">
@@ -102,12 +102,12 @@ export default function BiologyPage() {
                           <Button variant="link" disabled className="p-0">View</Button>
                         )}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-center">
                         <Button asChild variant="link" className="p-0">
                           <Link href={note.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-orange">Link</Link>
                         </Button>
                       </TableCell>
-                       <TableCell>
+                       <TableCell className="text-center">
                           <Button asChild variant="link" className="p-0">
                             <Link href={note.quizletUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-purple">Link</Link>
                           </Button>
