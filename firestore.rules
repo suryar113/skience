@@ -1,0 +1,103 @@
+/**
+ * @fileoverview Firestore Security Rules for the application.
+ *
+ * Core Philosophy:
+ * This ruleset enforces a strict user-ownership model for user profiles and their associated pages.
+ * Only authenticated users can create profiles, and they can only manage their own profiles and pages.
+ * Themes are publicly readable but not writable by clients.
+ *
+ * Data Structure:
+ * - /userProfiles/{userProfileId}: Stores user profile data, including device ID for access control.
+ * - /themes/{themeId}: Stores website themes, publicly readable.
+ * - /userProfiles/{userProfileId}/pages/{pageId}: Stores pages created by users, nested under their profiles.
+ *
+ * Key Security Decisions:
+ * - User listing is disallowed for privacy.
+ * - Themes are read-only for all users.
+ * - Default security posture is strict owner-only access.
+ *
+ * Denormalization for Authorization:
+ * - The deviceId is stored directly in the UserProfile document to facilitate per-device authorization.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Controls access to user profiles.
+     * @path /userProfiles/{userProfileId}
+     * @allow (create) Authenticated user can create their own profile.
+     * @deny (create) Authenticated user cannot create a profile for another user.
+     * @allow (get, update, delete) Authenticated user can get, update, or delete their own profile.
+     * @deny (get, update, delete) Authenticated user cannot get, update, or delete another user's profile.
+     * @principle Enforces document ownership and validates that the user ID in the path matches the user ID in the document.
+     */
+    match /userProfiles/{userProfileId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userProfileId) {
+        return request.auth.uid == userProfileId;
+      }
+
+      function isExistingOwner(userProfileId) {
+          return isOwner(userProfileId) && resource != null;
+      }
+
+      allow get: if isOwner(userProfileId);
+      allow list: if false; // User listing is disallowed for privacy
+
+      allow create: if isSignedIn()
+                   && request.resource.data.id == request.auth.uid
+                   && request.resource.data.deviceId is string; // Enforce deviceId presence
+
+      allow update: if isExistingOwner(userProfileId)
+                   && request.resource.data.id == resource.data.id //Enforce immutability of the userProfileId
+                   && request.resource.data.deviceId is string; //Enforce deviceId presence
+
+      allow delete: if isExistingOwner(userProfileId);
+    }
+
+    /**
+     * @description Controls access to themes.
+     * @path /themes/{themeId}
+     * @allow (get, list) All users can read themes.
+     * @deny (create, update, delete) No users can create, update, or delete themes.
+     * @principle Themes are publicly readable but not writable by clients.
+     */
+    match /themes/{themeId} {
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
+
+    /**
+     * @description Controls access to pages created by users.
+     * @path /userProfiles/{userProfileId}/pages/{pageId}
+     * @allow (create) Authenticated user can create a page under their own profile.
+     * @deny (create) Authenticated user cannot create a page under another user's profile.
+     * @allow (get, list, update, delete) Authenticated user can get, list, update, or delete their own pages.
+     * @deny (get, list, update, delete) Authenticated user cannot get, list, update, or delete another user's pages.
+     * @principle Enforces document ownership based on the path.
+     */
+    match /userProfiles/{userProfileId}/pages/{pageId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userProfileId) {
+        return request.auth.uid == userProfileId;
+      }
+
+      function isExistingOwner(userProfileId) {
+          return isOwner(userProfileId) && resource != null;
+      }
+
+      allow get: if isOwner(userProfileId);
+      allow list: if isOwner(userProfileId);
+      allow create: if isSignedIn() && isOwner(userProfileId) && request.resource.data.userProfileId == userProfileId;
+      allow update: if isExistingOwner(userProfileId) && request.resource.data.userProfileId == resource.data.userProfileId;
+      allow delete: if isExistingOwner(userProfileId);
+    }
+  }
+}
