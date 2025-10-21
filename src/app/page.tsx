@@ -41,15 +41,15 @@ export default function Home() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-1/2 uppercase">Name of note</TableHead>
-                    <TableHead className="w-1/4 text-center uppercase">Notes Link</TableHead>
-                    <TableHead className="w-1/4 text-center uppercase">PDF</TableHead>
+                    <TableHead className="w-1/4 text-center uppercase border-l">Notes Link</TableHead>
+                    <TableHead className="w-1/4 text-center uppercase border-l">PDF</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {notes.map((note, index) => (
                     <TableRow key={index}>
                       <TableCell className="uppercase">{note.name}</TableCell>
-                      <TableCell className="text-center">
+                      <TableCell className="text-center border-l">
                         {note.notesLink.startsWith('Coming') ? (
                           <span className="text-muted-foreground uppercase">{note.notesLink}</span>
                         ) : (
@@ -60,7 +60,7 @@ export default function Home() {
                           </Button>
                         )}
                       </TableCell>
-                      <TableCell className="text-center">
+                      <TableCell className="text-center border-l">
                         {note.pdfLink.startsWith('I said') ? (
                           <span className="text-muted-foreground uppercase">{note.pdfLink}</span>
                         ) : (
