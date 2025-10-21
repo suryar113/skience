@@ -94,7 +94,7 @@ export default function BiologyPage() {
                       <TableCell className="text-right">
                         {note.notesUrl !== '#' ? (
                           <DialogTrigger asChild>
-                            <Button variant="link" onClick={() => setSelectedUrl(note.notesUrl)} className="text-gradient-green p-0">
+                            <Button onClick={() => setSelectedUrl(note.notesUrl)} className="text-gradient-green p-0">
                               View
                             </Button>
                           </DialogTrigger>
