@@ -140,7 +140,7 @@ export default function BiologyPage() {
         </Card>
       </main>
 
-      <footer className="text-center p-6 mt-16">
+      <footer className="text-center p-6 mt-8">
         <p className="text-sm text-muted-foreground">you better study</p>
       </footer>
     </div>
