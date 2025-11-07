@@ -11,12 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  BookOpen,
-  FileText,
-  Link as LinkIcon,
-  HelpCircle,
-} from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 
 const notes = [
@@ -25,28 +20,28 @@ const notes = [
     notesUrl: "https://drinks-hunt-3eb.craft.me/asdasdasdasdas",
     pdfUrl:
       "https://drive.google.com/drive/folders/1Xdo1VFXf9z6dhP_b2iU_Om4dImFpqbu6?usp=sharing",
-    quizletUrl: "#",
+    quizletUrl: "https://quizlet.com/830282903/unit-1-characteristics-of-life-flash-cards/",
   },
   {
     topic: "ORGANIC MOLECULES",
     notesUrl: "https://drinks-hunt-3eb.craft.me/asfdsafadsfdsfs",
     pdfUrl:
       "https://drive.google.com/drive/folders/160OPAQYfAuRNVn-jtAW35uyzMExr93UR?usp=sharing",
-    quizletUrl: "#",
+    quizletUrl: "https://quizlet.com/833075242/unit-2-organic-molecules-flash-cards/",
   },
   {
     topic: "ENZYMES",
     notesUrl: "https://drinks-hunt-3eb.craft.me/fdgdfgdfgdfgdfgdf",
     pdfUrl:
       "https://drive.google.com/drive/folders/1P6jHR7n_gQww9U2vr5ZJXlIPeMrjXc4r?usp=sharing",
-    quizletUrl: "#",
+    quizletUrl: "https://quizlet.com/835334009/unit-3-enzymes-flash-cards/",
   },
   {
     topic: "THE CELL",
     notesUrl: "https://drinks-hunt-3eb.craft.me/BWwKgb2BT5sgbZ",
     pdfUrl:
       "https://drive.google.com/drive/folders/10BOS_ghIpDbgTZaoRsImsM8_0qWBruVo?usp=sharing",
-    quizletUrl: "#",
+    quizletUrl: "https://quizlet.com/839444158/unit-4-the-cell-flash-cards/",
   },
   {
     topic: "CELL TRANSPORT - COMING SOON",
@@ -94,12 +89,12 @@ export default function BiologyPage() {
                     <TableCell className="text-right">
                       {note.notesUrl ? (
                          <Link href={note.notesUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-green">
-                           <Button asChild>
+                           <Button>
                              View
                            </Button>
                          </Link>
                       ) : (
-                        <Button variant="link" disabled className="p-0">
+                        <Button variant="link" disabled>
                           View
                         </Button>
                       )}
