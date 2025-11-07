@@ -11,7 +11,7 @@ export default function Home() {
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gradient-purple">Welcome to Skience</h2>
         <div className="relative">
           <div className="absolute -inset-1 rounded-3xl animated-glowing-border z-0"></div>
-          <Button size="lg" asChild className="relative z-10">
+          <Button size="lg" asChild className="relative z-10 bg-background hover:bg-background/90">
             <Link href="/biology">Explore Biology Notes</Link>
           </Button>
         </div>
