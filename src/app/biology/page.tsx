@@ -66,7 +66,7 @@ const notes = [
     topic: "CELL TRANSPORT - COMING SOON",
     notesUrl: "",
     pdfUrl: "",
-    quizletUrl: "#",
+    quizletUrl: "",
   },
 ];
 
