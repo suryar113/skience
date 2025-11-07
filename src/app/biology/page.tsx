@@ -95,7 +95,7 @@ export default function BiologyPage() {
                            </Link>
                          </Button>
                       ) : (
-                        <Button disabled>
+                        <Button variant="link" disabled>
                           View
                         </Button>
                       )}
@@ -113,7 +113,7 @@ export default function BiologyPage() {
                           </Link>
                         </Button>
                       ) : (
-                        <Button disabled>Link</Button>
+                        <Button variant="link" disabled>Link</Button>
                       )}
                     </TableCell>
                     <TableCell className="text-center">
@@ -129,7 +129,7 @@ export default function BiologyPage() {
                           </Link>
                         </Button>
                       ) : (
-                        <Button disabled>Link</Button>
+                        <Button variant="link" disabled>Link</Button>
                       )}
                     </TableCell>
                   </TableRow>
