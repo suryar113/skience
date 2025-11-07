@@ -70,17 +70,17 @@ export default function BiologyPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[50%]">
+                    <TableHead className="w-1/2">
                       <BookOpen size={16} className="inline-block mr-2" />
                       TOPIC
                     </TableHead>
-                    <TableHead className="w-[15%] text-center">
+                    <TableHead className="w-1/6 text-center">
                       NOTES
                     </TableHead>
-                    <TableHead className="w-[15%] text-center">
+                    <TableHead className="w-1/6 text-center">
                       PDF
                     </TableHead>
-                    <TableHead className="w-[20%] text-center">
+                    <TableHead className="w-1/6 text-center">
                       QUIZLET
                     </TableHead>
                   </TableRow>
