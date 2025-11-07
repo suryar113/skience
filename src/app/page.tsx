@@ -12,7 +12,7 @@ export default function Home() {
         <div className="relative">
           <div className="absolute -inset-1 rounded-3xl animated-glowing-border z-0"></div>
           <Button size="lg" asChild className="relative z-10 bg-background hover:bg-background/90">
-            <Link href="/biology" className="text-gradient-rainbow">Explore Biology Notes</Link>
+            <Link href="/biology">Explore Biology Notes</Link>
           </Button>
         </div>
       </main>
