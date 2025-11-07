@@ -105,6 +105,14 @@ body {
   .text-gradient-orange {
     @apply bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent animated-gradient;
   }
+  .text-gradient-rainbow {
+    background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400% 400%;
+    animation: animated-glowing-border-animation 8s ease infinite;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
   
   .animated-glowing-border {
     background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
