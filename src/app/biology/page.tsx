@@ -58,7 +58,7 @@ export default function BiologyPage() {
       <SiteHeader />
 
       <main className="flex-1 flex flex-col items-center justify-center pt-8">
-        <Card className="w-full max-w-4xl rounded-3xl shadow-xl">
+        <Card className="w-full max-w-4xl rounded-3xl shadow-2xl border border-border/20">
           <CardHeader>
             <CardTitle className="text-center uppercase tracking-widest text-gradient-blue">
               BIOLOGY NOTES
@@ -89,7 +89,7 @@ export default function BiologyPage() {
                     <TableCell className="font-medium">{note.topic}</TableCell>
                     <TableCell className="text-right">
                       {note.notesUrl ? (
-                        <Button asChild>
+                        <Button asChild variant="link">
                           <Link
                             href={note.notesUrl}
                             target="_blank"
@@ -107,7 +107,7 @@ export default function BiologyPage() {
                     </TableCell>
                     <TableCell className="text-right">
                       {note.pdfUrl ? (
-                        <Button asChild>
+                        <Button asChild variant="link">
                           <Link
                             href={note.pdfUrl}
                             target="_blank"
@@ -123,7 +123,7 @@ export default function BiologyPage() {
                     </TableCell>
                     <TableCell className="text-center">
                       {note.quizletUrl ? (
-                        <Button asChild>
+                        <Button asChild variant="link">
                           <Link
                             href={note.quizletUrl}
                             target="_blank"
