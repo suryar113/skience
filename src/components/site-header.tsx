@@ -2,35 +2,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 export function SiteHeader() {
-  const [theme, setTheme] = useState('dark');
-
-  useEffect(() => {
-    const storedTheme = localStorage.getItem('theme');
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    
-    if (storedTheme === 'light' || storedTheme === 'dark') {
-      setTheme(storedTheme);
-    } else {
-      setTheme(systemTheme);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (theme === 'light') {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('light');
-    } else {
-      document.documentElement.classList.remove('light');
-      document.documentElement.classList.add('dark');
-    }
-    localStorage.setItem('theme', theme);
-    document.documentElement.style.colorScheme = theme;
-  }, [theme]);
+  const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');

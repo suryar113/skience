@@ -3,6 +3,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@vercel/analytics/next"
+import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
   title: 'Skience',
@@ -22,8 +23,15 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased bg-background text-foreground">
-        {children}
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
