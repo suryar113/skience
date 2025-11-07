@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -88,13 +89,13 @@ export default function BiologyPage() {
                     <TableCell className="font-medium">{note.topic}</TableCell>
                     <TableCell className="text-right">
                       {note.notesUrl ? (
-                         <Link href={note.notesUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-green">
-                           <Button>
+                         <Button asChild>
+                          <Link href={note.notesUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-green">
                              View
-                           </Button>
-                         </Link>
+                           </Link>
+                         </Button>
                       ) : (
-                        <Button variant="link" disabled>
+                        <Button disabled>
                           View
                         </Button>
                       )}
@@ -112,7 +113,7 @@ export default function BiologyPage() {
                           </Link>
                         </Button>
                       ) : (
-                        <Button variant="link" disabled>Link</Button>
+                        <Button disabled>Link</Button>
                       )}
                     </TableCell>
                     <TableCell className="text-center">
@@ -128,7 +129,7 @@ export default function BiologyPage() {
                           </Link>
                         </Button>
                       ) : (
-                        <Button variant="link" disabled>Link</Button>
+                        <Button disabled>Link</Button>
                       )}
                     </TableCell>
                   </TableRow>
