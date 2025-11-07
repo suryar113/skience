@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -78,15 +77,12 @@ export default function BiologyPage() {
                     TOPIC
                   </TableHead>
                   <TableHead className="w-[15%] text-right">
-                    <LinkIcon size={16} className="inline-block mr-2" />
                     NOTES
                   </TableHead>
                   <TableHead className="w-[15%] text-right">
-                    <FileText size={16} className="inline-block mr-2" />
                     PDF
                   </TableHead>
                   <TableHead className="w-[20%] text-center">
-                    <HelpCircle size={16} className="inline-block mr-2" />
                     QUIZLET
                   </TableHead>
                 </TableRow>
@@ -97,11 +93,11 @@ export default function BiologyPage() {
                     <TableCell className="font-medium">{note.topic}</TableCell>
                     <TableCell className="text-right">
                       {note.notesUrl ? (
-                         <Button asChild className="p-0">
-                           <Link href={note.notesUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-green">
+                         <Link href={note.notesUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-green">
+                           <Button asChild>
                              View
-                           </Link>
-                         </Button>
+                           </Button>
+                         </Link>
                       ) : (
                         <Button variant="link" disabled className="p-0">
                           View
@@ -109,28 +105,36 @@ export default function BiologyPage() {
                       )}
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button asChild variant="link" className="p-0">
-                        <Link
-                          href={note.pdfUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-gradient-orange"
-                        >
-                          Link
-                        </Link>
-                      </Button>
+                      {note.pdfUrl ? (
+                        <Button asChild>
+                          <Link
+                            href={note.pdfUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gradient-orange"
+                          >
+                            Link
+                          </Link>
+                        </Button>
+                      ) : (
+                        <Button variant="link" disabled>Link</Button>
+                      )}
                     </TableCell>
                     <TableCell className="text-center">
-                      <Button asChild variant="link" className="p-0">
-                        <Link
-                          href={note.quizletUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-gradient-purple"
-                        >
-                          Link
-                        </Link>
-                      </Button>
+                       {note.quizletUrl ? (
+                        <Button asChild>
+                          <Link
+                            href={note.quizletUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gradient-purple"
+                          >
+                            Link
+                          </Link>
+                        </Button>
+                      ) : (
+                        <Button variant="link" disabled>Link</Button>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}
