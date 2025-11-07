@@ -74,13 +74,13 @@ export default function BiologyPage() {
                       <BookOpen size={16} className="inline-block mr-2" />
                       TOPIC
                     </TableHead>
-                    <TableHead className="w-1/6 text-center">
+                    <TableHead className="w-[16.66%] text-center">
                       NOTES
                     </TableHead>
-                    <TableHead className="w-1/6 text-center">
+                    <TableHead className="w-[16.66%] text-center">
                       PDF
                     </TableHead>
-                    <TableHead className="w-1/6 text-center">
+                    <TableHead className="w-[16.66%] text-center">
                       QUIZLET
                     </TableHead>
                   </TableRow>
@@ -149,7 +149,7 @@ export default function BiologyPage() {
       </main>
 
       <footer className="text-center p-6">
-        <p className="text-sm text-gradient-purple">you better study</p>
+        <p className="text-sm text-gradient-rainbow">you better study</p>
       </footer>
     </div>
   );
