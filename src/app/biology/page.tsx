@@ -74,10 +74,10 @@ export default function BiologyPage() {
                       <BookOpen size={16} className="inline-block mr-2" />
                       TOPIC
                     </TableHead>
-                    <TableHead className="w-[15%] text-right">
+                    <TableHead className="w-[15%] text-center">
                       NOTES
                     </TableHead>
-                    <TableHead className="w-[15%] text-right">
+                    <TableHead className="w-[15%] text-center">
                       PDF
                     </TableHead>
                     <TableHead className="w-[20%] text-center">
@@ -89,7 +89,7 @@ export default function BiologyPage() {
                   {notes.map((note) => (
                     <TableRow key={note.topic}>
                       <TableCell className="font-medium">{note.topic}</TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-center">
                         {note.notesUrl ? (
                           <Button asChild variant="link">
                             <Link
@@ -107,7 +107,7 @@ export default function BiologyPage() {
                           </Button>
                         )}
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-center">
                         {note.pdfUrl ? (
                           <Button asChild variant="link">
                             <Link
