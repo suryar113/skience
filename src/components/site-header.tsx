@@ -14,7 +14,7 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="flex justify-between items-center p-4 md:p-6">
+    <header className="flex justify-between items-center p-6">
       <h1 className="text-2xl font-bold tracking-widest uppercase">
         <Link href="/" className="text-gradient-purple">Skience</Link>
       </h1>
