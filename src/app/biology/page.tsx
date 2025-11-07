@@ -21,28 +21,28 @@ const notes = [
     notesUrl: "https://drinks-hunt-3eb.craft.me/asdasdasdasdas",
     pdfUrl:
       "https://drive.google.com/drive/folders/1Xdo1VFXf9z6dhP_b2iU_Om4dImFpqbu6?usp=sharing",
-    quizletUrl: "https://quizlet.com/830282903/unit-1-characteristics-of-life-flash-cards/",
+    quizletUrl: "",
   },
   {
     topic: "ORGANIC MOLECULES",
     notesUrl: "https://drinks-hunt-3eb.craft.me/asfdsafadsfdsfs",
     pdfUrl:
       "https://drive.google.com/drive/folders/160OPAQYfAuRNVn-jtAW35uyzMExr93UR?usp=sharing",
-    quizletUrl: "https://quizlet.com/833075242/unit-2-organic-molecules-flash-cards/",
+    quizletUrl: "",
   },
   {
     topic: "ENZYMES",
     notesUrl: "https://drinks-hunt-3eb.craft.me/fdgdfgdfgdfgdfgdf",
     pdfUrl:
       "https://drive.google.com/drive/folders/1P6jHR7n_gQww9U2vr5ZJXlIPeMrjXc4r?usp=sharing",
-    quizletUrl: "https://quizlet.com/835334009/unit-3-enzymes-flash-cards/",
+    quizletUrl: "",
   },
   {
     topic: "THE CELL",
     notesUrl: "https://drinks-hunt-3eb.craft.me/BWwKgb2BT5sgbZ",
     pdfUrl:
       "https://drive.google.com/drive/folders/10BOS_ghIpDbgTZaoRsImsM8_0qWBruVo?usp=sharing",
-    quizletUrl: "https://quizlet.com/839444158/unit-4-the-cell-flash-cards/",
+    quizletUrl: "",
   },
   {
     topic: "CELL TRANSPORT - COMING SOON",
