@@ -7,9 +7,6 @@ import { Analytics } from "@vercel/analytics/next"
 export const metadata: Metadata = {
   title: 'Skience',
   description: 'A modern website for science notes',
-  icons: {
-    icon: '/logo.png',
-  },
 };
 
 export default function RootLayout({
