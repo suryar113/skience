@@ -18,7 +18,7 @@ export default function Home() {
       </main>
 
       <footer className="text-center p-6">
-        <p className="text-sm text-muted-foreground">you better study</p>
+        <p className="text-sm text-gradient-purple">you better study</p>
       </footer>
     </div>
   );
