@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import {
   Dialog,
   DialogContent,
@@ -58,6 +60,12 @@ const notes = [
     notesUrl: "https://drinks-hunt-3eb.craft.me/BWwKgb2BT5sgbZ",
     pdfUrl:
       "https://drive.google.com/drive/folders/10BOS_ghIpDbgTZaoRsImsM8_0qWBruVo?usp=sharing",
+    quizletUrl: "#",
+  },
+  {
+    topic: "CELL TRANSPORT - COMING SOON",
+    notesUrl: "",
+    pdfUrl: "",
     quizletUrl: "#",
   },
 ];
