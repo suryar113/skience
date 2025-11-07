@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <SiteHeader />
-      <main className="flex-1 flex flex-col items-center justify-center text-center px-4">
+      <main className="flex-1 flex flex-col items-center justify-center text-center p-4 md:p-6">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gradient-purple">Welcome to Skience</h2>
         <div className="relative">
           <div className="absolute -inset-1 rounded-3xl animated-glowing-border z-0"></div>

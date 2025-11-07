@@ -54,10 +54,10 @@ const notes = [
 
 export default function BiologyPage() {
   return (
-    <div className="flex flex-col min-h-screen p-4 md:p-6 bg-background text-foreground">
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
       <SiteHeader />
 
-      <main className="flex-1 flex flex-col items-center justify-center pt-8">
+      <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-6">
         <div className="relative w-full max-w-4xl">
           <div className="absolute -inset-1 rounded-3xl animated-glowing-border z-0"></div>
           <Card className="w-full rounded-[1.4rem] border-0 relative z-10">
