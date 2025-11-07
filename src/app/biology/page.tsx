@@ -58,8 +58,9 @@ export default function BiologyPage() {
       <SiteHeader />
 
       <main className="flex-1 flex flex-col items-center justify-center pt-8">
-        <div className="w-full max-w-4xl p-1 rounded-3xl animated-glowing-border">
-          <Card className="w-full rounded-[1.4rem] border-0">
+        <div className="relative w-full max-w-4xl">
+          <div className="absolute -inset-1 rounded-3xl animated-glowing-border z-0"></div>
+          <Card className="w-full rounded-[1.4rem] border-0 relative z-10">
             <CardHeader>
               <CardTitle className="text-center uppercase tracking-widest text-gradient-blue">
                 BIOLOGY NOTES
