@@ -89,11 +89,16 @@ export default function BiologyPage() {
                     <TableCell className="font-medium">{note.topic}</TableCell>
                     <TableCell className="text-right">
                       {note.notesUrl ? (
-                         <Button asChild>
-                          <Link href={note.notesUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-green">
-                             View
-                           </Link>
-                         </Button>
+                        <Button asChild>
+                          <Link
+                            href={note.notesUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gradient-green"
+                          >
+                            View
+                          </Link>
+                        </Button>
                       ) : (
                         <Button variant="link" disabled>
                           View
@@ -117,7 +122,7 @@ export default function BiologyPage() {
                       )}
                     </TableCell>
                     <TableCell className="text-center">
-                       {note.quizletUrl ? (
+                      {note.quizletUrl ? (
                         <Button asChild>
                           <Link
                             href={note.quizletUrl}
@@ -140,7 +145,7 @@ export default function BiologyPage() {
         </Card>
       </main>
 
-      <footer className="text-center p-6 mt-8">
+      <footer className="text-center p-6">
         <p className="text-sm text-muted-foreground">you better study</p>
       </footer>
     </div>
