@@ -58,91 +58,93 @@ export default function BiologyPage() {
       <SiteHeader />
 
       <main className="flex-1 flex flex-col items-center justify-center pt-8">
-        <Card className="w-full max-w-4xl rounded-3xl shadow-2xl border border-border/20">
-          <CardHeader>
-            <CardTitle className="text-center uppercase tracking-widest text-gradient-blue">
-              BIOLOGY NOTES
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[50%]">
-                    <BookOpen size={16} className="inline-block mr-2" />
-                    TOPIC
-                  </TableHead>
-                  <TableHead className="w-[15%] text-right">
-                    NOTES
-                  </TableHead>
-                  <TableHead className="w-[15%] text-right">
-                    PDF
-                  </TableHead>
-                  <TableHead className="w-[20%] text-center">
-                    QUIZLET
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {notes.map((note) => (
-                  <TableRow key={note.topic}>
-                    <TableCell className="font-medium">{note.topic}</TableCell>
-                    <TableCell className="text-right">
-                      {note.notesUrl ? (
-                        <Button asChild variant="link">
-                          <Link
-                            href={note.notesUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gradient-green"
-                          >
-                            View
-                          </Link>
-                        </Button>
-                      ) : (
-                        <Button variant="link" disabled>
-                          View
-                        </Button>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {note.pdfUrl ? (
-                        <Button asChild variant="link">
-                          <Link
-                            href={note.pdfUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gradient-orange"
-                          >
-                            Link
-                          </Link>
-                        </Button>
-                      ) : (
-                        <Button variant="link" disabled>Link</Button>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {note.quizletUrl ? (
-                        <Button asChild variant="link">
-                          <Link
-                            href={note.quizletUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gradient-purple"
-                          >
-                            Link
-                          </Link>
-                        </Button>
-                      ) : (
-                        <Button variant="link" disabled>Link</Button>
-                      )}
-                    </TableCell>
+        <div className="w-full max-w-4xl p-1 rounded-3xl animated-glowing-border">
+          <Card className="w-full rounded-[1.4rem] border-0">
+            <CardHeader>
+              <CardTitle className="text-center uppercase tracking-widest text-gradient-blue">
+                BIOLOGY NOTES
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[50%]">
+                      <BookOpen size={16} className="inline-block mr-2" />
+                      TOPIC
+                    </TableHead>
+                    <TableHead className="w-[15%] text-right">
+                      NOTES
+                    </TableHead>
+                    <TableHead className="w-[15%] text-right">
+                      PDF
+                    </TableHead>
+                    <TableHead className="w-[20%] text-center">
+                      QUIZLET
+                    </TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+                </TableHeader>
+                <TableBody>
+                  {notes.map((note) => (
+                    <TableRow key={note.topic}>
+                      <TableCell className="font-medium">{note.topic}</TableCell>
+                      <TableCell className="text-right">
+                        {note.notesUrl ? (
+                          <Button asChild variant="link">
+                            <Link
+                              href={note.notesUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-gradient-green"
+                            >
+                              View
+                            </Link>
+                          </Button>
+                        ) : (
+                          <Button variant="link" disabled>
+                            View
+                          </Button>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {note.pdfUrl ? (
+                          <Button asChild variant="link">
+                            <Link
+                              href={note.pdfUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-gradient-orange"
+                            >
+                              Link
+                            </Link>
+                          </Button>
+                        ) : (
+                          <Button variant="link" disabled>Link</Button>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {note.quizletUrl ? (
+                          <Button asChild variant="link">
+                            <Link
+                              href={note.quizletUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-gradient-purple"
+                            >
+                              Link
+                            </Link>
+                          </Button>
+                        ) : (
+                          <Button variant="link" disabled>Link</Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
       </main>
 
       <footer className="text-center p-6">
