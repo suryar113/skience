@@ -4,16 +4,6 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/next";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -23,9 +13,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  ExternalLink,
-  X,
-  RotateCw,
   BookOpen,
   FileText,
   Link as LinkIcon,
@@ -71,157 +58,91 @@ const notes = [
 ];
 
 export default function BiologyPage() {
-  const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const handleSurpriseMe = () => {
-    if (!isMounted) return;
-    const validNotes = notes.filter((note) => note.notesUrl !== "#");
-    if (validNotes.length > 0) {
-      const randomIndex = Math.floor(Math.random() * validNotes.length);
-      setSelectedUrl(validNotes[randomIndex].notesUrl);
-    }
-  };
-
-  const closeDialogs = () => {
-    setSelectedUrl(null);
-  };
-
   return (
-    <Dialog onOpenChange={(open) => !open && closeDialogs()}>
-      <div className="flex flex-col min-h-screen p-4 md:p-6 bg-background text-foreground">
-        <SiteHeader />
+    <div className="flex flex-col min-h-screen p-4 md:p-6 bg-background text-foreground">
+      <SiteHeader />
 
-        <main className="flex-1 flex flex-col items-center pt-8 md:pt-16">
-          <div className="w-full max-w-4xl flex justify-end mb-4">
-            <DialogTrigger asChild>
-              <Button onClick={handleSurpriseMe}>
-                <RotateCw className="mr-2 h-4 w-4" />
-                Surprise Me
-              </Button>
-            </DialogTrigger>
-          </div>
-          <Card className="w-full max-w-4xl rounded-3xl">
-            <CardHeader>
-              <CardTitle className="text-center uppercase tracking-widest text-gradient-blue">
-                BIOLOGY NOTES
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[50%]">
-                      <BookOpen size={16} className="inline-block mr-2" />
-                      TOPIC
-                    </TableHead>
-                    <TableHead className="w-[15%] text-right">
-                      <LinkIcon size={16} className="inline-block mr-2" />
-                      NOTES
-                    </TableHead>
-                    <TableHead className="w-[15%] text-right">
-                      <FileText size={16} className="inline-block mr-2" />
-                      PDF
-                    </TableHead>
-                    <TableHead className="w-[20%] text-center">
-                      <HelpCircle size={16} className="inline-block mr-2" />
-                      QUIZLET
-                    </TableHead>
+      <main className="flex-1 flex flex-col items-center pt-8 md:pt-16">
+        <Card className="w-full max-w-4xl rounded-3xl">
+          <CardHeader>
+            <CardTitle className="text-center uppercase tracking-widest text-gradient-blue">
+              BIOLOGY NOTES
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[50%]">
+                    <BookOpen size={16} className="inline-block mr-2" />
+                    TOPIC
+                  </TableHead>
+                  <TableHead className="w-[15%] text-right">
+                    <LinkIcon size={16} className="inline-block mr-2" />
+                    NOTES
+                  </TableHead>
+                  <TableHead className="w-[15%] text-right">
+                    <FileText size={16} className="inline-block mr-2" />
+                    PDF
+                  </TableHead>
+                  <TableHead className="w-[20%] text-center">
+                    <HelpCircle size={16} className="inline-block mr-2" />
+                    QUIZLET
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {notes.map((note) => (
+                  <TableRow key={note.topic}>
+                    <TableCell className="font-medium">{note.topic}</TableCell>
+                    <TableCell className="text-right">
+                      {note.notesUrl ? (
+                         <Button asChild className="p-0">
+                           <Link href={note.notesUrl} target="_blank" rel="noopener noreferrer" className="text-gradient-green">
+                             View
+                           </Link>
+                         </Button>
+                      ) : (
+                        <Button variant="link" disabled className="p-0">
+                          View
+                        </Button>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button asChild variant="link" className="p-0">
+                        <Link
+                          href={note.pdfUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-gradient-orange"
+                        >
+                          Link
+                        </Link>
+                      </Button>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Button asChild variant="link" className="p-0">
+                        <Link
+                          href={note.quizletUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-gradient-purple"
+                        >
+                          Link
+                        </Link>
+                      </Button>
+                    </TableCell>
                   </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {notes.map((note) => (
-                    <TableRow key={note.topic}>
-                      <TableCell className="font-medium">
-                        {note.topic}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        {note.notesUrl !== "#" ? (
-                          <DialogTrigger asChild>
-                            <Button
-                              variant="link"
-                              onClick={() => setSelectedUrl(note.notesUrl)}
-                              className="text-gradient-green p-0"
-                            >
-                              View
-                            </Button>
-                          </DialogTrigger>
-                        ) : (
-                          <Button variant="link" disabled className="p-0">
-                            View
-                          </Button>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button asChild variant="link" className="p-0">
-                          <Link
-                            href={note.pdfUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gradient-orange"
-                          >
-                            Link
-                          </Link>
-                        </Button>
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <Button asChild variant="link" className="p-0">
-                          <Link
-                            href={note.quizletUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gradient-purple"
-                          >
-                            Link
-                          </Link>
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </main>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </main>
 
-        <footer className="text-center p-6 mt-16">
-          <p className="text-sm text-muted-foreground">you better study</p>
-        </footer>
-      </div>
-      {selectedUrl && (
-        <DialogContent className="max-w-4xl h-[80vh] flex flex-col p-0 rounded-3xl">
-          <DialogHeader className="p-4 border-b flex flex-row items-center justify-between">
-            <DialogTitle>Notes Viewer</DialogTitle>
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
-                <Link
-                  href={selectedUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  <span className="sr-only">Open in new tab</span>
-                </Link>
-              </Button>
-              <DialogClose className="h-8 w-8 flex items-center justify-center rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-                <X className="h-4 w-4" />
-                <span className="sr-only">Close</span>
-              </DialogClose>
-            </div>
-          </DialogHeader>
-          <div className="flex-1 p-0 m-0">
-            <iframe
-              src={selectedUrl}
-              title="Note Content"
-              className="w-full h-full border-0"
-            />
-          </div>
-        </DialogContent>
-      )}
-    </Dialog>
+      <footer className="text-center p-6 mt-16">
+        <p className="text-sm text-muted-foreground">you better study</p>
+      </footer>
+    </div>
   );
 }
