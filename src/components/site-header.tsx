@@ -43,7 +43,7 @@ export function SiteHeader() {
         <div className="relative">
           <div className="absolute -inset-1 rounded-2xl animated-glowing-border z-0"></div>
           <Button variant="outline" size="icon" asChild className="relative z-10 bg-background">
-            <Link href="#">
+            <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer">
               <Github className="h-[1.2rem] w-[1.2rem]" />
               <span className="sr-only">GitHub</span>
             </Link>
