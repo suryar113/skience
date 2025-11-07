@@ -9,9 +9,12 @@ export default function Home() {
       <SiteHeader />
       <main className="flex-1 flex flex-col items-center justify-center text-center px-4">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gradient-purple">Welcome to Skience</h2>
-        <Button size="lg" asChild>
-          <Link href="/biology">Explore Biology Notes</Link>
-        </Button>
+        <div className="relative">
+          <div className="absolute -inset-1 rounded-3xl animated-glowing-border z-0"></div>
+          <Button size="lg" asChild className="relative z-10">
+            <Link href="/biology">Explore Biology Notes</Link>
+          </Button>
+        </div>
       </main>
 
       <footer className="text-center p-6">
