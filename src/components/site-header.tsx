@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Github, Moon, Sun } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 export function SiteHeader() {
@@ -39,15 +39,6 @@ export function SiteHeader() {
           <Button variant="outline" size="sm" asChild className="relative z-10 bg-background">
             <Link href="/biology">BIOLOGY</Link>
           </Button>
-        </div>
-        <div className="relative">
-            <div className="absolute -inset-1 rounded-2xl animated-glowing-border z-0"></div>
-            <Button variant="outline" size="icon" asChild className="relative z-10 bg-background">
-              <Link href="#" target="_blank" rel="noopener noreferrer">
-                <Github className="h-[1.2rem] w-[1.2rem]" />
-                <span className="sr-only">GitHub</span>
-              </Link>
-            </Button>
         </div>
         <div className="relative">
           <div className="absolute -inset-1 rounded-2xl animated-glowing-border z-0"></div>
