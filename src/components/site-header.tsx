@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -10,8 +11,12 @@ export function SiteHeader() {
 
   useEffect(() => {
     const storedTheme = localStorage.getItem('theme');
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    
     if (storedTheme === 'light' || storedTheme === 'dark') {
       setTheme(storedTheme);
+    } else {
+      setTheme(systemTheme);
     }
   }, []);
 
