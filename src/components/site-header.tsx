@@ -4,13 +4,22 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
+import { useState, useEffect } from 'react';
 
 export function SiteHeader() {
-  const { theme, setTheme } = useTheme();
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+    document.documentElement.className = savedTheme;
+  }, []);
 
   const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.documentElement.className = newTheme;
   };
 
   return (
