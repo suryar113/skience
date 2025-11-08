@@ -43,20 +43,20 @@ export function SiteHeader() {
 
   const NavLinks = () => (
     <>
-      <div className="relative">
-        
+      <div className="group relative">
+        <div className="absolute -inset-1 rounded-3xl animated-glowing-border z-0 transition-transform duration-200 ease-in-out group-hover:scale-105"></div>
         <Button variant="outline" size="sm" asChild className="relative z-10 bg-background">
           <Link href="/">HOME</Link>
         </Button>
       </div>
-      <div className="relative">
-        
+      <div className="group relative">
+        <div className="absolute -inset-1 rounded-3xl animated-glowing-border z-0 transition-transform duration-200 ease-in-out group-hover:scale-105"></div>
         <Button variant="outline" size="sm" asChild className="relative z-10 bg-background">
           <Link href="/biology">BIOLOGY</Link>
         </Button>
       </div>
-      <div className="relative">
-        
+      <div className="group relative">
+        <div className="absolute -inset-1 rounded-3xl animated-glowing-border z-0 transition-transform duration-200 ease-in-out group-hover:scale-105"></div>
         <Button variant="outline" size="icon" asChild className="relative z-10 bg-background">
           <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer">
             <Github className="h-[1.2rem] w-[1.2rem]" />
@@ -64,8 +64,7 @@ export function SiteHeader() {
           </Link>
         </Button>
       </div>
-      <div className="relative">
-        
+      <div className="relative transition-transform duration-200 ease-in-out hover:scale-110">
         <Button variant="outline" size="icon" onClick={toggleTheme} className="relative z-10 bg-background">
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -82,7 +81,7 @@ export function SiteHeader() {
       </h1>
       
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center gap-2 md:gap-4">
+      <nav className="hidden md:flex items-center gap-4">
         <NavLinks />
       </nav>
 
