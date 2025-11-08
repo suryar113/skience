@@ -1,1 +1,1 @@
-# Congrats, you are one of the few people to look a this
+# Congrats, you are one of the few people to look at this
