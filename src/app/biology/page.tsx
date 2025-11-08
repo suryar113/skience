@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -62,7 +61,7 @@ export default function BiologyPage() {
           <div className="absolute -inset-1 rounded-3xl animated-glowing-border z-0"></div>
           <Card className="w-full rounded-[1.4rem] border-0 relative z-10">
             <CardHeader>
-              <CardTitle className="text-center uppercase tracking-widest text-gradient-blue">
+              <CardTitle className="text-center uppercase tracking-widest text-gradient-rainbow">
                 BIOLOGY NOTES
               </CardTitle>
             </CardHeader>
@@ -88,7 +87,9 @@ export default function BiologyPage() {
                 <TableBody>
                   {notes.map((note) => (
                     <TableRow key={note.topic}>
-                      <TableCell className="font-medium">{note.topic}</TableCell>
+                      <TableCell className="font-medium">
+                        {note.topic}
+                      </TableCell>
                       <TableCell className="text-center">
                         {note.notesUrl ? (
                           <Button asChild variant="link">
@@ -120,7 +121,9 @@ export default function BiologyPage() {
                             </Link>
                           </Button>
                         ) : (
-                          <Button variant="link" disabled>Link</Button>
+                          <Button variant="link" disabled>
+                            Link
+                          </Button>
                         )}
                       </TableCell>
                       <TableCell className="text-center">
@@ -136,7 +139,9 @@ export default function BiologyPage() {
                             </Link>
                           </Button>
                         ) : (
-                          <Button variant="link" disabled>Link</Button>
+                          <Button variant="link" disabled>
+                            Link
+                          </Button>
                         )}
                       </TableCell>
                     </TableRow>
