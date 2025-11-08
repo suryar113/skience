@@ -65,7 +65,13 @@ body {
   
   a, button {
     cursor: none;
+    @apply transition-transform duration-200 ease-in-out;
   }
+  
+  a:hover, button:hover {
+    @apply scale-105;
+  }
+
 
   /* Hide cursor on mobile devices where it's not needed */
   @media (hover: none) {
@@ -156,12 +162,10 @@ body {
   }
 
   .custom-cursor.link-hover .cursor-outline {
-    transform: scale(1.5);
-    filter: blur(1px);
+    /* No longer animates on link hover */
   }
 
   .custom-cursor.link-hover .cursor-dot {
-    transform: scale(0.8);
-    opacity: 0.5;
+    /* No longer animates on link hover */
   }
 }
