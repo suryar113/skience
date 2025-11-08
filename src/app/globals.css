@@ -156,8 +156,8 @@ body {
   }
 
   .custom-cursor .cursor-outline {
-    width: 30px;
-    height: 30px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     background-size: 400% 400%;

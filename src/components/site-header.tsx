@@ -43,35 +43,23 @@ export function SiteHeader() {
 
   const NavLinks = () => (
     <>
-      <div className="group relative transition-transform duration-200 ease-in-out hover:scale-105">
-        <div className="absolute -inset-1 rounded-2xl animated-glowing-border z-0"></div>
-        <Button variant="outline" size="sm" asChild className="relative z-10 bg-background">
+      <Button variant="outline" size="sm" asChild>
           <Link href="/">HOME</Link>
-        </Button>
-      </div>
-      <div className="group relative transition-transform duration-200 ease-in-out hover:scale-105">
-        <div className="absolute -inset-1 rounded-2xl animated-glowing-border z-0"></div>
-        <Button variant="outline" size="sm" asChild className="relative z-10 bg-background">
-          <Link href="/biology">BIOLOGY</Link>
-        </Button>
-      </div>
-      <div className="group relative transition-transform duration-200 ease-in-out hover:scale-105">
-        <div className="absolute -inset-1 rounded-full animated-glowing-border z-0"></div>
-        <Button variant="outline" size="icon" asChild className="relative z-10 bg-background">
-          <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer">
-            <Github className="h-[1.2rem] w-[1.2rem]" />
-            <span className="sr-only">GitHub</span>
-          </Link>
-        </Button>
-      </div>
-      <div className="group relative transition-transform duration-200 ease-in-out hover:scale-110">
-        <div className="absolute -inset-1 rounded-full animated-glowing-border z-0"></div>
-        <Button variant="outline" size="icon" onClick={toggleTheme} className="relative z-10 bg-background">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </div>
+      </Button>
+      <Button variant="outline" size="sm" asChild>
+        <Link href="/biology">BIOLOGY</Link>
+      </Button>
+      <Button variant="outline" size="icon" asChild>
+        <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer">
+          <Github className="h-[1.2rem] w-[1.2rem]" />
+          <span className="sr-only">GitHub</span>
+        </Link>
+      </Button>
+      <Button variant="outline" size="icon" onClick={toggleTheme}>
+        <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+        <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+        <span className="sr-only">Toggle theme</span>
+      </Button>
     </>
   )
 
