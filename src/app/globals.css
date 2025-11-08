@@ -63,13 +63,17 @@ body {
     @apply bg-background text-foreground;
   }
   
-  a, button {
+  a, .group {
     cursor: none;
     @apply transition-transform duration-200 ease-in-out;
   }
   
-  a:hover, button:hover {
-    @apply scale-105;
+  a:hover {
+    @apply scale-110;
+  }
+
+  button {
+    cursor: none;
   }
 
 
