@@ -138,14 +138,21 @@ body {
 
   /* Custom Cursor styles */
   .custom-cursor .cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
     transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease-in-out;
   }
 
   .custom-cursor .cursor-outline {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     background-size: 400% 400%;
     animation: animated-glowing-border-animation 8s ease infinite;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease;
   }
 
   .custom-cursor.link-hover .cursor-outline {
@@ -156,14 +163,5 @@ body {
   .custom-cursor.link-hover .cursor-dot {
     transform: scale(0.8);
     opacity: 0.5;
-  }
-
-  .custom-cursor .cursor-outline svg {
-    -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4.28 3.321a2.173 2.173 0 0 1 3.28-.214l11.43 10.725a2.173 2.173 0 0 1-1.396 3.873H6.467a2.173 2.173 0 0 1-2.13-2.21l-.057-9.174Z"/></svg>') center/contain no-repeat;
-    mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4.28 3.321a2.173 2.173 0 0 1 3.28-.214l11.43 10.725a2.173 2.173 0 0 1-1.396 3.873H6.467a2.173 2.173 0 0 1-2.13-2.21l-.057-9.174Z"/></svg>') center/contain no-repeat;
-  }
-
-  .custom-cursor .cursor-outline svg path {
-    display: none;
   }
 }
