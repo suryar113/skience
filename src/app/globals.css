@@ -4,7 +4,6 @@
 
 body {
   font-family: 'Roboto Mono', monospace;
-  cursor: none;
 }
 
 @layer base {
@@ -66,6 +65,16 @@ body {
   a, button {
     cursor: none;
   }
+
+  /* Hide cursor on mobile devices where it's not needed */
+  @media (hover: none) {
+    .custom-cursor {
+      display: none;
+    }
+    a, button, body {
+      cursor: auto;
+    }
+  }
 }
 
 @keyframes gradient-animation {
@@ -126,30 +135,26 @@ body {
     filter: blur(1.5px);
   }
 
+  /* Custom Cursor styles */
   .custom-cursor .cursor-dot {
-    width: 8px;
-    height: 8px;
-    background-color: white;
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease-in-out;
   }
 
   .custom-cursor .cursor-outline {
-    width: 40px;
-    height: 40px;
-    border-width: 2px;
     background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     background-size: 400% 400%;
     animation: animated-glowing-border-animation 8s ease infinite;
-    filter: blur(1px);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   /* When hovering over links or buttons */
   .custom-cursor.link-hover .cursor-outline {
-    width: 60px;
-    height: 60px;
-    filter: blur(2px);
+    transform: scale(1.5);
+    filter: blur(1px);
   }
 
   .custom-cursor.link-hover .cursor-dot {
-    opacity: 0;
+    transform: scale(0.8);
+    opacity: 0.5;
   }
 }
