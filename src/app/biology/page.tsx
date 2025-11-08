@@ -44,9 +44,10 @@ const notes = [
     quizletUrl: "",
   },
   {
-    topic: "CELL TRANSPORT - COMING SOON",
-    notesUrl: "",
-    pdfUrl: "",
+    topic: "CELLULAR TRANSPORT",
+    notesUrl: "https://drinks-hunt-3eb.craft.me/FChuDvbuWVFkSs",
+    pdfUrl:
+      "https://drive.google.com/drive/folders/1y4IBlejw7VUZzQNb6IaN8UY4dwgA9WxJ?usp=sharing",
     quizletUrl: "",
   },
 ];
