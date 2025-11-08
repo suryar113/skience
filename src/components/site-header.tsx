@@ -43,20 +43,20 @@ export function SiteHeader() {
 
   const NavLinks = () => (
     <>
-      <div className="relative group transition-transform duration-200 ease-in-out hover:scale-105">
-        <div className="absolute -inset-1 rounded-2xl animated-glowing-border z-0"></div>
+      <div className="relative">
+        
         <Button variant="outline" size="sm" asChild className="relative z-10 bg-background">
           <Link href="/">HOME</Link>
         </Button>
       </div>
-      <div className="relative group transition-transform duration-200 ease-in-out hover:scale-105">
-        <div className="absolute -inset-1 rounded-2xl animated-glowing-border z-0"></div>
+      <div className="relative">
+        
         <Button variant="outline" size="sm" asChild className="relative z-10 bg-background">
           <Link href="/biology">BIOLOGY</Link>
         </Button>
       </div>
-      <div className="relative group transition-transform duration-200 ease-in-out hover:scale-105">
-        <div className="absolute -inset-1 rounded-2xl animated-glowing-border z-0"></div>
+      <div className="relative">
+        
         <Button variant="outline" size="icon" asChild className="relative z-10 bg-background">
           <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer">
             <Github className="h-[1.2rem] w-[1.2rem]" />
@@ -64,8 +64,8 @@ export function SiteHeader() {
           </Link>
         </Button>
       </div>
-      <div className="relative group transition-transform duration-200 ease-in-out hover:scale-105">
-        <div className="absolute -inset-1 rounded-2xl animated-glowing-border z-0"></div>
+      <div className="relative">
+        
         <Button variant="outline" size="icon" onClick={toggleTheme} className="relative z-10 bg-background">
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -77,7 +77,7 @@ export function SiteHeader() {
 
   return (
     <header className="flex justify-between items-center p-4 md:p-6 relative z-50">
-      <h1 className="text-2xl font-bold tracking-widest uppercase">
+      <h1 className="text-2xl font-bold tracking-widest uppercase transition-transform duration-200 ease-in-out hover:scale-110">
         <Link href="/" className="text-gradient-rainbow">Skience</Link>
       </h1>
       
