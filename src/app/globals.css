@@ -148,16 +148,16 @@ body {
 
   /* Custom Cursor styles */
   .custom-cursor .cursor-dot {
-    width: 8px;
-    height: 8px;
+    width: 16px;
+    height: 16px;
     background-color: white;
     border-radius: 50%;
     transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease-in-out;
   }
 
   .custom-cursor .cursor-outline {
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     background-size: 400% 400%;
