@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 export const CustomCursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHoveringLink, setIsHoveringLink] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -43,17 +44,30 @@ export const CustomCursor = () => {
         setIsHoveringLink(false);
       }
     };
-    
+
+    const handleMouseEnter = () => setIsVisible(true);
+    const handleMouseLeave = () => setIsVisible(false);
+    const handleWindowFocus = () => setIsVisible(true);
+    const handleWindowBlur = () => setIsVisible(false);
+
     document.body.style.cursor = 'none';
 
     window.addEventListener("mousemove", updatePosition);
     document.addEventListener("mouseover", handleMouseOver);
     document.addEventListener("mouseout", handleMouseOut);
+    document.body.addEventListener("mouseenter", handleMouseEnter);
+    document.body.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("focus", handleWindowFocus);
+    window.addEventListener("blur", handleWindowBlur);
 
     return () => {
       window.removeEventListener("mousemove", updatePosition);
       document.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseout", handleMouseOut);
+      document.body.removeEventListener("mouseenter", handleMouseEnter);
+      document.body.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("focus", handleWindowFocus);
+      window.removeEventListener("blur", handleWindowBlur);
       document.body.style.cursor = 'auto';
     };
   }, [isClient]);
@@ -64,6 +78,7 @@ export const CustomCursor = () => {
 
   const cursorClasses = cn("custom-cursor", {
     "link-hover": isHoveringLink,
+    "hidden": !isVisible
   });
 
   return (
