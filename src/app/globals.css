@@ -63,7 +63,7 @@ body {
     @apply bg-background text-foreground;
   }
   
-  a, .group {
+  a {
     cursor: none;
     @apply transition-transform duration-200 ease-in-out;
   }
@@ -163,13 +163,5 @@ body {
     background-size: 400% 400%;
     animation: animated-glowing-border-animation 8s ease infinite;
     transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease;
-  }
-
-  .custom-cursor.link-hover .cursor-outline {
-    /* No longer animates on link hover */
-  }
-
-  .custom-cursor.link-hover .cursor-dot {
-    /* No longer animates on link hover */
   }
 }
