@@ -4,6 +4,7 @@
 
 body {
   font-family: 'Roboto Mono', monospace;
+  cursor: none;
 }
 
 @layer base {
@@ -60,6 +61,10 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+  
+  a, button {
+    cursor: none;
   }
 }
 
@@ -119,5 +124,32 @@ body {
     background-size: 400% 400%;
     animation: animated-glowing-border-animation 8s ease infinite;
     filter: blur(1.5px);
+  }
+
+  .custom-cursor .cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: white;
+  }
+
+  .custom-cursor .cursor-outline {
+    width: 40px;
+    height: 40px;
+    border-width: 2px;
+    background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400% 400%;
+    animation: animated-glowing-border-animation 8s ease infinite;
+    filter: blur(1px);
+  }
+
+  /* When hovering over links or buttons */
+  .custom-cursor.link-hover .cursor-outline {
+    width: 60px;
+    height: 60px;
+    filter: blur(2px);
+  }
+
+  .custom-cursor.link-hover .cursor-dot {
+    opacity: 0;
   }
 }
