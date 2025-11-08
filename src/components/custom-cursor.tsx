@@ -89,7 +89,7 @@ export const CustomCursor = () => {
       <div className="cursor-outline absolute -translate-x-1/2 -translate-y-1/2 transition-transform duration-300">
         <CursorIcon className="h-10 w-10 text-white" />
       </div>
-      <div className="cursor-dot absolute -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300">
+      <div className="cursor-dot absolute -translate-x-1/2 -translatey-1/2 transition-opacity duration-300">
         <CursorIcon className="h-6 w-6 text-black" />
       </div>
     </div>
