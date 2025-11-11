@@ -150,7 +150,7 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    filter: blur(15px) opacity(0.8);
+    filter: blur(15px) opacity(1);
     transform: scale(1.05);
   }
   
