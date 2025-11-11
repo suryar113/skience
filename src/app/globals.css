@@ -65,7 +65,7 @@ body {
   
   a {
     cursor: none;
-    @apply transition-transform duration-200 ease-in-out hover:scale-110;
+    @apply transition-transform duration-200 ease-in-out;
   }
   
   button {
