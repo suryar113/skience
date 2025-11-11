@@ -65,7 +65,7 @@ export function SiteHeader() {
 
   return (
     <header className="flex justify-between items-center p-4 md:p-6 relative z-50">
-      <h1 className="text-2xl font-bold tracking-widest uppercase transition-transform duration-200 ease-in-out hover:scale-110" data-text="Skience">
+      <h1 className="text-2xl font-bold tracking-widest uppercase transition-transform duration-200 ease-in-out hover:scale-110">
         <Link href="/" className="text-gradient-rainbow" data-text="Skience">Skience</Link>
       </h1>
       
