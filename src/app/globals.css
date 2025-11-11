@@ -65,7 +65,7 @@ body {
   
   a {
     cursor: none;
-    @apply transition-transform duration-200 ease-in-out;
+    @apply transition-transform duration-200 ease-in-out hover:scale-110;
   }
   
   button {
@@ -127,13 +127,31 @@ body {
     @apply bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent animated-gradient;
   }
   .text-gradient-rainbow {
+    @apply relative;
     background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     background-size: 400% 400%;
     animation: animated-glowing-border-animation 8s ease infinite;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    filter: drop-shadow(0 0 0.5rem rgba(255, 255, 255, 0.5)) drop-shadow(0 0 1.5rem rgba(255, 255, 255, 0.3));
+  }
+
+  .text-gradient-rainbow::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: inherit;
+    background-size: inherit;
+    animation: inherit;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: blur(10px) opacity(0.8);
+    transform: scale(1.05);
   }
   
   .animated-glowing-border {

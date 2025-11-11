@@ -62,7 +62,7 @@ export default function BiologyPage() {
           <div className="absolute -inset-1 rounded-3xl animated-glowing-border z-0"></div>
           <Card className="w-full rounded-[1.4rem] border-0 relative z-10">
             <CardHeader>
-              <CardTitle className="text-center uppercase tracking-widest text-gradient-rainbow">
+              <CardTitle className="text-center uppercase tracking-widest text-gradient-rainbow" data-text="BIOLOGY NOTES">
                 BIOLOGY NOTES
               </CardTitle>
             </CardHeader>
@@ -155,7 +155,7 @@ export default function BiologyPage() {
       </main>
 
       <footer className="text-center p-6">
-        <p className="text-sm text-gradient-rainbow">you better study</p>
+        <p className="text-sm text-gradient-rainbow" data-text="you better study">you better study</p>
       </footer>
     </div>
   );
