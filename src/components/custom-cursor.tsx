@@ -1,14 +1,15 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 export const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHoveringLink, setIsHoveringLink] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [isClient, setIsClient] = useState(false);
+
+  const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -17,9 +18,23 @@ export const CustomCursor = () => {
   useEffect(() => {
     if (!isClient) return;
 
+    const cursorEl = cursorRef.current;
+    if (!cursorEl) return;
+
+    let mouseX = -100;
+    let mouseY = -100;
+
     const updatePosition = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
+      mouseX = e.clientX;
+      mouseY = e.clientY;
     };
+
+    const animateCursor = () => {
+        cursorEl.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+        requestAnimationFrame(animateCursor);
+    };
+    
+    requestAnimationFrame(animateCursor);
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -82,8 +97,7 @@ export const CustomCursor = () => {
   });
 
   return (
-    <div className={cn(cursorClasses, "pointer-events-none fixed top-0 left-0 z-[9999]")}
-         style={{ transform: `translate(${position.x}px, ${position.y}px)` }}>
+    <div ref={cursorRef} className={cn(cursorClasses, "pointer-events-none fixed top-0 left-0 z-[9999]")}>
       <div className="cursor-outline absolute -translate-x-1/2 -translate-y-1/2"></div>
       <div className="cursor-dot absolute -translate-x-1/2 -translate-y-1/2"></div>
     </div>
