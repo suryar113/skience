@@ -68,10 +68,6 @@ body {
     @apply transition-transform duration-200 ease-in-out;
   }
   
-  a:hover {
-    @apply scale-110;
-  }
-
   button {
     cursor: none;
   }
@@ -137,6 +133,7 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    filter: drop-shadow(0 0 0.5rem rgba(255, 255, 255, 0.5)) drop-shadow(0 0 1.5rem rgba(255, 255, 255, 0.3));
   }
   
   .animated-glowing-border {
