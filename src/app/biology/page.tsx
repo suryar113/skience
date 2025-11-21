@@ -49,7 +49,7 @@ const notes = [
     notesUrl: "https://drinks-hunt-3eb.craft.me/FChuDvbuWVFkSs",
     pdfUrl:
       "https://drive.google.com/drive/folders/1y4IBlejw7VUZzQNb6IaN8UY4dwgA9WxJ?usp=sharing",
-    quizletUrl: "",
+    quizletUrl: "https://quizlet.com/1111521452/cellular-transport-flash-cards/",
   },
 ];
 
