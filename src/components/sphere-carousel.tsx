@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useMemo } from "react";
@@ -10,7 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Note = {
@@ -23,10 +23,11 @@ type Note = {
 type NoteCardProps = {
   note: Note;
   isFocused: boolean;
+  index: number;
   notes: Note[];
 };
 
-function NoteCard({ note, isFocused, notes }: NoteCardProps) {
+function NoteCard({ note, isFocused, index, notes }: NoteCardProps) {
   return (
     <div className="relative w-full h-full">
       <div
@@ -110,8 +111,7 @@ function NoteCard({ note, isFocused, notes }: NoteCardProps) {
         </CardContent>
         <CardFooter className="justify-center">
           <p className="text-xs text-muted-foreground">
-            Topic {notes.findIndex((n) => n.topic === note.topic) + 1} of{" "}
-            {notes.length}
+            Topic {index + 1} of {notes.length}
           </p>
         </CardFooter>
       </Card>
@@ -123,24 +123,21 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
   const [index, setIndex] = useState(0);
   const totalPanels = notes.length;
 
-  const handlePrev = () => {
-    setIndex((prev) => (prev - 1 + totalPanels) % totalPanels);
-  };
-
-  const handleNext = () => {
-    setIndex((prev) => (prev + 1) % totalPanels);
-  };
-
   const carouselRotation = useMemo(() => {
-    return - (index * 360) / totalPanels;
+    return -(index * 360) / totalPanels;
   }, [index, totalPanels]);
 
   const panelAngle = 360 / totalPanels;
-  const radius = 400 / (2 * Math.tan(Math.PI / totalPanels));
+  // Adjust the radius to prevent cards from overlapping on smaller screens or with more cards
+  const radius =
+    totalPanels < 5 ? 400 / (2 * Math.tan(Math.PI / totalPanels)) : 500;
 
   return (
     <div className="w-full flex flex-col items-center justify-center space-y-8">
-       <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient-rainbow uppercase" data-text="Biology Notes">
+      <h2
+        className="text-3xl md:text-4xl font-bold mb-4 text-gradient-rainbow uppercase"
+        data-text="Biology Notes"
+      >
         Biology Notes
       </h2>
       <div
@@ -159,24 +156,24 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
             return (
               <div
                 key={note.topic}
-                className="absolute w-[300px] h-[400px] p-4 transition-opacity duration-300"
+                className="absolute w-[300px] h-[400px] p-4 transition-opacity duration-300 cursor-pointer"
                 style={{
-                  transform: `rotateY(${i * panelAngle}deg) translateZ(${radius}px)`,
+                  transform: `rotateY(${
+                    i * panelAngle
+                  }deg) translateZ(${radius}px)`,
                 }}
+                onClick={() => setIndex(i)}
               >
-                <NoteCard note={note} isFocused={isFocused} notes={notes} />
+                <NoteCard
+                  note={note}
+                  isFocused={isFocused}
+                  index={i}
+                  notes={notes}
+                />
               </div>
             );
           })}
         </div>
-      </div>
-      <div className="flex justify-center items-center gap-4 mt-4">
-        <Button variant="outline" size="icon" onClick={handlePrev} aria-label="Previous note">
-          <ArrowLeft />
-        </Button>
-        <Button variant="outline" size="icon" onClick={handleNext} aria-label="Next note">
-          <ArrowRight />
-        </Button>
       </div>
     </div>
   );
