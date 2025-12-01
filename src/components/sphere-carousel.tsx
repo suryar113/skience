@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,11 +12,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 type Note = {
   topic: string;
   notesUrl: string;
-  pdfUrl:string;
+  pdfUrl: string;
   quizletUrl: string;
 };
 
@@ -104,8 +105,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
             </Button>
           )}
         </CardContent>
-        <CardFooter className="justify-center">
-        </CardFooter>
+        <CardFooter className="justify-center"></CardFooter>
       </Card>
     </div>
   );
@@ -114,18 +114,25 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
 export function SphereCarousel({ notes }: { notes: Note[] }) {
   const [index, setIndex] = useState(0);
   const [rotation, setRotation] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const totalPanels = notes.length;
   const panelAngle = 360 / totalPanels;
-  
-  // Reduced radius to bring cards closer together
-  const radius = totalPanels < 5 ? 200 : 300; 
+  const radius = totalPanels < 5 ? 200 : 300;
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const handleClick = (newIndex: number) => {
     const currentIndex = index;
     if (newIndex === currentIndex) return;
 
     let diff = newIndex - currentIndex;
-    // Shortest path logic
     if (Math.abs(diff) > totalPanels / 2) {
       if (diff > 0) {
         diff -= totalPanels;
@@ -133,19 +140,47 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
         diff += totalPanels;
       }
     }
-    
+
     setIndex(newIndex);
     setRotation(rotation - diff * panelAngle);
   };
-  
+
+  const handlePrev = () => {
+    const newIndex = (index - 1 + totalPanels) % totalPanels;
+    handleClick(newIndex);
+  };
+
+  const handleNext = () => {
+    const newIndex = (index + 1) % totalPanels;
+    handleClick(newIndex);
+  };
+
+  if (isMobile) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center space-y-4">
+        <div className="relative w-[240px] h-[360px]">
+          <NoteCard note={notes[index]} isFocused={true} />
+        </div>
+        <div className="flex items-center gap-4">
+          <Button variant="outline" size="icon" onClick={handlePrev}>
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <Button variant="outline" size="icon" onClick={handleNext}>
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full flex flex-col items-center justify-center space-y-8">
       <div
-        className="relative w-[240px] h-[360px]" // Reduced card size
+        className="relative w-[240px] h-[360px]"
         style={{ perspective: "1000px" }}
       >
         <div
-          className="w-full h-full absolute transition-transform duration-1000 ease-in-out" // Slower, smoother transition
+          className="w-full h-full absolute transition-transform duration-1000 ease-in-out"
           style={{
             transformStyle: "preserve-3d",
             transform: `rotateY(${rotation}deg)`,
@@ -164,10 +199,7 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
                 }}
                 onClick={() => handleClick(i)}
               >
-                <NoteCard
-                  note={note}
-                  isFocused={isFocused}
-                />
+                <NoteCard note={note} isFocused={isFocused} />
               </div>
             );
           })}
