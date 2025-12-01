@@ -51,7 +51,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
             <Button
               asChild
               variant="outline"
-              className={cn(!isFocused && "pointer-events-none")}
+              className={cn("btn-hover-pop", !isFocused && "pointer-events-none")}
             >
               <Link
                 href={note.notesUrl}
@@ -62,7 +62,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
               </Link>
             </Button>
           ) : (
-            <Button variant="outline" disabled>
+            <Button variant="outline" disabled className="btn-hover-pop">
               View Notes
             </Button>
           )}
@@ -70,7 +70,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
             <Button
               asChild
               variant="outline"
-              className={cn(!isFocused && "pointer-events-none")}
+              className={cn("btn-hover-pop", !isFocused && "pointer-events-none")}
             >
               <Link
                 href={note.pdfUrl}
@@ -81,7 +81,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
               </Link>
             </Button>
           ) : (
-            <Button variant="outline" disabled>
+            <Button variant="outline" disabled className="btn-hover-pop">
               PDF Link
             </Button>
           )}
@@ -89,7 +89,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
             <Button
               asChild
               variant="outline"
-              className={cn(!isFocused && "pointer-events-none")}
+              className={cn("btn-hover-pop", !isFocused && "pointer-events-none")}
             >
               <Link
                 href={note.quizletUrl}
@@ -100,7 +100,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
               </Link>
             </Button>
           ) : (
-            <Button variant="outline" disabled>
+            <Button variant="outline" disabled className="btn-hover-pop">
               Quizlet
             </Button>
           )}
@@ -162,10 +162,10 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
           <NoteCard note={notes[index]} isFocused={true} />
         </div>
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="icon" onClick={handlePrev}>
+          <Button variant="outline" size="icon" onClick={handlePrev} className="btn-hover-pop">
             <ArrowLeft className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="icon" onClick={handleNext}>
+          <Button variant="outline" size="icon" onClick={handleNext} className="btn-hover-pop">
             <ArrowRight className="h-4 w-4" />
           </Button>
         </div>
