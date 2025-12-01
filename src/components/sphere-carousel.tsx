@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -147,12 +147,6 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
 
   return (
     <div className="w-full flex flex-col items-center justify-center space-y-8">
-      <h2
-        className="text-3xl md:text-4xl font-bold mb-4 text-gradient-rainbow uppercase"
-        data-text="Biology Notes"
-      >
-        Biology Notes
-      </h2>
       <div
         className="relative w-[300px] h-[400px]"
         style={{ perspective: "1000px" }}
