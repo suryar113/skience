@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -15,18 +16,16 @@ import { cn } from "@/lib/utils";
 type Note = {
   topic: string;
   notesUrl: string;
-  pdfUrl: string;
+  pdfUrl:string;
   quizletUrl: string;
 };
 
 type NoteCardProps = {
   note: Note;
   isFocused: boolean;
-  index: number;
-  notes: Note[];
 };
 
-function NoteCard({ note, isFocused, index, notes }: NoteCardProps) {
+function NoteCard({ note, isFocused }: NoteCardProps) {
   return (
     <div className="relative w-full h-full">
       <div
@@ -37,8 +36,8 @@ function NoteCard({ note, isFocused, index, notes }: NoteCardProps) {
       ></div>
       <Card
         className={cn(
-          "w-full h-full rounded-[1.4rem] border-0 relative z-10 flex flex-col justify-between text-center",
-          !isFocused && "opacity-50"
+          "w-full h-full rounded-[1.4rem] border-0 relative z-10 flex flex-col justify-between text-center transition-opacity duration-500",
+          !isFocused && "opacity-60"
         )}
       >
         <CardHeader>
@@ -51,13 +50,12 @@ function NoteCard({ note, isFocused, index, notes }: NoteCardProps) {
             <Button
               asChild
               variant="link"
-              className={cn(!isFocused && "pointer-events-none")}
+              className={cn("text-gradient-green", !isFocused && "pointer-events-none")}
             >
               <Link
                 href={note.notesUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gradient-green"
               >
                 View Notes
               </Link>
@@ -71,13 +69,12 @@ function NoteCard({ note, isFocused, index, notes }: NoteCardProps) {
             <Button
               asChild
               variant="link"
-              className={cn(!isFocused && "pointer-events-none")}
+              className={cn("text-gradient-orange", !isFocused && "pointer-events-none")}
             >
               <Link
                 href={note.pdfUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gradient-orange"
               >
                 PDF Link
               </Link>
@@ -91,13 +88,12 @@ function NoteCard({ note, isFocused, index, notes }: NoteCardProps) {
             <Button
               asChild
               variant="link"
-              className={cn(!isFocused && "pointer-events-none")}
+              className={cn("text-gradient-purple", !isFocused && "pointer-events-none")}
             >
               <Link
                 href={note.quizletUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gradient-purple"
               >
                 Quizlet
               </Link>
@@ -109,9 +105,6 @@ function NoteCard({ note, isFocused, index, notes }: NoteCardProps) {
           )}
         </CardContent>
         <CardFooter className="justify-center">
-          <p className="text-xs text-muted-foreground">
-            Topic {index + 1} of {notes.length}
-          </p>
         </CardFooter>
       </Card>
     </div>
@@ -123,12 +116,16 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
   const [rotation, setRotation] = useState(0);
   const totalPanels = notes.length;
   const panelAngle = 360 / totalPanels;
+  
+  // Reduced radius to bring cards closer together
+  const radius = totalPanels < 5 ? 200 : 300; 
 
   const handleClick = (newIndex: number) => {
     const currentIndex = index;
     if (newIndex === currentIndex) return;
 
     let diff = newIndex - currentIndex;
+    // Shortest path logic
     if (Math.abs(diff) > totalPanels / 2) {
       if (diff > 0) {
         diff -= totalPanels;
@@ -141,17 +138,14 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
     setRotation(rotation - diff * panelAngle);
   };
   
-  const radius =
-    totalPanels < 5 ? 400 / (2 * Math.tan(Math.PI / totalPanels)) : 500;
-
   return (
     <div className="w-full flex flex-col items-center justify-center space-y-8">
       <div
-        className="relative w-[300px] h-[400px]"
+        className="relative w-[240px] h-[360px]" // Reduced card size
         style={{ perspective: "1000px" }}
       >
         <div
-          className="w-full h-full absolute transition-transform duration-500 ease-in-out"
+          className="w-full h-full absolute transition-transform duration-1000 ease-in-out" // Slower, smoother transition
           style={{
             transformStyle: "preserve-3d",
             transform: `rotateY(${rotation}deg)`,
@@ -162,7 +156,7 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
             return (
               <div
                 key={note.topic}
-                className="absolute w-[300px] h-[400px] p-4 transition-all duration-300"
+                className="absolute w-[240px] h-[360px] p-2 cursor-pointer" // Reduced card size
                 style={{
                   transform: `rotateY(${
                     i * panelAngle
@@ -173,8 +167,6 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
                 <NoteCard
                   note={note}
                   isFocused={isFocused}
-                  index={i}
-                  notes={notes}
                 />
               </div>
             );
