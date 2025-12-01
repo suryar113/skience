@@ -47,12 +47,6 @@ const notes = [
       "https://drive.google.com/drive/folders/1OFYuGjfqj8PzCHXg7T-COx3qrT5xGaDx",
     quizletUrl: "",
   },
-  {
-    topic: "GENETICS",
-    notesUrl: "",
-    pdfUrl: "",
-    quizletUrl: "",
-  },
 ];
 
 export default function BiologyPage() {

@@ -49,8 +49,8 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
           {note.notesUrl ? (
             <Button
               asChild
-              variant="link"
-              className={cn("text-gradient-green", !isFocused && "pointer-events-none")}
+              variant="outline"
+              className={cn(!isFocused && "pointer-events-none")}
             >
               <Link
                 href={note.notesUrl}
@@ -61,15 +61,15 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
               </Link>
             </Button>
           ) : (
-            <Button variant="link" disabled>
+            <Button variant="outline" disabled>
               View Notes
             </Button>
           )}
           {note.pdfUrl ? (
             <Button
               asChild
-              variant="link"
-              className={cn("text-gradient-orange", !isFocused && "pointer-events-none")}
+              variant="outline"
+              className={cn(!isFocused && "pointer-events-none")}
             >
               <Link
                 href={note.pdfUrl}
@@ -80,15 +80,15 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
               </Link>
             </Button>
           ) : (
-            <Button variant="link" disabled>
+            <Button variant="outline" disabled>
               PDF Link
             </Button>
           )}
           {note.quizletUrl ? (
             <Button
               asChild
-              variant="link"
-              className={cn("text-gradient-purple", !isFocused && "pointer-events-none")}
+              variant="outline"
+              className={cn(!isFocused && "pointer-events-none")}
             >
               <Link
                 href={note.quizletUrl}
@@ -99,7 +99,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
               </Link>
             </Button>
           ) : (
-            <Button variant="link" disabled>
+            <Button variant="outline" disabled>
               Quizlet
             </Button>
           )}
@@ -156,7 +156,7 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
             return (
               <div
                 key={note.topic}
-                className="absolute w-[240px] h-[360px] p-2 cursor-pointer" // Reduced card size
+                className="absolute w-[240px] h-[360px] p-2"
                 style={{
                   transform: `rotateY(${
                     i * panelAngle
