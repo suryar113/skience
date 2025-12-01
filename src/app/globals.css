@@ -179,4 +179,29 @@ body {
     animation: animated-glowing-border-animation 8s ease infinite;
     transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease;
   }
+
+  /* Button pop-out effect */
+  .btn-hover-pop {
+    @apply relative;
+  }
+
+  .btn-hover-pop::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit; /* Use the button's border-radius */
+    border: 1px solid hsl(var(--border));
+    transform: scale(1);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: -1;
+  }
+
+  .btn-hover-pop:hover::before {
+    transform: scale(1.15);
+    opacity: 1;
+  }
 }

@@ -10,13 +10,10 @@ export default function Home() {
       <SiteHeader />
       <main className="flex-1 flex flex-col items-center justify-center text-center p-4 md:p-6">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gradient-rainbow" data-text="Welcome to Skience">Welcome to Skience</h2>
-        <div className="group relative transition-transform duration-200 ease-in-out hover:scale-105">
-            <div className="absolute -inset-1 rounded-3xl animated-glowing-border z-0"></div>
-            <div className="relative z-10">
-                <Button size="lg" asChild variant="outline" className="bg-background hover:bg-accent">
-                  <Link href="/biology">Explore Biology Notes</Link>
-                </Button>
-            </div>
+        <div className="group relative">
+            <Button size="lg" asChild variant="outline" className="bg-background hover:bg-accent btn-hover-pop">
+              <Link href="/biology">Explore Biology Notes</Link>
+            </Button>
         </div>
       </main>
 
