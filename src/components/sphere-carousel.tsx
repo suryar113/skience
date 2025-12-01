@@ -1,7 +1,6 @@
-
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -163,7 +162,7 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
             return (
               <div
                 key={note.topic}
-                className="absolute w-[300px] h-[400px] p-4 transition-opacity duration-300"
+                className="absolute w-[300px] h-[400px] p-4 transition-all duration-300"
                 style={{
                   transform: `rotateY(${
                     i * panelAngle
