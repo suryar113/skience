@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -121,14 +121,27 @@ function NoteCard({ note, isFocused, index, notes }: NoteCardProps) {
 
 export function SphereCarousel({ notes }: { notes: Note[] }) {
   const [index, setIndex] = useState(0);
+  const [rotation, setRotation] = useState(0);
   const totalPanels = notes.length;
-
-  const carouselRotation = useMemo(() => {
-    return -(index * 360) / totalPanels;
-  }, [index, totalPanels]);
-
   const panelAngle = 360 / totalPanels;
-  // Adjust the radius to prevent cards from overlapping on smaller screens or with more cards
+
+  const handleClick = (newIndex: number) => {
+    const currentIndex = index;
+    if (newIndex === currentIndex) return;
+
+    let diff = newIndex - currentIndex;
+    if (Math.abs(diff) > totalPanels / 2) {
+      if (diff > 0) {
+        diff -= totalPanels;
+      } else {
+        diff += totalPanels;
+      }
+    }
+    
+    setIndex(newIndex);
+    setRotation(rotation - diff * panelAngle);
+  };
+  
   const radius =
     totalPanels < 5 ? 400 / (2 * Math.tan(Math.PI / totalPanels)) : 500;
 
@@ -148,7 +161,7 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
           className="w-full h-full absolute transition-transform duration-500 ease-in-out"
           style={{
             transformStyle: "preserve-3d",
-            transform: `rotateY(${carouselRotation}deg)`,
+            transform: `rotateY(${rotation}deg)`,
           }}
         >
           {notes.map((note, i) => {
@@ -156,13 +169,13 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
             return (
               <div
                 key={note.topic}
-                className="absolute w-[300px] h-[400px] p-4 transition-opacity duration-300 cursor-pointer"
+                className="absolute w-[300px] h-[400px] p-4 transition-opacity duration-300"
                 style={{
                   transform: `rotateY(${
                     i * panelAngle
                   }deg) translateZ(${radius}px)`,
                 }}
-                onClick={() => setIndex(i)}
+                onClick={() => handleClick(i)}
               >
                 <NoteCard
                   note={note}
