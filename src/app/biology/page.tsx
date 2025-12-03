@@ -9,42 +9,42 @@ const notes = [
     topic: "CHARACTERISTICS OF LIVING THINGS",
     notesUrl: "https://drinks-hunt-3eb.craft.me/asdasdasdasdas",
     pdfUrl:
-      "https://drive.google.com/drive/folders/1Xdo1VFXf9z6dhP_b2iU_Om4dImFpqbu6",
+      "https://drive.google.com/file/d/1RndRzd5c9SqLzLB2fHY7G-qU_MF_cJCK/view?usp=sharing",
     quizletUrl: "",
   },
   {
     topic: "ORGANIC MOLECULES",
     notesUrl: "https://drinks-hunt-3eb.craft.me/asfdsafadsfdsfs",
     pdfUrl:
-      "https://drive.google.com/drive/folders/160OPAQYfAuRNVn-jtAW35uyzMExr93UR",
+      "https://drive.google.com/file/d/1rXuJKTBlGPTY4VM1ARgOs3PxLg-ZGTbB/view?usp=sharing",
     quizletUrl: "",
   },
   {
     topic: "ENZYMES",
     notesUrl: "https://drinks-hunt-3eb.craft.me/fdgdfgdfgdfgdfgdf",
     pdfUrl:
-      "https://drive.google.com/drive/folders/1P6jHR7n_gQww9U2vr5ZJXlIPeMrjXc4r",
+      "https://drive.google.com/file/d/1SmnvQUmyvFglrKm-m9f1rOoRxX_Mz-Bw/view?usp=sharing",
     quizletUrl: "",
   },
   {
     topic: "THE CELL",
     notesUrl: "https://drinks-hunt-3eb.craft.me/BWwKgb2BT5sgbZ",
     pdfUrl:
-      "https://drive.google.com/drive/folders/10BOS_ghIpDbgTZaoRsImsM8_0qWBruVo",
+      "https://drive.google.com/file/d/1glJUa7ZrClzV2Eot0zlqg9qUYDGyMbxD/view?usp=sharing",
     quizletUrl: "",
   },
   {
     topic: "CELLULAR TRANSPORT",
     notesUrl: "https://drinks-hunt-3eb.craft.me/FChuDvbuWVFkSs",
     pdfUrl:
-      "https://drive.google.com/drive/folders/1y4IBlejw7VUZzQNb6IaN8UY4dwgA9WxJ",
+      "https://drive.google.com/file/d/1YO6cD4_1jZcq-3fHRWeuFS7cKQb2FAl3/view?usp=sharing",
     quizletUrl: "https://quizlet.com/1111521452/cellular-transport-flash-cards/",
   },
   {
     topic: "CELL ENERGY",
     notesUrl: "https://drinks-hunt-3eb.craft.me/yE51rTLi4yFyDq",
     pdfUrl:
-      "https://drive.google.com/drive/folders/1OFYuGjfqj8PzCHXg7T-COx3qrT5xGaDx",
+      "https://drive.google.com/file/d/1JjaQbMdjr51LIH3vbyZA9b6_BTKUxsl7/view?usp=sharing",
     quizletUrl: "",
   },
 ];
