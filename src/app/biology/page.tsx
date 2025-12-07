@@ -1,6 +1,4 @@
 
-"use client";
-
 import { SiteHeader } from "@/components/site-header";
 import { SphereCarousel } from "@/components/sphere-carousel";
 
