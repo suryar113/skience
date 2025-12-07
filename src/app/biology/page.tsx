@@ -47,6 +47,13 @@ const notes = [
       "https://drive.google.com/file/d/1JjaQbMdjr51LIH3vbyZA9b6_BTKUxsl7/view?usp=sharing",
     quizletUrl: "",
   },
+  {
+    topic: "CELL DIVISION",
+    notesUrl: "https://drinks-hunt-3eb.craft.me/zBqAP1zBPsOXHk",
+    pdfUrl:
+      "",
+    quizletUrl: "",
+  },
 ];
 
 export default function BiologyPage() {
