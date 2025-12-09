@@ -55,7 +55,7 @@ const notes = [
     notesUrl: "https://drinks-hunt-3eb.craft.me/zBqAP1zBPsOXHk",
     pdfUrl:
       "https://drive.google.com/file/d/1_t3qS_3c2k3EkXEXUOKxt9EFxMw_EiB4/view?usp=drive_link",
-    quizletUrl: "",
+    quizletUrl: "https://quizlet.com/1120243601/cell-divisionreproduction-flash-cards/",
   },
 ];
 
