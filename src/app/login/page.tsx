@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -79,7 +80,6 @@ export default function LoginPage() {
                 <Input
                   id="username"
                   type="text"
-                  placeholder="admin"
                   {...register('username')}
                   disabled={isLoading}
                 />
