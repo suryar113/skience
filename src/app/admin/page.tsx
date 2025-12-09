@@ -45,16 +45,10 @@ export default function AdminPage() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<NewUserFormValues>({
     resolver: zodResolver(newUserSchema),
   });
-
+  
   useEffect(() => {
-    if (!isUserLoading) {
-      if (!user || user.email !== 'admin@example.com') {
-        router.push('/login');
-      } else {
-        fetchUsers();
-      }
-    }
-  }, [user, isUserLoading, router]);
+    fetchUsers();
+  }, [user]);
 
   const fetchUsers = async () => {
     setIsUserListLoading(true);
@@ -74,7 +68,7 @@ export default function AdminPage() {
       toast({
         variant: 'destructive',
         title: 'Authentication Error',
-        description: 'Admin user is not properly signed in.',
+        description: 'You must be logged in as an admin to create users.',
       });
       setIsCreatingUser(false);
       router.push('/login');
@@ -121,21 +115,6 @@ export default function AdminPage() {
       setIsCreatingUser(false);
     }
   };
-
-  if (isUserLoading || !user) {
-    return (
-      <div className="flex flex-col min-h-screen bg-background text-foreground">
-        <SiteHeader />
-        <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-6">
-          <Skeleton className="h-8 w-48 mb-4" />
-          <div className="w-full max-w-4xl space-y-4">
-            <Skeleton className="h-32 w-full" />
-            <Skeleton className="h-40 w-full" />
-          </div>
-        </main>
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
