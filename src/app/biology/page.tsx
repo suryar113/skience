@@ -1,6 +1,11 @@
+'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@/firebase';
 import { SiteHeader } from "@/components/site-header";
 import { SphereCarousel } from "@/components/sphere-carousel";
+import { Skeleton } from '@/components/ui/skeleton';
 
 const notes = [
   {
@@ -55,6 +60,28 @@ const notes = [
 ];
 
 export default function BiologyPage() {
+  const { user, isUserLoading } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, isUserLoading, router]);
+
+  if (isUserLoading || !user) {
+    return (
+      <div className="flex flex-col min-h-screen bg-background text-foreground">
+        <SiteHeader />
+        <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-6">
+          <div className="flex flex-col space-y-3">
+            <Skeleton className="h-[360px] w-[240px] rounded-xl" />
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <SiteHeader />
