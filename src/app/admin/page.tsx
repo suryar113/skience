@@ -69,37 +69,38 @@ export default function AdminPage() {
     setIsCreatingUser(true);
     const auth = getAuth();
     const adminUser = auth.currentUser;
-    if (!adminUser) {
-        toast({
-            variant: "destructive",
-            title: "Error",
-            description: "Admin user not found. Please log in again.",
-        });
-        setIsCreatingUser(false);
-        return;
+
+    if (!adminUser || !adminUser.email) {
+      toast({
+        variant: 'destructive',
+        title: 'Authentication Error',
+        description: 'Admin user is not properly signed in.',
+      });
+      setIsCreatingUser(false);
+      router.push('/login');
+      return;
     }
-
-    const adminEmail = adminUser.email!;
-    // Note: The password for the admin account is needed to re-authenticate.
-    // Since we don't have it, we're using "admin" as per the instructions.
-    const adminPassword = "admin"; 
+  
+    // Store admin credentials before creating a new user
+    const adminEmail = adminUser.email;
+    const adminPassword = 'admin'; // As per your instruction
     const newUserEmail = `${data.username}@example.com`;
-
+  
     try {
-      // 1. Create the new user
-      const userCredential = await createUserWithEmailAndPassword(auth, newUserEmail, data.password);
+      // 1. Create the new user. This will sign out the admin and sign in the new user.
+      await createUserWithEmailAndPassword(auth, newUserEmail, data.password);
       toast({
         title: 'User Created',
         description: `Successfully created user: ${data.username}`,
       });
-      
-      // 2. The SDK automatically signs in the new user. We need to sign back in as admin.
+  
+      // 2. IMPORTANT: Re-authenticate as the admin user.
       await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
-
-      // 3. Reset form and refresh user list
-      reset();
+  
+      // 3. Refresh the user list and reset the form.
       await fetchUsers();
-
+      reset();
+  
     } catch (error: any) {
       console.error('Create User Error:', error);
       toast({
@@ -107,9 +108,14 @@ export default function AdminPage() {
         title: 'Failed to Create User',
         description: error.message || 'An unknown error occurred.',
       });
-      // If creation fails, ensure we are still logged in as admin
-      if (auth.currentUser?.email !== adminEmail) {
-        await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
+       // In case of an error, try to restore the admin session.
+      if (!auth.currentUser || auth.currentUser.email !== adminEmail) {
+        try {
+          await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
+        } catch (reauthError) {
+          console.error('Admin re-authentication failed:', reauthError);
+          router.push('/login'); // Force re-login if re-authentication fails
+        }
       }
     } finally {
       setIsCreatingUser(false);
