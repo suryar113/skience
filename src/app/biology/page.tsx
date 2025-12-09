@@ -34,7 +34,7 @@ const notes = [
     notesUrl: "https://drinks-hunt-3eb.craft.me/BWwKgb2BT5sgbZ",
     pdfUrl:
       "https://drive.google.com/file/d/1glJUa7ZrClzV2Eot0zlqg9qUYDGyMbxD/view?usp=sharing",
-    quizletUrl: "",
+    quizletUrl: "https://quizlet.com/1120255848/the-cell-flash-cards/",
   },
   {
     topic: "CELLULAR TRANSPORT",
@@ -48,7 +48,7 @@ const notes = [
     notesUrl: "https://drinks-hunt-3eb.craft.me/yE51rTLi4yFyDq",
     pdfUrl:
       "https://drive.google.com/file/d/1JjaQbMdjr51LIH3vbyZA9b6_BTKUxsl7/view?usp=sharing",
-    quizletUrl: "",
+    quizletUrl: "https://quizlet.com/1120258987/cell-energy-flash-cards/",
   },
   {
     topic: "CELL DIVISION",
