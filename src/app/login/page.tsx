@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -17,7 +16,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
-  password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
+  password: z.string().min(1, { message: 'Password cannot be empty.' }),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -44,7 +43,11 @@ export default function LoginPage() {
         title: 'Success!',
         description: 'You have successfully logged in.',
       });
-      router.push('/dashboard');
+      if (data.email === 'admin@example.com') { // Hardcoded admin user for now
+        router.push('/admin');
+      } else {
+        router.push('/dashboard');
+      }
     } catch (error: any) {
       console.error('Login Error:', error);
       toast({
@@ -90,12 +93,6 @@ export default function LoginPage() {
                 {isLoading ? 'Logging in...' : 'Login'}
               </Button>
             </form>
-            <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{' '}
-              <Link href="/signup" className="underline">
-                Sign up
-              </Link>
-            </div>
           </CardContent>
         </Card>
       </main>

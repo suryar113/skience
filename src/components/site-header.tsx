@@ -57,16 +57,13 @@ export function SiteHeader() {
       </Button>
       {!isUserLoading && user && (
         <Button variant="outline" size="sm" asChild className="btn-hover-pop">
-          <Link href="/dashboard">DASHBOARD</Link>
+          <Link href={user.email === 'admin@example.com' ? '/admin' : '/dashboard'}>DASHBOARD</Link>
         </Button>
       )}
       {!isUserLoading && !user && (
         <>
           <Button variant="outline" size="sm" asChild className="btn-hover-pop">
             <Link href="/login">LOGIN</Link>
-          </Button>
-          <Button variant="outline" size="sm" asChild className="btn-hover-pop">
-            <Link href="/signup">SIGN UP</Link>
           </Button>
         </>
       )}
