@@ -62,9 +62,6 @@ export default function AdminPage() {
     setIsCreatingUser(true);
     const auth = getAuth();
     
-    // Hardcode admin credentials for re-authentication
-    const adminEmail = 'admin@example.com';
-    const adminPassword = 'admin';
     const newUserEmail = `${data.username}@example.com`;
   
     try {
@@ -75,11 +72,8 @@ export default function AdminPage() {
         description: `Successfully created user: ${data.username}`,
       });
   
-      // 2. IMPORTANT: Re-authenticate as the admin user to maintain session if needed.
-      // In this public version, it ensures the user list can be refreshed correctly.
-      await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
-  
-      // 3. Refresh the user list and reset the form.
+      // 2. Refresh the user list and reset the form.
+      // The user list will now show the newly created user.
       await fetchUsers();
       reset();
   
@@ -90,15 +84,6 @@ export default function AdminPage() {
         title: 'Failed to Create User',
         description: error.message || 'An unknown error occurred.',
       });
-       // In case of an error, try to restore an admin session to keep the page functional.
-      if (!auth.currentUser || auth.currentUser.email !== adminEmail) {
-        try {
-          await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
-        } catch (reauthError) {
-          console.error('Admin re-authentication failed:', reauthError);
-          // If re-auth fails, we don't force a redirect, just log it.
-        }
-      }
     } finally {
       setIsCreatingUser(false);
     }
