@@ -35,7 +35,6 @@ type NewUserFormValues = z.infer<typeof newUserSchema>;
 
 
 export default function AdminPage() {
-  const { user, isUserLoading } = useUser();
   const router = useRouter();
   const { toast } = useToast();
   const [users, setUsers] = useState<User[]>([]);
@@ -48,7 +47,7 @@ export default function AdminPage() {
   
   useEffect(() => {
     fetchUsers();
-  }, [user]);
+  }, []);
 
   const fetchUsers = async () => {
     setIsUserListLoading(true);
@@ -62,33 +61,22 @@ export default function AdminPage() {
   const handleCreateUser = async (data: NewUserFormValues) => {
     setIsCreatingUser(true);
     const auth = getAuth();
-    const adminUser = auth.currentUser;
-
-    if (!adminUser || !adminUser.email) {
-      toast({
-        variant: 'destructive',
-        title: 'Authentication Error',
-        description: 'You must be logged in as an admin to create users.',
-      });
-      setIsCreatingUser(false);
-      router.push('/login');
-      return;
-    }
-  
-    // Store admin credentials before creating a new user
-    const adminEmail = adminUser.email;
-    const adminPassword = 'admin'; // As per your instruction
+    
+    // Hardcode admin credentials for re-authentication
+    const adminEmail = 'admin@example.com';
+    const adminPassword = 'admin';
     const newUserEmail = `${data.username}@example.com`;
   
     try {
-      // 1. Create the new user. This will sign out the admin and sign in the new user.
+      // 1. Create the new user. This will sign out any current user and sign in the new user.
       await createUserWithEmailAndPassword(auth, newUserEmail, data.password);
       toast({
         title: 'User Created',
         description: `Successfully created user: ${data.username}`,
       });
   
-      // 2. IMPORTANT: Re-authenticate as the admin user.
+      // 2. IMPORTANT: Re-authenticate as the admin user to maintain session if needed.
+      // In this public version, it ensures the user list can be refreshed correctly.
       await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
   
       // 3. Refresh the user list and reset the form.
@@ -102,13 +90,13 @@ export default function AdminPage() {
         title: 'Failed to Create User',
         description: error.message || 'An unknown error occurred.',
       });
-       // In case of an error, try to restore the admin session.
+       // In case of an error, try to restore an admin session to keep the page functional.
       if (!auth.currentUser || auth.currentUser.email !== adminEmail) {
         try {
           await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
         } catch (reauthError) {
           console.error('Admin re-authentication failed:', reauthError);
-          router.push('/login'); // Force re-login if re-authentication fails
+          // If re-auth fails, we don't force a redirect, just log it.
         }
       }
     } finally {
