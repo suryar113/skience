@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -6,8 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Moon, Sun, Github } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
+import { useUser } from '@/firebase';
+import { getAuth, signOut } from 'firebase/auth';
 
 export function SiteHeader() {
+  const { user, isUserLoading } = useUser();
   const [theme, setTheme] = useState('dark');
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -18,7 +20,6 @@ export function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    // Prevent scrolling when the mobile menu is open
     if (menuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -41,6 +42,11 @@ export function SiteHeader() {
     setMenuOpen(!menuOpen);
   }
 
+  const handleSignOut = async () => {
+    const auth = getAuth();
+    await signOut(auth);
+  };
+
   const NavLinks = () => (
     <>
       <Button variant="outline" size="sm" asChild className="btn-hover-pop">
@@ -49,6 +55,26 @@ export function SiteHeader() {
       <Button variant="outline" size="sm" asChild className="btn-hover-pop">
         <Link href="/biology">BIOLOGY</Link>
       </Button>
+      {!isUserLoading && user && (
+        <Button variant="outline" size="sm" asChild className="btn-hover-pop">
+          <Link href="/dashboard">DASHBOARD</Link>
+        </Button>
+      )}
+      {!isUserLoading && !user && (
+        <>
+          <Button variant="outline" size="sm" asChild className="btn-hover-pop">
+            <Link href="/login">LOGIN</Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild className="btn-hover-pop">
+            <Link href="/signup">SIGN UP</Link>
+          </Button>
+        </>
+      )}
+      {user && (
+        <Button variant="outline" size="sm" onClick={handleSignOut} className="btn-hover-pop">
+          SIGN OUT
+        </Button>
+      )}
       <Button variant="outline" size="icon" asChild className="btn-hover-pop">
         <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer">
           <Github className="h-[1.2rem] w-[1.2rem]" />
@@ -83,7 +109,7 @@ export function SiteHeader() {
         >
           <span className={cn("block w-6 h-0.5 bg-foreground transition-transform duration-300 ease-in-out", { "rotate-45 translate-y-[5px]": menuOpen })}></span>
           <span className={cn("block w-6 h-0.5 bg-foreground transition-opacity duration-300 ease-in-out", { "opacity-0": menuOpen })}></span>
-          <span className={cn("block w-6 h-0.5 bg-foreground transition-transform duration-300 ease-in-out", { "-rotate-45 -translate-y-[5px]": menuOpen })}></span>
+          <span className={cn("block w-6 h-0.5 bg-foreground transition-transform duration-300 ease-in-out", { "-rotate-45 -translate-y-[5px]": menuOpe })}></span>
         </button>
       </div>
 
