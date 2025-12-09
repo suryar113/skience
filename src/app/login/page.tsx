@@ -15,7 +15,7 @@ import { SiteHeader } from '@/components/site-header';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const loginSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address.' }),
+  username: z.string().min(1, { message: 'Username cannot be empty.' }),
   password: z.string().min(1, { message: 'Password cannot be empty.' }),
 });
 
@@ -37,13 +37,14 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     const auth = getAuth();
+    const email = `${data.username}@example.com`;
     try {
-      await signInWithEmailAndPassword(auth, data.email, data.password);
+      await signInWithEmailAndPassword(auth, email, data.password);
       toast({
         title: 'Success!',
         description: 'You have successfully logged in.',
       });
-      if (data.email === 'admin@example.com') { // Hardcoded admin user for now
+      if (data.username === 'admin') { 
         router.push('/admin');
       } else {
         router.push('/dashboard');
@@ -53,7 +54,7 @@ export default function LoginPage() {
       toast({
         variant: 'destructive',
         title: 'Uh oh! Something went wrong.',
-        description: error.message || 'There was a problem with your request.',
+        description: 'Invalid username or password.',
       });
     } finally {
       setIsLoading(false);
@@ -68,21 +69,21 @@ export default function LoginPage() {
           <CardHeader>
             <CardTitle className="text-2xl">Login</CardTitle>
             <CardDescription>
-              Enter your email below to login to your account.
+              Enter your username below to login to your account.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="username">Username</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  {...register('email')}
+                  id="username"
+                  type="text"
+                  placeholder="admin"
+                  {...register('username')}
                   disabled={isLoading}
                 />
-                {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
+                {errors.username && <p className="text-sm text-destructive">{errors.username.message}</p>}
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
