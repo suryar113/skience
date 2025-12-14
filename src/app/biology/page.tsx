@@ -13,21 +13,21 @@ const notes = [
     notesUrl: "https://drinks-hunt-3eb.craft.me/asdasdasdasdas",
     pdfUrl:
       "https://drive.google.com/file/d/1RndRzd5c9SqLzLB2fHY7G-qU_MF_cJCK/view?usp=sharing",
-    quizletUrl: "",
+    quizletUrl: "https://quizlet.com/1122717082/characteristics-of-living-things-flash-cards/?i=47oq46&x=1jqt",
   },
   {
     topic: "ORGANIC MOLECULES",
     notesUrl: "https://drinks-hunt-3eb.craft.me/asfdsafadsfdsfs",
     pdfUrl:
       "https://drive.google.com/file/d/1rXuJKTBlGPTY4VM1ARgOs3PxLg-ZGTbB/view?usp=sharing",
-    quizletUrl: "",
+    quizletUrl: "https://quizlet.com/1122717715/organic-molecules-flash-cards/?i=47oq46&x=1jqt",
   },
   {
     topic: "ENZYMES",
     notesUrl: "https://drinks-hunt-3eb.craft.me/fdgdfgdfgdfgdfgdf",
     pdfUrl:
       "https://drive.google.com/file/d/1SmnvQUmyvFglrKm-m9f1rOoRxX_Mz-Bw/view?usp=sharing",
-    quizletUrl: "",
+    quizletUrl: "https://quizlet.com/1122718833/enzymes-flash-cards/?i=47oq46&x=1jqt",
   },
   {
     topic: "THE CELL",
