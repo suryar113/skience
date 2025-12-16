@@ -11,8 +11,10 @@ export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
+    // On mount, read the theme from localStorage or default to dark
     const savedTheme = localStorage.getItem('theme') || 'dark';
     setTheme(savedTheme);
+    // Ensure the document element class matches
     document.documentElement.className = savedTheme;
   }, []);
 
