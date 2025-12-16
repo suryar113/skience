@@ -3,7 +3,6 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/next";
 import { CustomCursor } from "@/components/custom-cursor";
-import FirebaseClientProvider from "@/firebase/client-provider";
 
 export const metadata: Metadata = {
   title: "SKIENCE",
@@ -30,12 +29,10 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased bg-background text-foreground">
-        <FirebaseClientProvider>
-          <CustomCursor />
-          {children}
-          <Toaster />
-          <Analytics />
-        </FirebaseClientProvider>
+        <CustomCursor />
+        {children}
+        <Toaster />
+        <Analytics />
       </body>
     </html>
   );
