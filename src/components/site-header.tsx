@@ -22,26 +22,22 @@ export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const [pillStyle, setPillStyle] = useState<{ left: number; width: number; opacity: number } | null>(null);
+  const [position, setPosition] = useState<{ left: number; width: number; opacity: number }>({ left: 0, width: 0, opacity: 0 });
   const navRef = useRef<HTMLUListElement>(null);
   const linkRefs = useRef<(HTMLLIElement | null)[]>([]);
 
-  const calculatePillPosition = (element: HTMLElement | null) => {
-    if (element && navRef.current) {
-      setPillStyle({
-        left: element.offsetLeft,
-        width: element.clientWidth,
-        opacity: 1,
-      });
-    }
-  };
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(storedTheme);
+    document.documentElement.className = storedTheme;
+  }, []);
   
   const resetPillToActive = () => {
     const allItems = [...navItems, ...actionItems, { label: 'theme-toggle' }];
-    let activeIndex = allItems.findIndex(item => 'href' in item && item.href === pathname);
+    let activeIndex = navItems.findIndex(item => item.href === pathname);
 
-    if (activeIndex === -1 && navItems.some(item => pathname.startsWith(item.href) && item.href !== '/')) {
-      activeIndex = navItems.findIndex(item => pathname.startsWith(item.href));
+    if (activeIndex === -1 && pathname.startsWith('/biology')) {
+      activeIndex = navItems.findIndex(item => item.href === '/biology');
     } else if (activeIndex === -1) {
       activeIndex = navItems.findIndex(item => item.href === '/');
     }
@@ -49,18 +45,12 @@ export function SiteHeader() {
     const activeLink = linkRefs.current[activeIndex];
     
     if (activeLink) {
-      calculatePillPosition(activeLink);
-    } else if (pillStyle) {
-        // Fallback: hide the pill if no active or home link found
-        setPillStyle({ ...pillStyle, opacity: 0 });
+        const { offsetLeft, clientWidth } = activeLink;
+        setPosition({ left: offsetLeft, width: clientWidth, opacity: 1 });
     }
   };
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(storedTheme);
-    document.documentElement.className = storedTheme;
-    
     const timer = setTimeout(() => {
         resetPillToActive();
     }, 100);
@@ -111,21 +101,22 @@ export function SiteHeader() {
           onMouseLeave={resetPillToActive}
           className="nav-pill-container"
         >
-          {pillStyle && (
-            <li
-              className="nav-pill"
-              style={{
-                left: `${pillStyle.left}px`,
-                width: `${pillStyle.width}px`,
-                opacity: pillStyle.opacity,
-              }}
-            />
-          )}
+          <li
+            className="nav-pill"
+            style={{
+              ...position,
+            }}
+          />
           {navItems.map((item, index) => (
             <li
               key={item.href}
               ref={el => linkRefs.current[index] = el}
-              onMouseEnter={(e) => calculatePillPosition(e.currentTarget)}
+              onMouseEnter={() => {
+                if(linkRefs.current[index]) {
+                  const { offsetLeft, clientWidth } = linkRefs.current[index]!;
+                  setPosition({ left: offsetLeft, width: clientWidth, opacity: 1 });
+                }
+              }}
               className={cn("nav-pill-item", { 'active': pathname === item.href})}
             >
               <Link href={item.href}>
@@ -138,7 +129,12 @@ export function SiteHeader() {
              <li
                 key={item.label}
                 ref={el => linkRefs.current[navItems.length + index] = el}
-                onMouseEnter={(e) => calculatePillPosition(e.currentTarget)}
+                onMouseEnter={() => {
+                  if(linkRefs.current[navItems.length + index]) {
+                    const { offsetLeft, clientWidth } = linkRefs.current[navItems.length + index]!;
+                    setPosition({ left: offsetLeft, width: clientWidth, opacity: 1 });
+                  }
+                }}
                 className="nav-pill-item"
              >
                 <Link href={item.href} target="_blank" rel="noopener noreferrer">
@@ -149,7 +145,12 @@ export function SiteHeader() {
           ))}
           <li
             ref={el => linkRefs.current[navItems.length + actionItems.length] = el}
-            onMouseEnter={(e) => calculatePillPosition(e.currentTarget)}
+            onMouseEnter={() => {
+              if(linkRefs.current[navItems.length + actionItems.length]) {
+                const { offsetLeft, clientWidth } = linkRefs.current[navItems.length + actionItems.length]!;
+                setPosition({ left: offsetLeft, width: clientWidth, opacity: 1 });
+              }
+            }}
             className="nav-pill-item"
           >
             <button onClick={toggleTheme}>
