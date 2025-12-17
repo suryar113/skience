@@ -180,14 +180,14 @@ body {
   }
 
   /* Button pop-out effect */
-  .btn-hover-pop, .btn-active-pop {
+  .btn-hover-pop {
     @apply relative;
   }
 
-  .btn-hover-pop::before, .btn-active-pop::before {
+  .btn-hover-pop::before {
     content: '';
     position: absolute;
-    inset: 0;
+    inset: -4px;
     border-radius: inherit;
     background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     background-size: 400% 400%;
@@ -207,5 +207,33 @@ body {
     inset: -4px;
     opacity: 1;
     filter: blur(1.5px);
+  }
+
+  .glider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 1.25rem; /* Matches button's rounded-2xl */
+    z-index: -1;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity: 0;
+  }
+
+  .glider::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400% 400%;
+    animation: animated-glowing-border-animation 8s ease infinite;
+    filter: blur(1.5px);
+    z-index: -1;
+  }
+
+  .nav-button {
+    transition: color 0.3s ease-in-out !important;
   }
 }
