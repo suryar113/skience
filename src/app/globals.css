@@ -62,26 +62,6 @@ body {
   body {
     @apply bg-background text-foreground;
   }
-  
-  a {
-    cursor: none;
-    @apply transition-transform duration-200 ease-in-out;
-  }
-  
-  button {
-    cursor: none;
-  }
-
-
-  /* Hide cursor on mobile devices where it's not needed */
-  @media (hover: none) {
-    .custom-cursor {
-      display: none;
-    }
-    a, button, body {
-      cursor: auto;
-    }
-  }
 }
 
 @keyframes gradient-animation {
@@ -160,25 +140,6 @@ body {
     animation: animated-glowing-border-animation 8s ease infinite;
   }
 
-  /* Custom Cursor styles */
-  .custom-cursor .cursor-dot {
-    width: 16px;
-    height: 16px;
-    background-color: black;
-    border-radius: 50%;
-    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease-in-out;
-  }
-
-  .custom-cursor .cursor-outline {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-    background-size: 400% 400%;
-    animation: animated-glowing-border-animation 8s ease infinite;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease;
-  }
-
   /* Button pop-out effect */
   .btn-hover-pop {
     @apply relative;
@@ -187,26 +148,20 @@ body {
   .btn-hover-pop::before {
     content: '';
     position: absolute;
-    inset: -4px;
+    inset: -2px; /* controls thickness of the outline */
     border-radius: inherit;
-    background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-    background-size: 400% 400%;
-    animation: animated-glowing-border-animation 8s ease infinite;
+    background: white;
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     z-index: -1;
   }
 
   .btn-hover-pop:hover::before {
-    inset: -4px;
     opacity: 1;
-    filter: blur(1.5px);
   }
 
   .btn-active-pop::before {
-    inset: -4px;
     opacity: 1;
-    filter: blur(1.5px);
   }
   
   /* Pill Navigation */

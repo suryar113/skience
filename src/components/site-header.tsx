@@ -64,7 +64,13 @@ export function SiteHeader() {
         resetPillToActive();
     }, 100);
 
-    return () => clearTimeout(timer);
+    // Recalculate on resize
+    window.addEventListener('resize', resetPillToActive);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', resetPillToActive);
+    };
   }, [pathname]);
 
 
@@ -89,9 +95,6 @@ export function SiteHeader() {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
-
-  const allItems = [...navItems, ...actionItems, { label: 'theme-toggle' }];
-
 
   return (
     <header className="flex justify-between items-center p-4 md:p-6 relative z-50">
