@@ -38,11 +38,12 @@ export function SiteHeader() {
   };
   
   const resetPillToActive = () => {
-    const activeIndex = navItems.findIndex(item => item.href === pathname);
+    const activeIndex = [...navItems, ...actionItems, {label: 'theme'}].findIndex(item => 'href' in item && item.href === pathname);
     const activeLink = linkRefs.current[activeIndex];
     if (activeLink) {
       calculatePillPosition(activeLink);
     } else if (pillStyle) {
+        // If no active link (e.g. on a different page), fade out the pill
         setPillStyle({...pillStyle, opacity: 0});
     }
   };
@@ -51,8 +52,13 @@ export function SiteHeader() {
     document.documentElement.className = 'dark';
     setTheme('dark');
     
+    // We need a slight delay to ensure all refs are populated and measurable
     const timer = setTimeout(() => {
-      resetPillToActive();
+      const activeIndex = navItems.findIndex(item => item.href === pathname);
+      const activeLink = linkRefs.current[activeIndex];
+      if (activeLink) {
+        calculatePillPosition(activeLink);
+      }
     }, 100);
 
     return () => clearTimeout(timer);
@@ -80,6 +86,9 @@ export function SiteHeader() {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
+  const allNavItems = [...navItems, ...actionItems, { label: 'theme-toggle' }];
+
 
   return (
     <header className="flex justify-between items-center p-4 md:p-6 relative z-50">
