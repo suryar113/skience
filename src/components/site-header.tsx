@@ -5,22 +5,25 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Moon, Sun, Github, FileText } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
   const [theme, setTheme] = useState('dark');
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
-    // On mount, read the theme from localStorage or default to dark
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(savedTheme);
+    document.documentElement.className = 'dark';
+    setTheme('dark');
   }, []);
 
-  useEffect(() => {
-    document.documentElement.className = theme;
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    document.documentElement.className = newTheme;
+    localStorage.setItem('theme', newTheme);
+  };
 
   useEffect(() => {
     if (menuOpen) {
@@ -33,23 +36,31 @@ export function SiteHeader() {
     };
   }, [menuOpen]);
 
-
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
-
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   }
 
+  const navItems = [
+    { href: '/', label: 'HOME' },
+    { href: '/biology', label: 'BIOLOGY' },
+  ];
+
   const NavLinks = () => (
     <>
-      <Button variant="outline" size="sm" asChild className="btn-hover-pop">
-          <Link href="/">HOME</Link>
-      </Button>
-      <Button variant="outline" size="sm" asChild className="btn-hover-pop">
-        <Link href="/biology">BIOLOGY</Link>
-      </Button>
+      {navItems.map((item) => (
+        <Button
+          key={item.href}
+          variant="outline"
+          size="sm"
+          asChild
+          className={cn(
+            'btn-hover-pop',
+            pathname === item.href && 'btn-active-pop'
+          )}
+        >
+          <Link href={item.href}>{item.label}</Link>
+        </Button>
+      ))}
       <Button variant="outline" size="icon" asChild className="btn-hover-pop">
         <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer">
           <Github className="h-[1.2rem] w-[1.2rem]" />

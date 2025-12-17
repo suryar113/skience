@@ -180,11 +180,11 @@ body {
   }
 
   /* Button pop-out effect */
-  .btn-hover-pop {
+  .btn-hover-pop, .btn-active-pop {
     @apply relative;
   }
 
-  .btn-hover-pop::before {
+  .btn-hover-pop::before, .btn-active-pop::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -198,6 +198,12 @@ body {
   }
 
   .btn-hover-pop:hover::before {
+    inset: -4px;
+    opacity: 1;
+    filter: blur(1.5px);
+  }
+
+  .btn-active-pop::before {
     inset: -4px;
     opacity: 1;
     filter: blur(1.5px);
