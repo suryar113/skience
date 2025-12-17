@@ -1,8 +1,9 @@
+
 'use client';
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Moon, Sun, Github } from 'lucide-react';
+import { Moon, Sun, Github, FileText } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 
@@ -14,9 +15,12 @@ export function SiteHeader() {
     // On mount, read the theme from localStorage or default to dark
     const savedTheme = localStorage.getItem('theme') || 'dark';
     setTheme(savedTheme);
-    // Ensure the document element class matches
-    document.documentElement.className = savedTheme;
   }, []);
+
+  useEffect(() => {
+    document.documentElement.className = theme;
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     if (menuOpen) {
@@ -31,10 +35,7 @@ export function SiteHeader() {
 
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.className = newTheme;
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
   };
 
   const toggleMenu = () => {
@@ -53,6 +54,12 @@ export function SiteHeader() {
         <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer">
           <Github className="h-[1.2rem] w-[1.2rem]" />
           <span className="sr-only">GitHub</span>
+        </Link>
+      </Button>
+      <Button variant="outline" size="icon" asChild className="btn-hover-pop">
+        <Link href="https://www.craft.me/s/DvySgvj7i0i5q2" target="_blank" rel="noopener noreferrer">
+          <FileText className="h-[1.2rem] w-[1.2rem]" />
+          <span className="sr-only">Document</span>
         </Link>
       </Button>
       <Button variant="outline" size="icon" onClick={toggleTheme} className="btn-hover-pop">
