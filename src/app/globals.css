@@ -211,24 +211,24 @@ body {
   
   /* Pill Navigation */
   .nav-pill-container {
-    @apply relative flex items-center p-1 bg-white rounded-full border-2 border-primary-foreground;
+    @apply relative flex items-center p-1 bg-primary rounded-full border-2 border-primary-foreground;
   }
 
   .nav-pill {
-    @apply absolute top-1 bottom-1 h-auto rounded-full bg-background z-0;
+    @apply absolute top-1 bottom-1 h-auto rounded-full bg-background z-10;
     transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   }
   
   .nav-pill-item {
-    @apply relative z-10;
+    @apply relative z-20;
   }
   
-  .nav-pill-item > * { /* Targets both Link and Button children */
+  .nav-pill-item > * {
     @apply block px-4 py-1.5 text-sm font-medium text-primary-foreground mix-blend-difference;
     @apply flex items-center justify-center;
   }
 
   .nav-pill-separator {
-    @apply w-px h-6 bg-border mx-2;
+    @apply w-px h-6 bg-border mx-2 z-20;
   }
 }

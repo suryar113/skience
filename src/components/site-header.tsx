@@ -27,8 +27,8 @@ export function SiteHeader() {
   const navRef = useRef<HTMLUListElement>(null);
   const linkRefs = useRef<(HTMLLIElement | null)[]>([]);
 
-  const calculatePillPosition = (element: HTMLElement) => {
-    if (navRef.current) {
+  const calculatePillPosition = (element: HTMLElement | null) => {
+    if (element && navRef.current) {
       setPillStyle({
         left: element.offsetLeft,
         width: element.clientWidth,
@@ -38,13 +38,21 @@ export function SiteHeader() {
   };
   
   const resetPillToActive = () => {
-    const activeIndex = [...navItems, ...actionItems, {label: 'theme'}].findIndex(item => 'href' in item && item.href === pathname);
+    const activeIndex = [...navItems, ...actionItems, {label: 'theme-toggle'}].findIndex(item => 'href' in item && item.href === pathname);
     const activeLink = linkRefs.current[activeIndex];
+    
     if (activeLink) {
       calculatePillPosition(activeLink);
     } else if (pillStyle) {
-        // If no active link (e.g. on a different page), fade out the pill
-        setPillStyle({...pillStyle, opacity: 0});
+        // If no active link (e.g. on a different page or no initial match), find HOME
+        const homeIndex = navItems.findIndex(item => item.href === '/');
+        const homeLink = linkRefs.current[homeIndex];
+        if (homeLink) {
+          calculatePillPosition(homeLink);
+        } else {
+          // Fallback: hide the pill if no active or home link found
+          setPillStyle({ ...pillStyle, opacity: 0 });
+        }
     }
   };
 
@@ -52,13 +60,8 @@ export function SiteHeader() {
     document.documentElement.className = 'dark';
     setTheme('dark');
     
-    // We need a slight delay to ensure all refs are populated and measurable
     const timer = setTimeout(() => {
-      const activeIndex = navItems.findIndex(item => item.href === pathname);
-      const activeLink = linkRefs.current[activeIndex];
-      if (activeLink) {
-        calculatePillPosition(activeLink);
-      }
+        resetPillToActive();
     }, 100);
 
     return () => clearTimeout(timer);
@@ -87,7 +90,7 @@ export function SiteHeader() {
     setMenuOpen(!menuOpen);
   };
 
-  const allNavItems = [...navItems, ...actionItems, { label: 'theme-toggle' }];
+  const allItems = [...navItems, ...actionItems, { label: 'theme-toggle' }];
 
 
   return (
@@ -107,7 +110,9 @@ export function SiteHeader() {
             <li
               className="nav-pill"
               style={{
-                ...pillStyle,
+                left: `${pillStyle.left}px`,
+                width: `${pillStyle.width}px`,
+                opacity: pillStyle.opacity,
               }}
             />
           )}
@@ -116,7 +121,7 @@ export function SiteHeader() {
               key={item.href}
               ref={el => linkRefs.current[index] = el}
               onMouseEnter={(e) => calculatePillPosition(e.currentTarget)}
-              className="nav-pill-item"
+              className={cn("nav-pill-item", { 'active': pathname === item.href})}
             >
               <Link href={item.href}>
                 {item.label}
