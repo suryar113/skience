@@ -35,7 +35,7 @@ const Tab = ({ children, setPosition, isCurrent }) => {
           opacity: 1,
         });
       }}
-      className={cn("nav-pill-item", isCurrent ? "text-primary" : "")}
+      className="nav-pill-item"
     >
       {children}
     </li>
@@ -64,7 +64,7 @@ export function SiteHeader() {
     opacity: 0,
   });
 
-  const allItems = [...navItems, ...actionItems, { label: 'theme-toggle' }];
+  const allNavItems = [...navItems, { type: 'separator' }, ...actionItems, { type: 'theme-toggle' }];
   const linkRefs = useRef<(HTMLLIElement | null)[]>([]);
 
   const resetPillToActive = () => {
@@ -141,20 +141,20 @@ export function SiteHeader() {
           className="nav-pill-container"
         >
           {navItems.map((item, index) => (
-            <Tab key={item.href} setPosition={setPosition} isCurrent={pathname === item.href}>
+            <Tab key={item.href} setPosition={setPosition}>
               <Link href={item.href} ref={el => linkRefs.current[index] = el ? el.parentElement : null}>{item.label}</Link>
             </Tab>
           ))}
           <li className='nav-pill-separator'></li>
           {actionItems.map((item, index) => (
-             <Tab key={item.label} setPosition={setPosition} isCurrent={false}>
+             <Tab key={item.label} setPosition={setPosition}>
                 <Link href={item.href} target="_blank" rel="noopener noreferrer" ref={el => linkRefs.current[navItems.length + index] = el ? el.parentElement : null}>
                     <item.icon className="h-5 w-5" />
                     <span className="sr-only">{item.label}</span>
                 </Link>
              </Tab>
           ))}
-          <Tab setPosition={setPosition} isCurrent={false}>
+          <Tab setPosition={setPosition}>
             <button onClick={toggleTheme} ref={el => linkRefs.current[navItems.length + actionItems.length] = el ? el.parentElement : null}>
               <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
               <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
