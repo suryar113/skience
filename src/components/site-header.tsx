@@ -18,36 +18,39 @@ export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  // For pill navigation
-  const [hoveredPill, setHoveredPill] = useState<{ width: number; left: number } | null>(null);
-  const navRef = useRef<HTMLDivElement>(null);
-  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [pillStyle, setPillStyle] = useState<{ left: number; width: number } | null>(null);
+  const navRef = useRef<HTMLUListElement>(null);
+  const linkRefs = useRef<(HTMLLIElement | null)[]>([]);
 
   const calculatePillPosition = (element: HTMLElement) => {
     if (navRef.current) {
-      const navRect = navRef.current.getBoundingClientRect();
-      const elemRect = element.getBoundingClientRect();
-      setHoveredPill({
-        width: elemRect.width,
-        left: elemRect.left - navRect.left,
+      setPillStyle({
+        left: element.offsetLeft,
+        width: element.clientWidth,
       });
+    }
+  };
+  
+  const resetPillToActive = () => {
+    const activeIndex = navItems.findIndex(item => item.href === pathname);
+    const activeLink = linkRefs.current[activeIndex];
+    if (activeLink) {
+      calculatePillPosition(activeLink);
     }
   };
 
   useEffect(() => {
     document.documentElement.className = 'dark';
     setTheme('dark');
-  }, []);
+    
+    // Set initial pill position after a short delay to ensure refs are ready
+    const timer = setTimeout(() => {
+      resetPillToActive();
+    }, 100);
 
-  useEffect(() => {
-    const activeIndex = navItems.findIndex(item => item.href === pathname);
-    const activeLink = linkRefs.current[activeIndex];
-    if (activeLink) {
-      setTimeout(() => calculatePillPosition(activeLink), 50);
-    } else {
-      setHoveredPill(null);
-    }
+    return () => clearTimeout(timer);
   }, [pathname]);
+
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -71,67 +74,6 @@ export function SiteHeader() {
     setMenuOpen(!menuOpen);
   };
 
-  const handleNavMouseLeave = () => {
-    const activeIndex = navItems.findIndex(item => item.href === pathname);
-    const activeLink = linkRefs.current[activeIndex];
-    if (activeLink) {
-      calculatePillPosition(activeLink);
-    } else {
-      setHoveredPill(null);
-    }
-  };
-
-  const NavLinks = () => (
-    <>
-      <div
-        ref={navRef}
-        onMouseLeave={handleNavMouseLeave}
-        className="nav-pill-container"
-      >
-        {hoveredPill && (
-          <div
-            className="nav-pill"
-            style={{
-              width: `${hoveredPill.width}px`,
-              transform: `translateX(${hoveredPill.left}px)`,
-            }}
-          />
-        )}
-        {navItems.map((item, index) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            ref={el => linkRefs.current[index] = el}
-            className={cn(
-              "nav-pill-item",
-              pathname === item.href && "active"
-            )}
-            onMouseEnter={(e) => calculatePillPosition(e.currentTarget)}
-          >
-            {item.label}
-          </Link>
-        ))}
-      </div>
-      <Button variant="outline" size="icon" asChild className="btn-hover-pop">
-        <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer">
-          <Github className="h-[1.2rem] w-[1.2rem]" />
-          <span className="sr-only">GitHub</span>
-        </Link>
-      </Button>
-      <Button variant="outline" size="icon" asChild className="btn-hover-pop">
-        <Link href="https://docs.google.com/document/d/1VG5CmHf8K85TarJBt-SRZz5yli5HhpcNfcsmavNd59A/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
-          <FileText className="h-[1.2rem] w-[1.2rem]" />
-          <span className="sr-only">Document</span>
-        </Link>
-      </Button>
-      <Button variant="outline" size="icon" onClick={toggleTheme} className="btn-hover-pop">
-        <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-        <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-        <span className="sr-only">Toggle theme</span>
-      </Button>
-    </>
-  );
-
   return (
     <header className="flex justify-between items-center p-4 md:p-6 relative z-50">
       <h1 className="text-2xl font-bold tracking-widest uppercase transition-transform duration-200 ease-in-out hover:scale-110">
@@ -140,7 +82,49 @@ export function SiteHeader() {
       
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center gap-4">
-        <NavLinks />
+        <ul
+          ref={navRef}
+          onMouseLeave={resetPillToActive}
+          className="nav-pill-container"
+        >
+          {pillStyle && (
+            <li
+              className="nav-pill"
+              style={{
+                ...pillStyle,
+              }}
+            />
+          )}
+          {navItems.map((item, index) => (
+            <li
+              key={item.href}
+              ref={el => linkRefs.current[index] = el}
+              onMouseEnter={(e) => calculatePillPosition(e.currentTarget)}
+              className="nav-pill-item"
+            >
+              <Link href={item.href}>
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <Button variant="outline" size="icon" asChild className="btn-hover-pop">
+          <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer">
+            <Github className="h-[1.2rem] w-[1.2rem]" />
+            <span className="sr-only">GitHub</span>
+          </Link>
+        </Button>
+        <Button variant="outline" size="icon" asChild className="btn-hover-pop">
+          <Link href="https://docs.google.com/document/d/1VG5CmHf8K85TarJBt-SRZz5yli5HhpcNfcsmavNd59A/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
+            <FileText className="h-[1.2rem] w-[1.2rem]" />
+            <span className="sr-only">Document</span>
+          </Link>
+        </Button>
+        <Button variant="outline" size="icon" onClick={toggleTheme} className="btn-hover-pop">
+          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
       </nav>
 
       {/* Mobile Menu Button */}

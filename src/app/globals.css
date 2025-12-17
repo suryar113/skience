@@ -211,28 +211,19 @@ body {
   
   /* Pill Navigation */
   .nav-pill-container {
-    @apply relative flex items-center p-1 space-x-2 bg-secondary rounded-full;
+    @apply relative flex items-center p-1 bg-secondary rounded-full border border-border;
   }
 
   .nav-pill {
-    @apply absolute top-1 h-8 rounded-full animated-glowing-border;
+    @apply absolute top-1 bottom-1 h-auto rounded-full animated-glowing-border z-0;
     transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   }
   
   .nav-pill-item {
-    @apply relative z-10 px-4 py-1.5 text-sm font-medium rounded-full;
-    transition: color 0.3s ease;
-  }
-
-  .nav-pill-item.active {
-    @apply text-primary-foreground;
-  }
-
-  .nav-pill-container:hover .nav-pill-item:not(.active) {
-    @apply text-foreground;
+    @apply relative z-10;
   }
   
-  .nav-pill-container:hover .nav-pill-item:hover {
-     @apply text-primary-foreground;
+  .nav-pill-item a {
+    @apply block px-4 py-1.5 text-sm font-medium text-primary-foreground mix-blend-difference;
   }
 }
