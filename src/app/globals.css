@@ -208,32 +208,31 @@ body {
     opacity: 1;
     filter: blur(1.5px);
   }
-
-  .glider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    border-radius: 1.25rem; /* Matches button's rounded-2xl */
-    z-index: -1;
-    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    opacity: 0;
+  
+  /* Pill Navigation */
+  .nav-pill-container {
+    @apply relative flex items-center p-1 space-x-2 bg-secondary rounded-full;
   }
 
-  .glider::before {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    border-radius: inherit;
-    background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-    background-size: 400% 400%;
-    animation: animated-glowing-border-animation 8s ease infinite;
-    filter: blur(1.5px);
-    z-index: -1;
+  .nav-pill {
+    @apply absolute top-1 h-8 rounded-full animated-glowing-border;
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  
+  .nav-pill-item {
+    @apply relative z-10 px-4 py-1.5 text-sm font-medium rounded-full;
+    transition: color 0.3s ease;
   }
 
-  .nav-button {
-    transition: color 0.3s ease-in-out !important;
+  .nav-pill-item.active {
+    @apply text-primary-foreground;
+  }
+
+  .nav-pill-container:hover .nav-pill-item:not(.active) {
+    @apply text-foreground;
+  }
+  
+  .nav-pill-container:hover .nav-pill-item:hover {
+     @apply text-primary-foreground;
   }
 }

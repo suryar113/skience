@@ -4,53 +4,50 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Moon, Sun, Github, FileText } from 'lucide-react';
-import { useState, useEffect, useRef, createRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from "@/lib/utils";
+
+const navItems = [
+  { href: '/', label: 'HOME' },
+  { href: '/biology', label: 'BIOLOGY' },
+];
 
 export function SiteHeader() {
   const [theme, setTheme] = useState('dark');
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const navItems = [
-    { href: '/', label: 'HOME' },
-    { href: '/biology', label: 'BIOLOGY' },
-  ];
-  
-  const navRef = useRef<HTMLElement>(null);
-  const itemRefs = useRef(navItems.map(() => createRef<HTMLAnchorElement>()));
-  const [gliderStyle, setGliderStyle] = useState({});
+  // For pill navigation
+  const [hoveredPill, setHoveredPill] = useState<{ width: number; left: number } | null>(null);
+  const navRef = useRef<HTMLDivElement>(null);
+  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+
+  const calculatePillPosition = (element: HTMLElement) => {
+    if (navRef.current) {
+      const navRect = navRef.current.getBoundingClientRect();
+      const elemRect = element.getBoundingClientRect();
+      setHoveredPill({
+        width: elemRect.width,
+        left: elemRect.left - navRect.left,
+      });
+    }
+  };
 
   useEffect(() => {
     document.documentElement.className = 'dark';
     setTheme('dark');
   }, []);
 
-  const updateGlider = (element: HTMLElement | null) => {
-    if (element && navRef.current) {
-        const navRect = navRef.current.getBoundingClientRect();
-        const { offsetLeft, offsetTop, offsetWidth, offsetHeight } = element;
-
-        setGliderStyle({
-            transform: `translate(${offsetLeft}px, ${offsetTop}px)`,
-            width: `${offsetWidth}px`,
-            height: `${offsetHeight}px`,
-            opacity: 1
-        });
-    }
-  };
-
   useEffect(() => {
     const activeIndex = navItems.findIndex(item => item.href === pathname);
-    if (activeIndex !== -1) {
-      const activeItem = itemRefs.current[activeIndex]?.current;
-      // Timeout to ensure the element is rendered and has dimensions
-      setTimeout(() => updateGlider(activeItem), 50);
+    const activeLink = linkRefs.current[activeIndex];
+    if (activeLink) {
+      setTimeout(() => calculatePillPosition(activeLink), 50);
     } else {
-        setGliderStyle({ opacity: 0 });
+      setHoveredPill(null);
     }
-  }, [pathname, navItems]);
+  }, [pathname]);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -72,34 +69,48 @@ export function SiteHeader() {
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
-  }
+  };
+
+  const handleNavMouseLeave = () => {
+    const activeIndex = navItems.findIndex(item => item.href === pathname);
+    const activeLink = linkRefs.current[activeIndex];
+    if (activeLink) {
+      calculatePillPosition(activeLink);
+    } else {
+      setHoveredPill(null);
+    }
+  };
 
   const NavLinks = () => (
     <>
-      <div className="relative" ref={navRef}>
-        <div className="glider" style={gliderStyle} />
-        <div className="flex items-center gap-4">
-          {navItems.map((item, index) => (
-            <Button
-              key={item.href}
-              variant="outline"
-              size="sm"
-              asChild
-              className='nav-button'
-              onMouseEnter={(e) => updateGlider(e.currentTarget)}
-              onMouseLeave={() => {
-                const activeIndex = navItems.findIndex(i => i.href === pathname);
-                if (activeIndex !== -1) {
-                  updateGlider(itemRefs.current[activeIndex].current);
-                } else {
-                  setGliderStyle({ ...gliderStyle, opacity: 0 });
-                }
-              }}
-            >
-              <Link href={item.href} ref={itemRefs.current[index]}>{item.label}</Link>
-            </Button>
-          ))}
-        </div>
+      <div
+        ref={navRef}
+        onMouseLeave={handleNavMouseLeave}
+        className="nav-pill-container"
+      >
+        {hoveredPill && (
+          <div
+            className="nav-pill"
+            style={{
+              width: `${hoveredPill.width}px`,
+              transform: `translateX(${hoveredPill.left}px)`,
+            }}
+          />
+        )}
+        {navItems.map((item, index) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            ref={el => linkRefs.current[index] = el}
+            className={cn(
+              "nav-pill-item",
+              pathname === item.href && "active"
+            )}
+            onMouseEnter={(e) => calculatePillPosition(e.currentTarget)}
+          >
+            {item.label}
+          </Link>
+        ))}
       </div>
       <Button variant="outline" size="icon" asChild className="btn-hover-pop">
         <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer">
@@ -119,7 +130,7 @@ export function SiteHeader() {
         <span className="sr-only">Toggle theme</span>
       </Button>
     </>
-  )
+  );
 
   return (
     <header className="flex justify-between items-center p-4 md:p-6 relative z-50">
@@ -128,12 +139,7 @@ export function SiteHeader() {
       </h1>
       
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center gap-4" onMouseLeave={() => {
-         const activeIndex = navItems.findIndex(i => i.href === pathname);
-         if (activeIndex !== -1) {
-            updateGlider(itemRefs.current[activeIndex].current);
-         }
-      }}>
+      <nav className="hidden md:flex items-center gap-4">
         <NavLinks />
       </nav>
 
