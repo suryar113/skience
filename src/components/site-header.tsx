@@ -40,8 +40,9 @@ export function SiteHeader() {
     const allItems = [...navItems, ...actionItems, { label: 'theme-toggle' }];
     let activeIndex = allItems.findIndex(item => 'href' in item && item.href === pathname);
 
-    // If no direct match, default to HOME if on an unknown page.
-    if (activeIndex === -1 && !navItems.some(item => item.href === pathname)) {
+    if (activeIndex === -1 && navItems.some(item => pathname.startsWith(item.href) && item.href !== '/')) {
+      activeIndex = navItems.findIndex(item => pathname.startsWith(item.href));
+    } else if (activeIndex === -1) {
       activeIndex = navItems.findIndex(item => item.href === '/');
     }
     
@@ -56,8 +57,9 @@ export function SiteHeader() {
   };
 
   useEffect(() => {
-    document.documentElement.className = 'dark';
-    setTheme('dark');
+    const storedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(storedTheme);
+    document.documentElement.className = storedTheme;
     
     const timer = setTimeout(() => {
         resetPillToActive();
@@ -70,6 +72,7 @@ export function SiteHeader() {
       clearTimeout(timer);
       window.removeEventListener('resize', handleResize);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
 
