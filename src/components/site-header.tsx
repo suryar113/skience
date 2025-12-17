@@ -13,12 +13,17 @@ const navItems = [
   { href: '/biology', label: 'BIOLOGY' },
 ];
 
+const actionItems = [
+    { href: 'https://github.com/gtdsura/skience', icon: Github, label: 'GitHub' },
+    { href: 'https://docs.google.com/document/d/1VG5CmHf8K85TarJBt-SRZz5yli5HhpcNfcsmavNd59A/edit?usp=sharing', icon: FileText, label: 'Document' },
+];
+
 export function SiteHeader() {
   const [theme, setTheme] = useState('dark');
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const [pillStyle, setPillStyle] = useState<{ left: number; width: number } | null>(null);
+  const [pillStyle, setPillStyle] = useState<{ left: number; width: number; opacity: number } | null>(null);
   const navRef = useRef<HTMLUListElement>(null);
   const linkRefs = useRef<(HTMLLIElement | null)[]>([]);
 
@@ -27,6 +32,7 @@ export function SiteHeader() {
       setPillStyle({
         left: element.offsetLeft,
         width: element.clientWidth,
+        opacity: 1,
       });
     }
   };
@@ -36,6 +42,8 @@ export function SiteHeader() {
     const activeLink = linkRefs.current[activeIndex];
     if (activeLink) {
       calculatePillPosition(activeLink);
+    } else if (pillStyle) {
+        setPillStyle({...pillStyle, opacity: 0});
     }
   };
 
@@ -43,7 +51,6 @@ export function SiteHeader() {
     document.documentElement.className = 'dark';
     setTheme('dark');
     
-    // Set initial pill position after a short delay to ensure refs are ready
     const timer = setTimeout(() => {
       resetPillToActive();
     }, 100);
@@ -81,7 +88,7 @@ export function SiteHeader() {
       </h1>
       
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center gap-4">
+      <nav className="hidden md:flex items-center">
         <ul
           ref={navRef}
           onMouseLeave={resetPillToActive}
@@ -107,24 +114,32 @@ export function SiteHeader() {
               </Link>
             </li>
           ))}
+          <li className='nav-pill-separator'></li>
+          {actionItems.map((item, index) => (
+             <li
+                key={item.label}
+                ref={el => linkRefs.current[navItems.length + index] = el}
+                onMouseEnter={(e) => calculatePillPosition(e.currentTarget)}
+                className="nav-pill-item"
+             >
+                <Link href={item.href} target="_blank" rel="noopener noreferrer">
+                    <item.icon className="h-5 w-5" />
+                    <span className="sr-only">{item.label}</span>
+                </Link>
+             </li>
+          ))}
+          <li
+            ref={el => linkRefs.current[navItems.length + actionItems.length] = el}
+            onMouseEnter={(e) => calculatePillPosition(e.currentTarget)}
+            className="nav-pill-item"
+          >
+            <button onClick={toggleTheme}>
+              <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <span className="sr-only">Toggle theme</span>
+            </button>
+          </li>
         </ul>
-        <Button variant="outline" size="icon" asChild className="btn-hover-pop">
-          <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer">
-            <Github className="h-[1.2rem] w-[1.2rem]" />
-            <span className="sr-only">GitHub</span>
-          </Link>
-        </Button>
-        <Button variant="outline" size="icon" asChild className="btn-hover-pop">
-          <Link href="https://docs.google.com/document/d/1VG5CmHf8K85TarJBt-SRZz5yli5HhpcNfcsmavNd59A/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
-            <FileText className="h-[1.2rem] w-[1.2rem]" />
-            <span className="sr-only">Document</span>
-          </Link>
-        </Button>
-        <Button variant="outline" size="icon" onClick={toggleTheme} className="btn-hover-pop">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
       </nav>
 
       {/* Mobile Menu Button */}
