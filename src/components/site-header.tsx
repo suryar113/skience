@@ -18,7 +18,7 @@ const actionItems = [
     { href: 'https://docs.google.com/document/d/1VG5CmHf8K85TarJBt-SRZz5yli5HhpcNfcsmavNd59A/edit?usp=sharing', icon: FileText, label: 'Document' },
 ];
 
-const Tab = ({ children, setPosition, isCurrent }) => {
+const Tab = ({ children, setPosition }) => {
   const ref = useRef(null);
 
   return (
@@ -68,12 +68,14 @@ export function SiteHeader() {
   const linkRefs = useRef<(HTMLLIElement | null)[]>([]);
 
   const resetPillToActive = () => {
-    let activeIndex = navItems.findIndex(item => item.href === pathname);
-
-    if (activeIndex === -1 && pathname.startsWith('/biology')) {
-      activeIndex = navItems.findIndex(item => item.href === '/biology');
-    } else if (activeIndex === -1) {
-      activeIndex = navItems.findIndex(item => item.href === '/');
+    let activeIndex = allNavItems.findIndex(item => 'href' in item && item.href === pathname);
+    
+    if (activeIndex === -1) {
+      if (pathname.startsWith('/biology')) {
+        activeIndex = allNavItems.findIndex(item => 'href' in item && item.href === '/biology');
+      } else {
+        activeIndex = allNavItems.findIndex(item => 'href' in item && item.href === '/');
+      }
     }
     
     const activeLink = linkRefs.current[activeIndex];
@@ -148,14 +150,14 @@ export function SiteHeader() {
           <li className='nav-pill-separator'></li>
           {actionItems.map((item, index) => (
              <Tab key={item.label} setPosition={setPosition}>
-                <Link href={item.href} target="_blank" rel="noopener noreferrer" ref={el => linkRefs.current[navItems.length + index] = el ? el.parentElement : null}>
+                <Link href={item.href} target="_blank" rel="noopener noreferrer" ref={el => linkRefs.current[navItems.length + 1 + index] = el ? el.parentElement : null}>
                     <item.icon className="h-5 w-5" />
                     <span className="sr-only">{item.label}</span>
                 </Link>
              </Tab>
           ))}
           <Tab setPosition={setPosition}>
-            <button onClick={toggleTheme} ref={el => linkRefs.current[navItems.length + actionItems.length] = el ? el.parentElement : null}>
+            <button onClick={toggleTheme} ref={el => linkRefs.current[navItems.length + 1 + actionItems.length] = el ? el.parentElement : null}>
               <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
               <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               <span className="sr-only">Toggle theme</span>

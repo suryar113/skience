@@ -166,15 +166,15 @@ body {
 
   /* Pill Navigation */
   .nav-pill-container {
-    @apply relative mx-auto flex w-fit rounded-full border-2 border-primary-foreground bg-primary p-1;
+    @apply relative mx-auto flex w-fit rounded-full border-2 border-primary bg-primary-foreground p-1;
   }
 
   .nav-pill {
-    @apply absolute z-0 h-7 rounded-full bg-primary-foreground md:h-12;
+    @apply absolute z-0 h-7 rounded-full bg-primary md:h-12;
   }
   
   .nav-pill-item {
-    @apply relative z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-primary mix-blend-difference md:px-5 md:py-3 md:text-base;
+    @apply relative z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-primary-foreground mix-blend-difference md:px-5 md:py-3 md:text-base;
   }
   
   .nav-pill-item > * {
