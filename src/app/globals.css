@@ -166,7 +166,7 @@ body {
 
   /* Pill Navigation */
   .nav-pill-container {
-    @apply relative mx-auto flex w-fit rounded-full border-2 border-primary bg-primary-foreground p-1;
+    @apply relative mx-auto flex w-fit items-stretch rounded-full border-2 border-primary bg-primary-foreground p-1;
   }
 
   .nav-pill {
@@ -182,6 +182,6 @@ body {
   }
 
   .nav-pill-separator {
-    @apply w-px h-6 bg-border mx-2 z-10;
+    @apply w-px bg-border mx-2 z-10;
   }
 }
