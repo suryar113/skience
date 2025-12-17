@@ -174,7 +174,7 @@ body {
   }
   
   .nav-pill-item {
-    @apply relative z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-primary-foreground mix-blend-difference md:px-5 md:py-3 md:text-base;
+    @apply relative z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-primary mix-blend-difference md:px-5 md:py-3 md:text-base;
   }
   
   .nav-pill-item > * {
