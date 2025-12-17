@@ -150,7 +150,7 @@ body {
     position: absolute;
     inset: -2px; /* controls thickness of the outline */
     border-radius: inherit;
-    background: white;
+    background: hsl(var(--primary));
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     z-index: -1;
@@ -166,20 +166,18 @@ body {
   
   /* Pill Navigation */
   .nav-pill-container {
-    @apply relative flex items-center p-1 bg-primary rounded-full border-2 border-primary-foreground;
+    @apply relative mx-auto flex w-fit rounded-full border-2 border-primary-foreground bg-primary p-1;
   }
 
   .nav-pill {
-    @apply absolute top-1 bottom-1 h-auto rounded-full bg-background z-0;
-    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    @apply absolute z-0 h-7 rounded-full bg-primary-foreground md:h-12;
   }
   
   .nav-pill-item {
-    @apply relative z-10;
+    @apply relative z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-primary mix-blend-difference md:px-5 md:py-3 md:text-base;
   }
   
   .nav-pill-item > * {
-    @apply block px-4 py-1.5 text-sm font-medium text-primary-foreground mix-blend-difference;
     @apply flex items-center justify-center;
   }
 

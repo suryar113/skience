@@ -6,6 +6,7 @@ import { Moon, Sun, Github, FileText } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from "@/lib/utils";
+import { motion } from 'framer-motion';
 
 const navItems = [
   { href: '/', label: 'HOME' },
@@ -17,23 +18,56 @@ const actionItems = [
     { href: 'https://docs.google.com/document/d/1VG5CmHf8K85TarJBt-SRZz5yli5HhpcNfcsmavNd59A/edit?usp=sharing', icon: FileText, label: 'Document' },
 ];
 
+const Tab = ({ children, setPosition, isCurrent }) => {
+  const ref = useRef(null);
+
+  return (
+    <li
+      ref={ref}
+      onMouseEnter={() => {
+        if (!ref?.current) return;
+
+        const { width } = ref.current.getBoundingClientRect();
+
+        setPosition({
+          left: ref.current.offsetLeft,
+          width,
+          opacity: 1,
+        });
+      }}
+      className={cn("nav-pill-item", isCurrent ? "text-primary" : "")}
+    >
+      {children}
+    </li>
+  );
+};
+
+const Cursor = ({ position }) => {
+  return (
+    <motion.li
+      animate={{
+        ...position,
+      }}
+      className="nav-pill"
+    />
+  );
+};
+
 export function SiteHeader() {
   const [theme, setTheme] = useState('dark');
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const [position, setPosition] = useState<{ left: number; width: number; opacity: number }>({ left: 0, width: 0, opacity: 0 });
-  const navRef = useRef<HTMLUListElement>(null);
+  const [position, setPosition] = useState({
+    left: 0,
+    width: 0,
+    opacity: 0,
+  });
+
+  const allItems = [...navItems, ...actionItems, { label: 'theme-toggle' }];
   const linkRefs = useRef<(HTMLLIElement | null)[]>([]);
 
-  useEffect(() => {
-    const storedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(storedTheme);
-    document.documentElement.className = storedTheme;
-  }, []);
-  
   const resetPillToActive = () => {
-    const allItems = [...navItems, ...actionItems, { label: 'theme-toggle' }];
     let activeIndex = navItems.findIndex(item => item.href === pathname);
 
     if (activeIndex === -1 && pathname.startsWith('/biology')) {
@@ -50,6 +84,12 @@ export function SiteHeader() {
     }
   };
 
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(storedTheme);
+    document.documentElement.className = storedTheme;
+  }, []);
+  
   useEffect(() => {
     const timer = setTimeout(() => {
         resetPillToActive();
@@ -97,68 +137,31 @@ export function SiteHeader() {
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center">
         <ul
-          ref={navRef}
           onMouseLeave={resetPillToActive}
           className="nav-pill-container"
         >
-          <li
-            className="nav-pill"
-            style={{
-              ...position,
-            }}
-          />
           {navItems.map((item, index) => (
-            <li
-              key={item.href}
-              ref={el => linkRefs.current[index] = el}
-              onMouseEnter={() => {
-                if(linkRefs.current[index]) {
-                  const { offsetLeft, clientWidth } = linkRefs.current[index]!;
-                  setPosition({ left: offsetLeft, width: clientWidth, opacity: 1 });
-                }
-              }}
-              className={cn("nav-pill-item", { 'active': pathname === item.href})}
-            >
-              <Link href={item.href}>
-                {item.label}
-              </Link>
-            </li>
+            <Tab key={item.href} setPosition={setPosition} isCurrent={pathname === item.href}>
+              <Link href={item.href} ref={el => linkRefs.current[index] = el ? el.parentElement : null}>{item.label}</Link>
+            </Tab>
           ))}
           <li className='nav-pill-separator'></li>
           {actionItems.map((item, index) => (
-             <li
-                key={item.label}
-                ref={el => linkRefs.current[navItems.length + index] = el}
-                onMouseEnter={() => {
-                  if(linkRefs.current[navItems.length + index]) {
-                    const { offsetLeft, clientWidth } = linkRefs.current[navItems.length + index]!;
-                    setPosition({ left: offsetLeft, width: clientWidth, opacity: 1 });
-                  }
-                }}
-                className="nav-pill-item"
-             >
-                <Link href={item.href} target="_blank" rel="noopener noreferrer">
+             <Tab key={item.label} setPosition={setPosition} isCurrent={false}>
+                <Link href={item.href} target="_blank" rel="noopener noreferrer" ref={el => linkRefs.current[navItems.length + index] = el ? el.parentElement : null}>
                     <item.icon className="h-5 w-5" />
                     <span className="sr-only">{item.label}</span>
                 </Link>
-             </li>
+             </Tab>
           ))}
-          <li
-            ref={el => linkRefs.current[navItems.length + actionItems.length] = el}
-            onMouseEnter={() => {
-              if(linkRefs.current[navItems.length + actionItems.length]) {
-                const { offsetLeft, clientWidth } = linkRefs.current[navItems.length + actionItems.length]!;
-                setPosition({ left: offsetLeft, width: clientWidth, opacity: 1 });
-              }
-            }}
-            className="nav-pill-item"
-          >
-            <button onClick={toggleTheme}>
+          <Tab setPosition={setPosition} isCurrent={false}>
+            <button onClick={toggleTheme} ref={el => linkRefs.current[navItems.length + actionItems.length] = el ? el.parentElement : null}>
               <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
               <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               <span className="sr-only">Toggle theme</span>
             </button>
-          </li>
+          </Tab>
+          <Cursor position={position} />
         </ul>
       </nav>
 
