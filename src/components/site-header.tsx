@@ -57,7 +57,7 @@ export function SiteHeader() {
         </Link>
       </Button>
       <Button variant="outline" size="icon" asChild className="btn-hover-pop">
-        <Link href="https://www.craft.me/s/DvySgvj7i0i5q2" target="_blank" rel="noopener noreferrer">
+        <Link href="https://docs.google.com/document/d/1VG5CmHf8K85TarJBt-SRZz5yli5HhpcNfcsmavNd59A/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
           <FileText className="h-[1.2rem] w-[1.2rem]" />
           <span className="sr-only">Document</span>
         </Link>
