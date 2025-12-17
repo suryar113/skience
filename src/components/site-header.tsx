@@ -2,7 +2,6 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { Moon, Sun, Github, FileText } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
@@ -38,21 +37,21 @@ export function SiteHeader() {
   };
   
   const resetPillToActive = () => {
-    const activeIndex = [...navItems, ...actionItems, {label: 'theme-toggle'}].findIndex(item => 'href' in item && item.href === pathname);
+    const allItems = [...navItems, ...actionItems, { label: 'theme-toggle' }];
+    let activeIndex = allItems.findIndex(item => 'href' in item && item.href === pathname);
+
+    // If no direct match, default to HOME if on an unknown page.
+    if (activeIndex === -1 && !navItems.some(item => item.href === pathname)) {
+      activeIndex = navItems.findIndex(item => item.href === '/');
+    }
+    
     const activeLink = linkRefs.current[activeIndex];
     
     if (activeLink) {
       calculatePillPosition(activeLink);
     } else if (pillStyle) {
-        // If no active link (e.g. on a different page or no initial match), find HOME
-        const homeIndex = navItems.findIndex(item => item.href === '/');
-        const homeLink = linkRefs.current[homeIndex];
-        if (homeLink) {
-          calculatePillPosition(homeLink);
-        } else {
-          // Fallback: hide the pill if no active or home link found
-          setPillStyle({ ...pillStyle, opacity: 0 });
-        }
+        // Fallback: hide the pill if no active or home link found
+        setPillStyle({ ...pillStyle, opacity: 0 });
     }
   };
 
@@ -64,12 +63,12 @@ export function SiteHeader() {
         resetPillToActive();
     }, 100);
 
-    // Recalculate on resize
-    window.addEventListener('resize', resetPillToActive);
+    const handleResize = () => resetPillToActive();
+    window.addEventListener('resize', handleResize);
 
     return () => {
       clearTimeout(timer);
-      window.removeEventListener('resize', resetPillToActive);
+      window.removeEventListener('resize', handleResize);
     };
   }, [pathname]);
 
@@ -179,36 +178,35 @@ export function SiteHeader() {
       )}>
         <nav className="flex flex-col items-center justify-center h-full gap-8 text-2xl">
           {navItems.map((item) => (
-            <Button
+            <button
               key={item.href}
-              variant="outline"
-              size="sm"
-              asChild
               className={cn(
                 'btn-hover-pop',
                 pathname === item.href && 'btn-active-pop'
               )}
+              onClick={() => {
+                window.location.href = item.href;
+                toggleMenu();
+              }}
             >
-              <Link href={item.href}>{item.label}</Link>
-            </Button>
+              {item.label}
+            </button>
           ))}
-          <Button variant="outline" size="icon" asChild className="btn-hover-pop">
-            <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer">
+          <div className="flex gap-4">
+            <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer" className="btn-hover-pop p-2 rounded-full border border-input">
               <Github className="h-[1.2rem] w-[1.2rem]" />
               <span className="sr-only">GitHub</span>
             </Link>
-          </Button>
-           <Button variant="outline" size="icon" asChild className="btn-hover-pop">
-            <Link href="https://docs.google.com/document/d/1VG5CmHf8K85TarJBt-SRZz5yli5HhpcNfcsmavNd59A/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
+            <Link href="https://docs.google.com/document/d/1VG5CmHf8K85TarJBt-SRZz5yli5HhpcNfcsmavNd59A/edit?usp=sharing" target="_blank" rel="noopener noreferrer" className="btn-hover-pop p-2 rounded-full border border-input">
               <FileText className="h-[1.2rem] w-[1.2rem]" />
               <span className="sr-only">Document</span>
             </Link>
-          </Button>
-          <Button variant="outline" size="icon" onClick={toggleTheme} className="btn-hover-pop">
-            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            <span className="sr-only">Toggle theme</span>
-          </Button>
+            <button onClick={toggleTheme} className="btn-hover-pop p-2 rounded-full border border-input">
+              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <span className="sr-only">Toggle theme</span>
+            </button>
+          </div>
         </nav>
       </div>
     </header>

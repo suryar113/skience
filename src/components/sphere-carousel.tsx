@@ -191,7 +191,10 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
             return (
               <div
                 key={note.topic}
-                className="absolute w-[240px] h-[360px] p-2"
+                className={cn(
+                  "absolute w-[240px] h-[360px] p-2",
+                  !isFocused && "cursor-pointer"
+                )}
                 style={{
                   transform: `rotateY(${
                     i * panelAngle
