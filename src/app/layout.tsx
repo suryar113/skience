@@ -27,6 +27,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap"
           rel="stylesheet"
         />
+        <meta name="google-site-verification" content="4P07Vz0gAuX8McY0xvnFrFDUxShRHFNpjCKRfMeJT1g" />
       </head>
       <body className="font-body antialiased bg-background text-foreground">
         {children}
