@@ -42,7 +42,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
         )}
       >
         <CardHeader>
-          <CardTitle className="uppercase tracking-wider text-lg md:text-xl">
+          <CardTitle className="uppercase tracking-wider text-lg md:text-xl text-center">
             {note.topic}
           </CardTitle>
         </CardHeader>
