@@ -177,11 +177,7 @@ body {
     @apply relative z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-primary mix-blend-difference md:px-5 md:py-3 md:text-base;
   }
   
-  .nav-pill-item > * {
-    @apply flex items-center justify-center;
-  }
-
   .nav-pill-separator {
-    @apply w-px bg-primary mx-2 z-10;
+    @apply w-px bg-primary mx-2 z-10 self-stretch;
   }
 }
