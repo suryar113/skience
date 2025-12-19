@@ -182,6 +182,6 @@ body {
   }
 
   .nav-pill-separator {
-    @apply w-px bg-primary mx-2 z-10 mix-blend-difference;
+    @apply w-px bg-primary mx-2 z-10;
   }
 }
