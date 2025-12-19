@@ -41,7 +41,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
           !isFocused && "opacity-60"
         )}
       >
-        <CardHeader>
+        <CardHeader className="items-center">
           <CardTitle className="uppercase tracking-wider text-lg md:text-xl text-center">
             {note.topic}
           </CardTitle>
