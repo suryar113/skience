@@ -149,7 +149,7 @@ export function SiteHeader() {
                   const parentLi = el.parentElement as HTMLLIElement;
                   linkRefs.current[index] = parentLi;
                 }
-              }} className="w-full h-full flex items-center justify-center">{item.label}</Link>
+              }} className="w-full h-full flex items-center justify-center px-3 py-1.5 md:px-5 md:py-3">{item.label}</Link>
             </Tab>
           ))}
           <li className='nav-pill-separator'></li>
@@ -160,7 +160,7 @@ export function SiteHeader() {
                     const parentLi = el.parentElement as HTMLLIElement;
                     linkRefs.current[navItems.length + 1 + index] = parentLi;
                   }
-                }} className="w-full h-full flex items-center justify-center">
+                }} className="w-full h-full flex items-center justify-center px-3 py-1.5 md:px-5 md:py-3">
                     <item.icon className="h-5 w-5" />
                     <span className="sr-only">{item.label}</span>
                 </Link>
@@ -172,7 +172,7 @@ export function SiteHeader() {
                 const parentLi = el.parentElement as HTMLLIElement;
                 linkRefs.current[navItems.length + 1 + actionItems.length] = parentLi;
               }
-            }} className="w-full h-full flex items-center justify-center">
+            }} className="w-full h-full flex items-center justify-center px-3 py-1.5 md:px-5 md:py-3">
               <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
               <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               <span className="sr-only">Toggle theme</span>
