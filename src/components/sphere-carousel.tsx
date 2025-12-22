@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -128,7 +128,7 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const handleClick = (newIndex: number) => {
+  const handleClick = useCallback((newIndex: number) => {
     const currentIndex = index;
     if (newIndex === currentIndex) return;
 
@@ -143,17 +143,32 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
 
     setIndex(newIndex);
     setRotation(rotation - diff * panelAngle);
-  };
+  }, [index, rotation, totalPanels, panelAngle]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     const newIndex = (index - 1 + totalPanels) % totalPanels;
     handleClick(newIndex);
-  };
+  }, [index, totalPanels, handleClick]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     const newIndex = (index + 1) % totalPanels;
     handleClick(newIndex);
-  };
+  }, [index, totalPanels, handleClick]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft" || event.key === "a") {
+        handlePrev();
+      } else if (event.key === "ArrowRight" || event.key === "d") {
+        handleNext();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handlePrev, handleNext]);
 
   if (isMobile) {
     return (
