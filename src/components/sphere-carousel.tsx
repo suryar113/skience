@@ -157,6 +157,7 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.repeat) return;
       if (event.key === "ArrowLeft" || event.key === "a") {
         handlePrev();
       } else if (event.key === "ArrowRight" || event.key === "d") {
