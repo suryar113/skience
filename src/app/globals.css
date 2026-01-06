@@ -116,24 +116,6 @@ body {
     color: transparent;
   }
 
-  .text-gradient-rainbow::after {
-    content: attr(data-text);
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: inherit;
-    background-size: inherit;
-    animation: inherit;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter: blur(15px) opacity(1);
-    transform: scale(1.05);
-  }
-  
   .animated-glowing-border {
     background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     background-size: 400% 400%;
