@@ -24,10 +24,11 @@ type Note = {
 type NoteCardProps = {
   note: Note;
   isFocused: boolean;
-  onViewNotes: (url: string) => void;
 };
 
-function NoteCard({ note, isFocused, onViewNotes }: NoteCardProps) {
+function NoteCard({ note, isFocused }: NoteCardProps) {
+  const blockId = note.notesUrl?.substring(note.notesUrl.lastIndexOf('/') + 1);
+
   return (
     <div className="relative w-full h-full group">
       <div
@@ -50,11 +51,17 @@ function NoteCard({ note, isFocused, onViewNotes }: NoteCardProps) {
         <CardContent className="flex flex-col items-center gap-4">
           {note.notesUrl ? (
             <Button
+              asChild
               variant="outline"
               className={cn("btn-hover-pop", !isFocused && "pointer-events-none")}
-              onClick={() => onViewNotes(note.notesUrl)}
             >
-              View Notes
+              <Link
+                href={`/notes/${blockId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Notes
+              </Link>
             </Button>
           ) : (
             <Button variant="outline" disabled className="btn-hover-pop">
@@ -106,7 +113,7 @@ function NoteCard({ note, isFocused, onViewNotes }: NoteCardProps) {
   );
 }
 
-export function SphereCarousel({ notes, onTopicChange, onViewNotes }: { notes: Note[], onTopicChange: (topic: string) => void, onViewNotes: (url: string) => void }) {
+export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopicChange: (topic: string) => void }) {
   const [index, setIndex] = useState(0);
   const [rotation, setRotation] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -173,7 +180,7 @@ export function SphereCarousel({ notes, onTopicChange, onViewNotes }: { notes: N
     return (
       <div className="w-full flex flex-col items-center justify-center space-y-4">
         <div className="relative w-[240px] h-[360px]">
-          <NoteCard note={notes[index]} isFocused={true} onViewNotes={onViewNotes} />
+          <NoteCard note={notes[index]} isFocused={true} />
         </div>
         <div className="flex items-center gap-4">
           <Button variant="outline" size="icon" onClick={handlePrev} className="btn-hover-pop">
@@ -216,7 +223,7 @@ export function SphereCarousel({ notes, onTopicChange, onViewNotes }: { notes: N
                 }}
                 onClick={() => handleClick(i)}
               >
-                <NoteCard note={note} isFocused={isFocused} onViewNotes={onViewNotes} />
+                <NoteCard note={note} isFocused={isFocused} />
               </div>
             );
           })}

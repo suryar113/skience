@@ -3,10 +3,7 @@
 import { useState } from 'react';
 import { SiteHeader } from "@/components/site-header";
 import { SphereCarousel } from "@/components/sphere-carousel";
-import { StudyBuddy } from "@/components/study-buddy";
 import { NotesViewer } from "@/components/notes-viewer";
-import { Bot } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const notes = [
   {
@@ -61,16 +58,10 @@ const notes = [
 ];
 
 export default function BiologyPage() {
-  const [isChatOpen, setChatOpen] = useState(false);
   const [currentTopic, setCurrentTopic] = useState(notes[0].topic);
-  const [notesUrl, setNotesUrl] = useState<string | null>(null);
 
   const handleTopicChange = (topic: string) => {
     setCurrentTopic(topic);
-  };
-
-  const handleViewNotes = (url: string) => {
-    setNotesUrl(url);
   };
 
   return (
@@ -78,38 +69,12 @@ export default function BiologyPage() {
       <SiteHeader />
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-6 overflow-hidden">
-        <SphereCarousel notes={notes} onTopicChange={handleTopicChange} onViewNotes={handleViewNotes} />
+        <SphereCarousel notes={notes} onTopicChange={handleTopicChange} />
       </main>
 
       <footer className="text-center p-6">
         <p className="text-sm text-gradient-rainbow" data-text="you better study">you better study</p>
       </footer>
-      
-      <div className="fixed bottom-6 right-6 z-50">
-        <StudyBuddy 
-          isOpen={isChatOpen} 
-          onOpenChange={setChatOpen}
-          topic={currentTopic}
-        />
-        {!isChatOpen && (
-          <Button
-            size="icon"
-            className="rounded-full w-14 h-14 shadow-lg btn-hover-pop"
-            onClick={() => setChatOpen(true)}
-          >
-            <Bot className="w-6 h-6" />
-          </Button>
-        )}
-      </div>
-
-      <NotesViewer
-        url={notesUrl}
-        onOpenChange={(isOpen) => {
-          if (!isOpen) {
-            setNotesUrl(null);
-          }
-        }}
-      />
     </div>
   );
 }
