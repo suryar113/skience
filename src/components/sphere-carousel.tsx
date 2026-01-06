@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 type Note = {
   topic: string;
@@ -114,11 +115,13 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
 
 export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopicChange: (topic: string) => void }) {
   const [index, setIndex] = useState(0);
-  const [rotation, setRotation] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const totalPanels = notes.length;
   const panelAngle = 360 / totalPanels;
   const radius = totalPanels < 5 ? 200 : 300;
+
+  const rotationY = useMotionValue(0);
+  const springyRotationY = useSpring(rotationY, { stiffness: 300, damping: 50 });
 
   useEffect(() => {
     onTopicChange(notes[index].topic);
@@ -145,10 +148,10 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopi
         diff += totalPanels;
       }
     }
-
+    
     setIndex(newIndex);
-    setRotation(rotation - diff * panelAngle);
-  }, [index, rotation, totalPanels, panelAngle]);
+    rotationY.set(rotationY.get() - diff * panelAngle);
+  }, [index, rotationY, totalPanels, panelAngle]);
 
   const handlePrev = useCallback(() => {
     const newIndex = (index - 1 + totalPanels) % totalPanels;
@@ -199,17 +202,17 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopi
         className="relative w-[240px] h-[360px]"
         style={{ perspective: "1000px" }}
       >
-        <div
-          className="w-full h-full absolute transition-transform duration-1000 ease-in-out"
+        <motion.div
+          className="w-full h-full absolute"
           style={{
             transformStyle: "preserve-3d",
-            transform: `rotateY(${rotation}deg)`,
+            rotateY: springyRotationY,
           }}
         >
           {notes.map((note, i) => {
             const isFocused = i === index;
             return (
-              <div
+              <motion.div
                 key={note.topic}
                 className={cn(
                   "absolute w-[240px] h-[360px] p-2",
@@ -223,10 +226,10 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopi
                 onClick={() => handleClick(i)}
               >
                 <NoteCard note={note} isFocused={isFocused} />
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </div>
   );

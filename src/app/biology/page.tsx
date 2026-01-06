@@ -3,9 +3,6 @@
 import { useState } from 'react';
 import { SiteHeader } from "@/components/site-header";
 import { SphereCarousel } from "@/components/sphere-carousel";
-import { StudyBuddy } from '@/components/study-buddy';
-import { Button } from '@/components/ui/button';
-import { Bot } from 'lucide-react';
 
 const notes = [
   {
