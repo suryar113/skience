@@ -39,11 +39,11 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
       ></div>
       <Card
         className={cn(
-          "w-full h-full rounded-[1.4rem] border-0 relative z-10 flex flex-col justify-between text-center transition-opacity duration-500",
+          "w-full h-full rounded-[1.4rem] border-0 relative z-10 flex flex-col justify-between transition-opacity duration-500",
           !isFocused && "opacity-60 group-hover:opacity-100"
         )}
       >
-        <CardHeader>
+        <CardHeader className="text-center">
           <CardTitle className="uppercase tracking-wider text-lg md:text-xl">
             {note.topic}
           </CardTitle>
