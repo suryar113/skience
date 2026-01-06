@@ -1,7 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { SiteHeader } from "@/components/site-header";
 import { SphereCarousel } from "@/components/sphere-carousel";
+import { StudyBuddy } from "@/components/study-buddy";
+import { Bot } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const notes = [
   {
@@ -56,17 +60,37 @@ const notes = [
 ];
 
 export default function BiologyPage() {
+  const [isChatOpen, setChatOpen] = useState(false);
+  const [currentTopic, setCurrentTopic] = useState(notes[0].topic);
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <SiteHeader />
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-6 overflow-hidden">
-        <SphereCarousel notes={notes} />
+        <SphereCarousel notes={notes} onTopicChange={setCurrentTopic} />
       </main>
 
       <footer className="text-center p-6">
         <p className="text-sm text-gradient-rainbow" data-text="you better study">you better study</p>
       </footer>
+      
+      <div className="fixed bottom-6 right-6 z-50">
+        <StudyBuddy 
+          isOpen={isChatOpen} 
+          onOpenChange={setChatOpen}
+          topic={currentTopic}
+        />
+        {!isChatOpen && (
+          <Button
+            size="icon"
+            className="rounded-full w-14 h-14 shadow-lg btn-hover-pop"
+            onClick={() => setChatOpen(true)}
+          >
+            <Bot className="w-6 h-6" />
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

@@ -28,21 +28,21 @@ type NoteCardProps = {
 
 function NoteCard({ note, isFocused }: NoteCardProps) {
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full group">
       <div
         className={cn(
-          "absolute -inset-1 rounded-3xl z-0",
-          isFocused ? "animated-glowing-border" : "bg-border"
+          "absolute -inset-1 rounded-3xl z-0 transition-all duration-500",
+          isFocused ? "animated-glowing-border" : "bg-border group-hover:animated-glowing-border"
         )}
       ></div>
       <Card
         className={cn(
           "w-full h-full rounded-[1.4rem] border-0 relative z-10 flex flex-col justify-between text-center transition-opacity duration-500",
-          !isFocused && "opacity-60"
+          !isFocused && "opacity-60 group-hover:opacity-100"
         )}
       >
-        <CardHeader className="items-center">
-          <CardTitle className="uppercase tracking-wider text-lg md:text-xl text-center">
+        <CardHeader>
+          <CardTitle className="uppercase tracking-wider text-lg md:text-xl">
             {note.topic}
           </CardTitle>
         </CardHeader>
@@ -111,13 +111,17 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
   );
 }
 
-export function SphereCarousel({ notes }: { notes: Note[] }) {
+export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopicChange: (topic: string) => void }) {
   const [index, setIndex] = useState(0);
   const [rotation, setRotation] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const totalPanels = notes.length;
   const panelAngle = 360 / totalPanels;
   const radius = totalPanels < 5 ? 200 : 300;
+
+  useEffect(() => {
+    onTopicChange(notes[index].topic);
+  }, [index, notes, onTopicChange]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -157,10 +161,9 @@ export function SphereCarousel({ notes }: { notes: Note[] }) {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.repeat) return;
-      if (event.key === "ArrowLeft" || event.key === "a") {
+      if (event.key === "ArrowLeft") {
         handlePrev();
-      } else if (event.key === "ArrowRight" || event.key === "d") {
+      } else if (event.key === "ArrowRight") {
         handleNext();
       }
     };
