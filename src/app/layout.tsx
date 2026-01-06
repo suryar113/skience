@@ -29,7 +29,7 @@ export default function RootLayout({
         />
         <meta name="google-site-verification" content="4P07Vz0gAuX8McY0xvnFrFDUxShRHFNpjCKRfMeJT1g" />
       </head>
-      <body className="font-body antialiased bg-background text-foreground">
+      <body className="font-body antialiased bg-background text-foreground" suppressHydrationWarning={true}>
         {children}
         <Toaster />
         <Analytics />
