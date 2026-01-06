@@ -1,6 +1,6 @@
 'use client';
 
-const EMBED_URL = "https://craft.me/s/asfdsafadsfdsfs";
+const EMBED_URL = "https://drinks-hunt-3eb.craft.me/asfdsafadsfdsfs";
 
 export default function NotesPage() {
   return (
