@@ -17,6 +17,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 type Note = {
   topic: string;
   notesUrl: string;
+  pagePath: string;
   pdfUrl: string;
   quizletUrl: string;
 };
@@ -27,8 +28,6 @@ type NoteCardProps = {
 };
 
 function NoteCard({ note, isFocused }: NoteCardProps) {
-  const blockId = note.notesUrl?.substring(note.notesUrl.lastIndexOf('/') + 1);
-
   return (
     <div className="relative w-full h-full group">
       <div
@@ -49,14 +48,14 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
-          {note.notesUrl ? (
+          {note.pagePath ? (
             <Button
               asChild
               variant="outline"
               className={cn("btn-hover-pop", !isFocused && "pointer-events-none")}
             >
               <Link
-                href={`/notes/${blockId}`}
+                href={note.pagePath}
                 target="_blank"
                 rel="noopener noreferrer"
               >
