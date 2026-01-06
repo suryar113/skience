@@ -1,20 +1,12 @@
-
 'use server';
 
 import { ai } from '@/ai/genkit';
-import { z } from 'zod';
-import type { StudyBuddyInput, StudyBuddyOutput } from './types';
-
-const StudyBuddyInputSchema = z.object({
-  topic: z.string().describe('The current biology topic being discussed.'),
-  message: z.string().describe("The user's message or question."),
-});
-
-const StudyBuddyOutputSchema = z.string();
-
-export async function askStudyBuddy(input: StudyBuddyInput): Promise<StudyBuddyOutput> {
-  return studyBuddyFlow(input);
-}
+import {
+  type StudyBuddyInput,
+  type StudyBuddyOutput,
+  StudyBuddyInputSchema,
+  StudyBuddyOutputSchema,
+} from './types';
 
 const prompt = ai.definePrompt(
   {
@@ -45,3 +37,7 @@ const studyBuddyFlow = ai.defineFlow(
     return output!;
   }
 );
+
+export async function askStudyBuddy(input: StudyBuddyInput): Promise<StudyBuddyOutput> {
+  return await studyBuddyFlow(input);
+}
