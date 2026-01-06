@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { SiteHeader } from "@/components/site-header";
 import { SphereCarousel } from "@/components/sphere-carousel";
 import { StudyBuddy } from "@/components/study-buddy";
+import { NotesViewer } from "@/components/notes-viewer";
 import { Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -62,13 +63,22 @@ const notes = [
 export default function BiologyPage() {
   const [isChatOpen, setChatOpen] = useState(false);
   const [currentTopic, setCurrentTopic] = useState(notes[0].topic);
+  const [notesUrl, setNotesUrl] = useState<string | null>(null);
+
+  const handleTopicChange = (topic: string) => {
+    setCurrentTopic(topic);
+  };
+
+  const handleViewNotes = (url: string) => {
+    setNotesUrl(url);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <SiteHeader />
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-6 overflow-hidden">
-        <SphereCarousel notes={notes} onTopicChange={setCurrentTopic} />
+        <SphereCarousel notes={notes} onTopicChange={handleTopicChange} onViewNotes={handleViewNotes} />
       </main>
 
       <footer className="text-center p-6">
@@ -91,6 +101,15 @@ export default function BiologyPage() {
           </Button>
         )}
       </div>
+
+      <NotesViewer
+        url={notesUrl}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) {
+            setNotesUrl(null);
+          }
+        }}
+      />
     </div>
   );
 }
