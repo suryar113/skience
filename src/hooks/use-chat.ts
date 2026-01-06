@@ -10,17 +10,17 @@ export interface Message {
 }
 
 // Define the props for the useChat hook
-export interface UseChatOptions<T> {
-  flow: (input: T) => Promise<string>;
+export interface UseChatOptions<T, U> {
+  flow: (input: T) => Promise<U>;
   initialMessages?: Message[];
   context?: Omit<T, 'message'>;
 }
 
-export function useChat<T extends { message: string }>({
+export function useChat<T extends { message: string }, U extends { response: string }>({
   flow,
   initialMessages = [],
   context = {} as Omit<T, 'message'>,
-}: UseChatOptions<T>) {
+}: UseChatOptions<T, U>) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +56,7 @@ export function useChat<T extends { message: string }>({
       try {
         const flowInput = { ...context, message: input } as T;
         const response = await flow(flowInput);
-        const modelMessage: Message = { role: 'model', content: response };
+        const modelMessage: Message = { role: 'model', content: response.response };
         setMessages((prev) => [...prev, modelMessage]);
       } catch (error) {
         console.error('Error calling flow:', error);

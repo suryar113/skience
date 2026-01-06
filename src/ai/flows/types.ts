@@ -6,5 +6,7 @@ export const StudyBuddyInputSchema = z.object({
 });
 export type StudyBuddyInput = z.infer<typeof StudyBuddyInputSchema>;
 
-export const StudyBuddyOutputSchema = z.string().describe("The AI tutor's response.");
+export const StudyBuddyOutputSchema = z.object({
+  response: z.string().describe("The AI tutor's response."),
+});
 export type StudyBuddyOutput = z.infer<typeof StudyBuddyOutputSchema>;

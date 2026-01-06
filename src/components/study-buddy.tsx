@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Send, X, Bot, User, CornerDownLeft } from 'lucide-react';
 import { askStudyBuddy } from '@/ai/flows/study-buddy-flow';
-import type { StudyBuddyInput } from '@/ai/flows/types';
+import type { StudyBuddyInput, StudyBuddyOutput } from '@/ai/flows/types';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -20,7 +20,7 @@ export function StudyBuddy({
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
 }) {
-  const { messages, input, setInput, handleSubmit, isLoading } = useChat<StudyBuddyInput>({
+  const { messages, input, setInput, handleSubmit, isLoading } = useChat<StudyBuddyInput, StudyBuddyOutput>({
     flow: askStudyBuddy,
     initialMessages: [
         {
