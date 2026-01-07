@@ -130,6 +130,13 @@ export function SiteHeader() {
     setMenuOpen(!menuOpen);
   };
 
+  const isNavItemActive = (item) => {
+    if (item.href === '/') {
+      return pathname === '/';
+    }
+    return pathname.startsWith(item.href);
+  };
+
   return (
     <header className="flex justify-between items-center p-4 md:p-6 relative z-50">
       <h1 className="text-2xl font-bold tracking-widest uppercase transition-transform duration-200 ease-in-out hover:scale-110">
@@ -201,21 +208,24 @@ export function SiteHeader() {
         { "opacity-100 visible": menuOpen, "opacity-0 invisible": !menuOpen }
       )}>
         <nav className="flex flex-col items-center justify-center h-full gap-8 text-2xl">
-          {navItems.map((item) => (
-            <button
-              key={item.href}
-              className={cn(
-                'btn-hover-pop',
-                pathname === item.href && 'btn-active-pop'
-              )}
-              onClick={() => {
-                window.location.href = item.href;
-                toggleMenu();
-              }}
-            >
-              {item.label}
-            </button>
-          ))}
+          {navItems.map((item) => {
+            const isActive = isNavItemActive(item);
+            return (
+              <button
+                key={item.href}
+                className={cn(
+                  'btn-hover-pop',
+                  isActive && 'btn-active-pop text-on-pop'
+                )}
+                onClick={() => {
+                  window.location.href = item.href;
+                  toggleMenu();
+                }}
+              >
+                {item.label}
+              </button>
+            )
+          })}
           <div className="flex gap-4">
             <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer" className="btn-hover-pop p-2 rounded-full border border-input">
               <Github className="h-[1.2rem] w-[1.2rem]" />
@@ -225,7 +235,7 @@ export function SiteHeader() {
               <FileText className="h-[1.2rem] w-[1.2rem]" />
               <span className="sr-only">Document</span>
             </Link>
-            <button onClick={toggleTheme} className="btn-hover-pop p-2 rounded-full border border-input">
+            <button onClick={toggleTheme} className="btn-hover-pop p-2 rounded-full border border-input relative">
               <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
               <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               <span className="sr-only">Toggle theme</span>

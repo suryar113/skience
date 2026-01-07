@@ -146,6 +146,10 @@ body {
     opacity: 1;
   }
 
+  .text-on-pop {
+    color: hsl(var(--primary-foreground)) !important;
+  }
+
   /* Pill Navigation */
   .nav-pill-container {
     @apply relative mx-auto flex w-fit items-stretch self-stretch rounded-full border-2 border-primary bg-primary-foreground p-1;
