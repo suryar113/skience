@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { SiteHeader } from "@/components/site-header";
 import { SphereCarousel } from "@/components/sphere-carousel";
+import { Particles } from '@/components/particles';
 
 const notes = [
   {
@@ -71,7 +72,11 @@ export default function BiologyPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground select-none">
+    <div className="flex flex-col min-h-screen bg-background text-foreground select-none relative">
+      <Particles
+        className="absolute inset-0 -z-10 animate-fade-in"
+        quantity={100}
+      />
       <SiteHeader />
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-6 overflow-hidden">

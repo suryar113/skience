@@ -2,10 +2,15 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { SiteHeader } from '@/components/site-header';
+import { Particles } from '@/components/particles';
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground select-none">
+    <div className="flex flex-col min-h-screen bg-background text-foreground select-none relative">
+       <Particles
+        className="absolute inset-0 -z-10 animate-fade-in"
+        quantity={100}
+      />
       <SiteHeader />
       <main className="flex-1 flex flex-col items-center justify-center text-center p-4 md:p-6">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gradient-rainbow" data-text="Welcome to Skience">Welcome to Skience</h2>
