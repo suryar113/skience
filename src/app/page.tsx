@@ -4,16 +4,11 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { SiteHeader } from '@/components/site-header';
-import { Particles } from '@/components/particles';
 import { motion } from 'framer-motion';
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground select-none relative">
-      <Particles
-        className="absolute inset-0 -z-10 animate-fade-in"
-        quantity={100}
-      />
       <SiteHeader />
       <motion.main
         initial={{ opacity: 0, y: 20 }}

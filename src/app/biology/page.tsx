@@ -1,10 +1,8 @@
-
 'use client';
 
 import { useState } from 'react';
 import { SiteHeader } from "@/components/site-header";
 import { SphereCarousel } from "@/components/sphere-carousel";
-import { Particles } from '@/components/particles';
 import { motion } from 'framer-motion';
 
 const notes = [
@@ -75,10 +73,6 @@ export default function BiologyPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground select-none relative">
-      <Particles
-        className="absolute inset-0 -z-10 animate-fade-in"
-        quantity={100}
-      />
       <SiteHeader />
 
       <motion.main

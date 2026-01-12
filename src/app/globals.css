@@ -131,11 +131,6 @@ body {
     animation: animated-glowing-border-animation 8s ease infinite;
   }
 
-  .particle-circle {
-		@apply absolute rounded-full bg-slate-200/10;
-		filter: blur(1px);
-	}
-
   /* Button pop-out effect */
   .btn-hover-pop {
     @apply relative;
