@@ -1,8 +1,7 @@
-
 'use client';
 
 import Link from 'next/link';
-import { Moon, Sun, Github, FileText, Search } from 'lucide-react';
+import { Github, FileText, Search } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from "@/lib/utils";
@@ -191,18 +190,6 @@ export function SiteHeader() {
                 </Link>
              </Tab>
           ))}
-          <Tab setPosition={setPosition}>
-            <button onClick={toggleTheme} ref={el => {
-              if (el) {
-                const parentLi = el.parentElement as HTMLLIElement;
-                linkRefs.current[navItems.length + 1 + actionItems.length] = parentLi;
-              }
-            }} className="w-full h-full flex items-center justify-center px-3 py-1.5 md:px-5 md:py-3">
-              <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              <span className="sr-only">Toggle theme</span>
-            </button>
-          </Tab>
           <Cursor position={position} />
         </ul>
         <button onClick={() => setSearchOpen(true)} className="p-2.5 rounded-full hover:bg-accent text-muted-foreground hover:text-foreground">
@@ -259,11 +246,6 @@ export function SiteHeader() {
               <FileText className="h-[1.2rem] w-[1.2rem]" />
               <span className="sr-only">Document</span>
             </Link>
-            <button onClick={toggleTheme} className="btn-hover-pop p-2 rounded-full border border-input relative flex items-center justify-center">
-              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute m-auto h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              <span className="sr-only">Toggle theme</span>
-            </button>
           </div>
         </nav>
       </div>
