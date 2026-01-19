@@ -12,8 +12,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { motion, useMotionValue, useSpring } from 'framer-motion';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "@/components/ui/carousel"
 
 type Note = {
   topic: string;
@@ -116,12 +123,14 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
 export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopicChange: (topic: string) => void }) {
   const [index, setIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [api, setApi] = useState<CarouselApi>()
+
   const totalPanels = notes.length;
   const panelAngle = 360 / totalPanels;
   
   // Dynamically calculate radius to prevent overlap
   const cardWidth = 240; // from w-[240px]
-  const cardGap = 40; // desired gap between cards
+  const cardGap = 20; // desired gap between cards
   const circumference = totalPanels * (cardWidth + cardGap);
   const radius = Math.max(200, circumference / (2 * Math.PI));
 
@@ -141,6 +150,24 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopi
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  useEffect(() => {
+    if (!api) {
+      return
+    }
+
+    setIndex(api.selectedScrollSnap())
+ 
+    const handleSelect = () => {
+      setIndex(api.selectedScrollSnap())
+    }
+
+    api.on('select', handleSelect)
+ 
+    return () => {
+      api.off('select', handleSelect)
+    }
+  }, [api])
 
   const handleClick = useCallback((newIndex: number) => {
     const currentIndex = index;
@@ -186,27 +213,29 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopi
 
   if (isMobile) {
     return (
-      <div className="w-full flex flex-col items-center justify-center space-y-4">
-        <div className="relative w-[240px] h-[360px]">
-          <NoteCard note={notes[index]} isFocused={true} />
-        </div>
-        <div className="flex items-center gap-4">
-          <Button variant="outline" size="icon" onClick={handlePrev} className="btn-hover-pop">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="icon" onClick={handleNext} className="btn-hover-pop">
-            <ArrowRight className="h-4 w-4" />
-          </Button>
-        </div>
+      <div className="w-full flex flex-col items-center justify-center">
+        <Carousel setApi={setApi} className="w-full max-w-[260px]">
+          <CarouselContent>
+            {notes.map((note, i) => (
+              <CarouselItem key={i}>
+                <div className="p-1 h-[380px]">
+                  <NoteCard note={note} isFocused={i === index} />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="btn-hover-pop -left-2" />
+          <CarouselNext className="btn-hover-pop -right-2" />
+        </Carousel>
       </div>
     );
   }
 
   return (
-    <div className="w-full flex flex-col items-center justify-center space-y-8">
+    <div className="w-full flex flex-col items-center justify-center space-y-8 h-full">
       <div
         className="relative w-full h-[400px]"
-        style={{ perspective: "1200px" }}
+        style={{ perspective: "1500px" }}
       >
         <motion.div
           className="w-full h-full absolute"
