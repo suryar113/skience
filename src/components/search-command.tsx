@@ -1,16 +1,14 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dialog,
   DialogContent,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { notes, type Note } from '@/lib/notes-data';
 import Link from 'next/link';
 import { FileText, Search } from 'lucide-react';
 import { ScrollArea } from './ui/scroll-area';
-import { useRouter } from 'next/navigation';
 
 type SearchResult = {
   topic: string;
@@ -48,13 +46,7 @@ export function SearchCommand({
 }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
-  const router = useRouter();
 
-  const handleResultClick = (path: string) => {
-    onOpenChange(false);
-    router.push(path);
-  };
-  
   useEffect(() => {
     if (query.length > 2) {
       const searchResults: SearchResult[] = [];
@@ -86,6 +78,27 @@ export function SearchCommand({
     }
   }, [open]);
 
+  const createTextFragment = (text: string, query: string): string => {
+    const parts = text.split(new RegExp(`(${query})`, 'gi'));
+    if (parts.length < 3) {
+      return encodeURIComponent(query);
+    }
+    const prefix = parts[0].replace(/\.\.\./g, '').trim();
+    
+    // Take last 4 words of prefix
+    const prefixContext = prefix.split(' ').slice(-4).join(' ');
+
+    let fragment = '';
+    if (prefixContext) {
+        // This syntax means "find `query` that is preceded by `prefixContext`"
+        fragment += `${prefixContext}-,${query}`;
+    } else {
+        fragment += query;
+    }
+    
+    return encodeURIComponent(fragment);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-2xl gap-0 p-0">
@@ -104,24 +117,29 @@ export function SearchCommand({
               <div className="space-y-4">
                 {results.map((result) => (
                   <div key={result.topic}>
-                    <button
-                      className="w-full text-left p-3 rounded-lg hover:bg-accent"
-                      onClick={() => handleResultClick(result.path)}
-                    >
-                      <h3 className="font-semibold flex items-center gap-2 text-md mb-1">
-                        <FileText size={16} /> {result.topic}
-                      </h3>
+                    <div className="p-2">
+                      <Link href={result.path} onClick={() => onOpenChange(false)}>
+                        <h3 className="font-semibold flex items-center gap-2 text-md mb-1 hover:underline">
+                          <FileText size={16} /> {result.topic}
+                        </h3>
+                      </Link>
                       <div className="space-y-1 pl-6">
                         {result.snippets.map((snippet, index) => (
-                          <p
+                          <Link
                             key={index}
-                            className="text-sm text-muted-foreground"
+                            href={`${result.path}#:~:text=${createTextFragment(snippet.text, snippet.query)}`}
+                            onClick={() => onOpenChange(false)}
+                            className="block rounded-md -mx-1 px-1 py-0.5 hover:bg-accent"
                           >
-                            <HighlightedSnippet text={snippet.text} query={snippet.query} />
-                          </p>
+                            <p
+                              className="text-sm text-muted-foreground"
+                            >
+                              <HighlightedSnippet text={snippet.text} query={snippet.query} />
+                            </p>
+                          </Link>
                         ))}
                       </div>
-                    </button>
+                    </div>
                   </div>
                 ))}
               </div>
