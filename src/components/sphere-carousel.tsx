@@ -118,7 +118,13 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopi
   const [isMobile, setIsMobile] = useState(false);
   const totalPanels = notes.length;
   const panelAngle = 360 / totalPanels;
-  const radius = totalPanels < 5 ? 200 : 300;
+  
+  // Dynamically calculate radius to prevent overlap
+  const cardWidth = 240; // from w-[240px]
+  const cardGap = 80; // desired gap between cards
+  const circumference = totalPanels * (cardWidth + cardGap);
+  const radius = Math.max(200, circumference / (2 * Math.PI));
+
 
   const rotationY = useMotionValue(0);
   const springyRotationY = useSpring(rotationY, { stiffness: 300, damping: 50 });
