@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useCallback, useEffect, FormEvent } from 'react';
+import { useState, useCallback, FormEvent, Dispatch, SetStateAction } from 'react';
 
 // Define the shape of a message
 export interface Message {
@@ -24,24 +24,6 @@ export function useChat<T extends { message: string }, U extends { response: str
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  // Effect to update initial message if topic changes
-  useEffect(() => {
-    if (
-      initialMessages.length > 0 &&
-      context && 'topic' in context && typeof context.topic === 'string'
-    ) {
-      const newInitialMessage = {
-        role: 'model' as const,
-        content: `Hello! I'm your AI study buddy. We're currently looking at **${context.topic}**. Feel free to ask me any questions about it!`,
-      };
-      // Only update if the topic has actually changed to avoid re-writing on every render
-      if (messages.length === 0 || (messages[0].role === 'model' && messages[0].content !== newInitialMessage.content)) {
-        setMessages([newInitialMessage]);
-      }
-    }
-  }, [context, initialMessages, messages]);
-
 
   const handleSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -74,6 +56,7 @@ export function useChat<T extends { message: string }, U extends { response: str
 
   return {
     messages,
+    setMessages: setMessages as Dispatch<SetStateAction<Message[]>>,
     input,
     setInput,
     handleSubmit,

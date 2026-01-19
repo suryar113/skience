@@ -20,19 +20,24 @@ export function StudyBuddy({
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
 }) {
-  const { messages, input, setInput, handleSubmit, isLoading } = useChat<StudyBuddyInput, StudyBuddyOutput>({
+  const { messages, setMessages, input, setInput, handleSubmit, isLoading } = useChat<StudyBuddyInput, StudyBuddyOutput>({
     flow: askStudyBuddy,
-    initialMessages: [
-        {
-            role: 'model',
-            content: `Hello! I'm your AI study buddy. We're currently looking at **${topic}**. Feel free to ask me any questions about it!`,
-        },
-    ],
+    initialMessages: [],
     context: { topic },
   });
 
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    // When the topic changes, reset the chat with a new initial message.
+    setMessages([
+        {
+            role: 'model',
+            content: `Hello! I'm your AI study buddy. We're currently looking at **${topic}**. Feel free to ask me any questions about it!`,
+        },
+    ]);
+  }, [topic, setMessages]);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -86,7 +91,7 @@ export function StudyBuddy({
                     </div>
                   )}
                   <div className={cn(
-                      'p-3 rounded-xl max-w-[80%] prose prose-sm',
+                      'p-3 rounded-xl max-w-[80%] prose prose-sm dark:prose-invert',
                       m.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'
                     )}>
                     <div dangerouslySetInnerHTML={{ __html: m.content as string }} />

@@ -4,68 +4,12 @@ import { useState } from 'react';
 import { SiteHeader } from "@/components/site-header";
 import { SphereCarousel } from "@/components/sphere-carousel";
 import { motion } from 'framer-motion';
-
-const notes = [
-  {
-    topic: "CHARACTERISTICS OF LIVING THINGS",
-    notesUrl: "https://drinks-hunt-3eb.craft.me/asdasdasdasdas",
-    pagePath: "/notes/characteristics-of-living-things",
-    pdfUrl:
-      "https://drive.google.com/file/d/1RndRzd5c9SqLzLB2fHY7G-qU_MF_cJCK/view?usp=sharing",
-    quizletUrl: "https://quizlet.com/1122717082/characteristics-of-living-things-flash-cards/?i=47oq46&x=1jqt",
-  },
-  {
-    topic: "ORGANIC MOLECULES",
-    notesUrl: "https://drinks-hunt-3eb.craft.me/asfdsafadsfdsfs",
-    pagePath: "/notes/organic-molecules",
-    pdfUrl:
-      "https://drive.google.com/file/d/1rXuJKTBlGPTY4VM1ARgOs3PxLg-ZGTbB/view?usp=sharing",
-    quizletUrl: "https://quizlet.com/1122717715/organic-molecules-flash-cards/?i=47oq46&x=1jqt",
-  },
-  {
-    topic: "ENZYMES",
-    notesUrl: "https://drinks-hunt-3eb.craft.me/fdgdfgdfgdfgdfgdf",
-    pagePath: "/notes/enzymes",
-    pdfUrl:
-      "https://drive.google.com/file/d/1SmnvQUmyvFglrKm-m9f1rOoRxX_Mz-Bw/view?usp=sharing",
-    quizletUrl: "https://quizlet.com/1122718833/enzymes-flash-cards/?i=47oq46&x=1jqt",
-  },
-  {
-    topic: "THE CELL",
-    notesUrl: "https://drinks-hunt-3eb.craft.me/BWwKgb2BT5sgbZ",
-    pagePath: "/notes/the-cell",
-    pdfUrl:
-      "https://drive.google.com/file/d/1glJUa7ZrClzV2Eot0zlqg9qUYDGyMbxD/view?usp=sharing",
-    quizletUrl: "https://quizlet.com/1120255848/the-cell-flash-cards/",
-  },
-  {
-    topic: "CELLULAR TRANSPORT",
-    notesUrl: "https://drinks-hunt-3eb.craft.me/FChuDvbuWVFkSs",
-    pagePath: "/notes/cellular-transport",
-    pdfUrl:
-      "https://drive.google.com/file/d/1YO6cD4_1jZcq-3fHRWeuFS7cKQb2FAl3/view?usp=sharing",
-    quizletUrl: "https://quizlet.com/1111521452/cellular-transport-flash-cards/",
-  },
-  {
-    topic: "CELL ENERGY",
-    notesUrl: "https://drinks-hunt-3eb.craft.me/yE51rTLi4yFyDq",
-    pagePath: "/notes/cell-energy",
-    pdfUrl:
-      "https://drive.google.com/file/d/1JjaQbMdjr51LIH3vbyZA9b6_BTKUxsl7/view?usp=sharing",
-    quizletUrl: "https://quizlet.com/1120258987/cell-energy-flash-cards/",
-  },
-  {
-    topic: "CELL DIVISION",
-    notesUrl: "https://drinks-hunt-3eb.craft.me/zBqAP1zBPsOXHk",
-    pagePath: "/notes/cell-division",
-    pdfUrl:
-      "https://drive.google.com/file/d/1_t3qS_3c2k3EkXEXUOKxt9EFxMw_EiB4/view?usp=drive_link",
-    quizletUrl: "https://quizlet.com/1120243601/cell-divisionreproduction-flash-cards/",
-  },
-];
+import { notes } from '@/lib/notes-data';
+import { StudyBuddy } from '@/components/study-buddy';
 
 export default function BiologyPage() {
   const [currentTopic, setCurrentTopic] = useState(notes[0].topic);
+  const [isStudyBuddyOpen, setIsStudyBuddyOpen] = useState(false);
 
   const handleTopicChange = (topic: string) => {
     setCurrentTopic(topic);
@@ -87,6 +31,22 @@ export default function BiologyPage() {
       <footer className="text-center p-6">
         <p className="text-sm text-gradient-rainbow" data-text="you better study">you better study</p>
       </footer>
+
+      <div className="fixed bottom-6 right-6 z-50">
+        <StudyBuddy 
+          topic={currentTopic}
+          isOpen={isStudyBuddyOpen} 
+          onOpenChange={setIsStudyBuddyOpen} 
+        />
+        {!isStudyBuddyOpen && (
+          <button
+            onClick={() => setIsStudyBuddyOpen(true)}
+            className="w-16 h-16 bg-primary text-primary-foreground rounded-full shadow-lg flex items-center justify-center hover:bg-primary/90 transition-transform hover:scale-110"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bot"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+          </button>
+        )}
+      </div>
     </div>
   );
 }

@@ -2,11 +2,12 @@
 'use client';
 
 import Link from 'next/link';
-import { Moon, Sun, Github, FileText } from 'lucide-react';
+import { Moon, Sun, Github, FileText, Search } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from "@/lib/utils";
 import { motion } from 'framer-motion';
+import { SearchCommand } from './search-command';
 
 const navItems = [
   { href: '/', label: 'HOME' },
@@ -56,6 +57,7 @@ const Cursor = ({ position }) => {
 export function SiteHeader() {
   const [theme, setTheme] = useState('dark');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const pathname = usePathname();
 
   const [position, setPosition] = useState({
@@ -107,6 +109,17 @@ export function SiteHeader() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        setSearchOpen((open) => !open)
+      }
+    }
+    document.addEventListener('keydown', down)
+    return () => document.removeEventListener('keydown', down)
+  }, [])
+
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -134,17 +147,22 @@ export function SiteHeader() {
     if (item.href === '/') {
       return pathname === '/';
     }
+    if (item.href === '/biology') {
+      return pathname.startsWith('/biology') || pathname.startsWith('/notes');
+    }
     return pathname.startsWith(item.href);
   };
 
   return (
+    <>
+    <SearchCommand open={searchOpen} onOpenChange={setSearchOpen} />
     <header className="flex justify-between items-center p-4 md:p-6 relative z-50">
       <h1 className="text-2xl font-bold tracking-widest uppercase transition-transform duration-200 ease-in-out hover:scale-110">
         <Link href="/" className="text-gradient-rainbow" data-text="Skience">Skience</Link>
       </h1>
       
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center">
+      <nav className="hidden md:flex items-center gap-4">
         <ul
           onMouseLeave={resetPillToActive}
           className="nav-pill-container"
@@ -187,6 +205,10 @@ export function SiteHeader() {
           </Tab>
           <Cursor position={position} />
         </ul>
+        <button onClick={() => setSearchOpen(true)} className="p-2.5 rounded-full hover:bg-accent text-muted-foreground hover:text-foreground">
+          <Search className="h-5 w-5" />
+          <span className="sr-only">Search</span>
+        </button>
       </nav>
 
       {/* Mobile Menu Button */}
@@ -211,22 +233,24 @@ export function SiteHeader() {
           {navItems.map((item) => {
             const isActive = isNavItemActive(item);
             return (
-              <button
+              <Link
                 key={item.href}
+                href={item.href}
+                onClick={toggleMenu}
                 className={cn(
-                  'btn-hover-pop',
+                  'btn-hover-pop p-2 rounded-lg',
                   isActive && 'btn-active-pop text-on-pop'
                 )}
-                onClick={() => {
-                  window.location.href = item.href;
-                  toggleMenu();
-                }}
               >
                 {item.label}
-              </button>
+              </Link>
             )
           })}
           <div className="flex gap-4">
+            <button onClick={() => { setSearchOpen(true); toggleMenu(); }} className="btn-hover-pop p-2 rounded-full border border-input">
+              <Search className="h-[1.2rem] w-[1.2rem]" />
+              <span className="sr-only">Search</span>
+            </button>
             <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer" className="btn-hover-pop p-2 rounded-full border border-input">
               <Github className="h-[1.2rem] w-[1.2rem]" />
               <span className="sr-only">GitHub</span>
@@ -244,5 +268,6 @@ export function SiteHeader() {
         </nav>
       </div>
     </header>
+    </>
   );
 }
