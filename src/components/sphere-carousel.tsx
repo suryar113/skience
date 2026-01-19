@@ -121,7 +121,7 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopi
   
   // Dynamically calculate radius to prevent overlap
   const cardWidth = 240; // from w-[240px]
-  const cardGap = 80; // desired gap between cards
+  const cardGap = 40; // desired gap between cards
   const circumference = totalPanels * (cardWidth + cardGap);
   const radius = Math.max(200, circumference / (2 * Math.PI));
 
@@ -205,8 +205,8 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopi
   return (
     <div className="w-full flex flex-col items-center justify-center space-y-8">
       <div
-        className="relative w-[240px] h-[360px]"
-        style={{ perspective: "1000px" }}
+        className="relative w-full h-[400px]"
+        style={{ perspective: "1200px" }}
       >
         <motion.div
           className="w-full h-full absolute"
@@ -221,7 +221,7 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopi
               <motion.div
                 key={note.topic}
                 className={cn(
-                  "absolute w-[240px] h-[360px] p-2",
+                  "absolute w-[240px] h-[360px] p-2 top-5 left-0 right-0 mx-auto",
                   !isFocused && "cursor-pointer"
                 )}
                 style={{
