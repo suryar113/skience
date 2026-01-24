@@ -41,7 +41,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
       <div
         className={cn(
           "absolute -inset-1 rounded-3xl z-0 transition-all duration-500",
-          isFocused ? "animated-glowing-border" : "bg-border"
+          isFocused ? "animated-glowing-border opacity-75" : "bg-border"
         )}
       ></div>
       <Card
@@ -139,7 +139,9 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopi
   const springyRotationY = useSpring(rotationY, { stiffness: 300, damping: 50 });
 
   useEffect(() => {
-    onTopicChange(notes[index].topic);
+    if (notes[index]) {
+      onTopicChange(notes[index].topic);
+    }
   }, [index, notes, onTopicChange]);
 
   useEffect(() => {
