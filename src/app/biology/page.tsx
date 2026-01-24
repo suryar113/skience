@@ -14,14 +14,18 @@ export default function BiologyPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground select-none relative">
+    <div className="flex flex-col min-h-screen bg-background text-foreground select-none relative overflow-hidden">
+      <div className="absolute top-0 -left-1/4 w-96 h-96 bg-purple-500/20 rounded-full filter blur-3xl opacity-50 animate-blob"></div>
+      <div className="absolute top-0 -right-1/4 w-96 h-96 bg-blue-500/20 rounded-full filter blur-3xl opacity-50 animate-blob [animation-delay:2s]"></div>
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-pink-500/20 rounded-full filter blur-3xl opacity-50 animate-blob [animation-delay:4s]"></div>
+      
       <SiteHeader />
 
       <motion.main
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex-1 flex flex-col items-center justify-center p-4 md:p-6 overflow-hidden"
+        className="flex-1 flex flex-col items-center justify-center p-4 md:p-6"
       >
         <SphereCarousel notes={notes} onTopicChange={handleTopicChange} />
       </motion.main>

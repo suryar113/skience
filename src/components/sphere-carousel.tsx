@@ -46,7 +46,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
       ></div>
       <Card
         className={cn(
-          "w-full h-full rounded-[1.4rem] border-0 relative z-10 flex flex-col justify-between transition-opacity duration-500",
+          "w-full h-full rounded-[1.4rem] relative z-10 flex flex-col justify-between transition-opacity duration-500 bg-card/60 backdrop-blur-lg border border-white/10",
           !isFocused && "opacity-60 group-hover:opacity-100"
         )}
       >
@@ -60,7 +60,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
             <Button
               asChild
               variant="outline"
-              className={cn("btn-hover-pop", !isFocused && "pointer-events-none")}
+              className={cn("btn-hover-pop bg-transparent", !isFocused && "pointer-events-none")}
             >
               <Link
                 href={note.pagePath}
@@ -71,7 +71,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
               </Link>
             </Button>
           ) : (
-            <Button variant="outline" disabled className="btn-hover-pop">
+            <Button variant="outline" disabled className="btn-hover-pop bg-transparent">
               View Notes
             </Button>
           )}
@@ -79,7 +79,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
             <Button
               asChild
               variant="outline"
-              className={cn("btn-hover-pop", !isFocused && "pointer-events-none")}
+              className={cn("btn-hover-pop bg-transparent", !isFocused && "pointer-events-none")}
             >
               <Link
                 href={note.pdfUrl}
@@ -90,7 +90,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
               </Link>
             </Button>
           ) : (
-            <Button variant="outline" disabled className="btn-hover-pop">
+            <Button variant="outline" disabled className="btn-hover-pop bg-transparent">
               PDF Link
             </Button>
           )}
@@ -98,7 +98,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
             <Button
               asChild
               variant="outline"
-              className={cn("btn-hover-pop", !isFocused && "pointer-events-none")}
+              className={cn("btn-hover-pop bg-transparent", !isFocused && "pointer-events-none")}
             >
               <Link
                 href={note.quizletUrl}
@@ -109,7 +109,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
               </Link>
             </Button>
           ) : (
-            <Button variant="outline" disabled className="btn-hover-pop">
+            <Button variant="outline" disabled className="btn-hover-pop bg-transparent">
               Quizlet
             </Button>
           )}
