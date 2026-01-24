@@ -15,9 +15,9 @@ export default function BiologyPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground select-none relative overflow-hidden">
-      <div className="absolute top-0 -left-1/4 w-[32rem] h-[32rem] bg-purple-500/20 rounded-full filter blur-3xl opacity-60 animate-blob"></div>
-      <div className="absolute top-0 -right-1/4 w-[32rem] h-[32rem] bg-blue-500/20 rounded-full filter blur-3xl opacity-60 animate-blob [animation-delay:2s]"></div>
-      <div className="absolute bottom-0 left-1/4 w-[32rem] h-[32rem] bg-pink-500/20 rounded-full filter blur-3xl opacity-60 animate-blob [animation-delay:4s]"></div>
+      <div className="absolute top-0 -left-1/4 w-[32rem] h-[32rem] bg-purple-500 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
+      <div className="absolute top-0 -right-1/4 w-[32rem] h-[32rem] bg-blue-500 rounded-full filter blur-3xl opacity-20 animate-blob [animation-delay:2s]"></div>
+      <div className="absolute bottom-0 left-1/4 w-[32rem] h-[32rem] bg-pink-500 rounded-full filter blur-3xl opacity-20 animate-blob [animation-delay:4s]"></div>
       
       <SiteHeader />
 
