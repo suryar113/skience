@@ -41,7 +41,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
       <div
         className={cn(
           "absolute -inset-1 rounded-3xl z-0 transition-all duration-500",
-          isFocused ? "animated-glowing-border" : "bg-border group-hover:animated-glowing-border"
+          isFocused ? "animated-glowing-border" : "bg-border"
         )}
       ></div>
       <Card
