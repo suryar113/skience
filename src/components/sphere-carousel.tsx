@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -41,7 +40,7 @@ function NoteCard({ note, isFocused }: NoteCardProps) {
       <div
         className={cn(
           "absolute -inset-1 rounded-3xl z-0 transition-all duration-500",
-          isFocused ? "animated-glowing-border opacity-75" : "bg-border"
+          isFocused ? "animated-glowing-border opacity-25" : "bg-border"
         )}
       ></div>
       <Card
