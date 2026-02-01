@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 import { SearchCommand } from './search-command';
 
 const navItems = [
-  { href: '/', label: 'HOME' },
-  { href: '/biology', label: 'BIOLOGY' },
+  { href: '/', label: 'Home' },
+  { href: '/biology', label: 'Biology' },
 ];
 
 const actionItems = [
@@ -67,7 +67,7 @@ export function SiteHeader() {
       </h1>
       
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center gap-4">
+      <nav className="hidden md:flex items-center gap-6">
         {navItems.map((item) => {
           const isActive = isNavItemActive(item);
           return (
@@ -75,10 +75,10 @@ export function SiteHeader() {
               key={item.href}
               href={item.href}
               className={cn(
-                'px-3 py-2 rounded-md text-sm font-medium uppercase transition-colors',
+                'px-3 py-2 rounded-md font-logo text-2xl transition-colors',
                 isActive
-                  ? 'bg-accent text-accent-foreground'
-                  : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                  ? 'text-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
               )}
             >
               {item.label}
@@ -127,7 +127,7 @@ export function SiteHeader() {
         "fixed inset-0 bg-background z-40 transition-opacity duration-300 ease-in-out md:hidden",
         { "opacity-100 visible": menuOpen, "opacity-0 invisible": !menuOpen }
       )}>
-        <nav className="flex flex-col items-center justify-center h-full gap-8 text-2xl">
+        <nav className="flex flex-col items-center justify-center h-full gap-8">
           {navItems.map((item) => {
             const isActive = isNavItemActive(item);
             return (
@@ -136,8 +136,8 @@ export function SiteHeader() {
                 href={item.href}
                 onClick={toggleMenu}
                 className={cn(
-                  'p-2 rounded-lg',
-                  isActive ? 'bg-accent text-accent-foreground' : ''
+                  'p-2 rounded-lg font-logo text-5xl',
+                  isActive ? 'text-foreground' : 'text-muted-foreground'
                 )}
               >
                 {item.label}
