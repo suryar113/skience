@@ -1,7 +1,6 @@
 @font-face {
   font-family: 'Chunky Puffly';
-  src: url('/fonts/ChunkyPuffly-Regular.woff2') format('woff2'),
-       url('/fonts/ChunkyPuffly-Regular.woff') format('woff');
+  src: url('/fonts/ChunkyPuffly-Regular.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
