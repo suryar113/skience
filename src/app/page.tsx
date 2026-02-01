@@ -19,7 +19,7 @@ export default function Home() {
         transition={{ duration: 0.5 }}
         className="flex-1 flex flex-col items-center justify-center text-center p-4 md:p-6"
       >
-        <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gradient-rainbow font-headline" data-text="Welcome to Skience">Welcome to Skience</h2>
+        <h2 className="text-5xl md:text-6xl font-bold mb-4 text-gradient-rainbow font-headline" data-text="Welcome to Skience">Welcome to Skience</h2>
         <Button size="lg" asChild variant="outline" className="bg-background hover:bg-accent btn-hover-pop group relative">
             <Link href="/biology">Explore Biology Notes</Link>
         </Button>
