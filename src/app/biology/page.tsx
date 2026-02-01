@@ -30,9 +30,9 @@ export default function BiologyPage() {
         <SphereCarousel notes={notes} onTopicChange={handleTopicChange} />
       </motion.main>
       
-      <footer className="text-center p-6">
+      {/* <footer className="text-center p-6">
         <p className="text-sm text-gradient-rainbow" data-text="you better study">you better study</p>
-      </footer>
+      </footer> */}
     </div>
   );
 }

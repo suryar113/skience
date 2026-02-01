@@ -25,9 +25,9 @@ export default function Home() {
         </Button>
       </motion.main>
 
-      <footer className="text-center p-6">
+      {/* <footer className="text-center p-6">
         <p className="text-sm text-gradient-rainbow" data-text="you better study">you better study</p>
-      </footer>
+      </footer> */}
     </div>
   );
 }
