@@ -1,6 +1,6 @@
 # Skience - A Modern Science Notes App
 
-This is a Next.js application designed to help students study biology topics. It features interactive notes, Quizlet flashcards, and an AI-powered "Study Buddy".
+This is a Next.js application designed to help students study biology topics.
 
 ## Getting Started
 

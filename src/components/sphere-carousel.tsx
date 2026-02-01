@@ -125,6 +125,14 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopi
   const [isQuizletModalOpen, setIsQuizletModalOpen] = useState(false);
   const [selectedQuizletSetId, setSelectedQuizletSetId] = useState<string | null>(null);
 
+  // This state will prevent rendering on the server and during initial client render.
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+
   const handleQuizletClick = (quizletSetId: string) => {
     setSelectedQuizletSetId(quizletSetId);
     setIsQuizletModalOpen(true);
@@ -150,13 +158,14 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopi
   }, [index, notes, onTopicChange]);
 
   useEffect(() => {
+    if (!hasMounted) return;
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  }, [hasMounted]);
 
   useEffect(() => {
     if (!api) {
@@ -204,6 +213,7 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopi
   }, [index, totalPanels, handleClick]);
 
   useEffect(() => {
+    if (!hasMounted) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowLeft") {
         handlePrev();
@@ -216,7 +226,17 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopi
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handlePrev, handleNext]);
+  }, [handlePrev, handleNext, hasMounted]);
+
+  if (!hasMounted) {
+    // Return a placeholder or null to ensure server and client match.
+    // A placeholder that matches the approximate height can prevent layout shift.
+    return (
+      <div className="w-full flex flex-col items-center justify-center">
+          <div className="w-full max-w-[260px] h-[380px] md:h-[400px]" />
+      </div>
+    );
+  }
 
   return (
     <>
