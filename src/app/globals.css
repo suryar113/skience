@@ -1,6 +1,22 @@
 @font-face {
   font-family: 'Chunky Puffly';
-  src: url('/fonts/ChunkyPuffly-Regular.otf') format('opentype');
+  src: url('/fonts/ChunkyPuffly.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('/fonts/BebasNeue.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pixelify Sans';
+  src: url('/fonts/PixelifySans-VariableFont_wght.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -9,10 +25,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body {
-  font-family: 'Chunky Puffly', sans-serif;
-}
 
 @layer base {
   .light {

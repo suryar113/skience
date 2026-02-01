@@ -52,7 +52,7 @@ function NoteCard({ note, isFocused, onQuizletClick }: NoteCardProps) {
         )}
       >
         <CardHeader className="flex flex-col items-center text-center">
-          <CardTitle className="uppercase tracking-wider text-lg md:text-xl">
+          <CardTitle className="uppercase text-lg md:text-xl font-headline">
             {note.topic}
           </CardTitle>
         </CardHeader>

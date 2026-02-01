@@ -17,8 +17,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Chunky Puffly', 'sans-serif'],
-        headline: ['Chunky Puffly', 'sans-serif'],
+        body: ['Pixelify Sans', 'sans-serif'],
+        headline: ['Bebas Neue', 'sans-serif'],
+        logo: ['Chunky Puffly', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
