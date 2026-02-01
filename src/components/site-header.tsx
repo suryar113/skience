@@ -2,10 +2,9 @@
 
 import Link from 'next/link';
 import { Github, FileText, Search } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from "@/lib/utils";
-import { motion } from 'framer-motion';
 import { SearchCommand } from './search-command';
 
 const navItems = [
@@ -18,95 +17,10 @@ const actionItems = [
     { href: 'https://docs.google.com/document/d/1VG5CmHf8K85TarJBt-SRZz5yli5HhpcNfcsmavNd59A/edit?usp=sharing', icon: FileText, label: 'Document' },
 ];
 
-const Tab = ({ children, setPosition }) => {
-  const ref = useRef(null);
-
-  return (
-    <li
-      ref={ref}
-      onMouseEnter={() => {
-        if (!ref?.current) return;
-
-        const { width } = ref.current.getBoundingClientRect();
-
-        setPosition({
-          left: ref.current.offsetLeft,
-          width,
-          opacity: 1,
-        });
-      }}
-      className="nav-pill-item"
-    >
-      {children}
-    </li>
-  );
-};
-
-const Cursor = ({ position }) => {
-  return (
-    <motion.li
-      animate={{
-        ...position,
-      }}
-      className="nav-pill"
-    />
-  );
-};
-
 export function SiteHeader() {
-  const [theme, setTheme] = useState('dark');
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const pathname = usePathname();
-
-  const [position, setPosition] = useState({
-    left: 0,
-    width: 0,
-    opacity: 0,
-  });
-
-  const allNavItems = [...navItems, { type: 'separator' }, ...actionItems, { type: 'theme-toggle' }];
-  const linkRefs = useRef<(HTMLLIElement | null)[]>([]);
-
-  const resetPillToActive = () => {
-    let activeIndex = allNavItems.findIndex(item => 'href' in item && item.href === pathname);
-    
-    if (activeIndex === -1) {
-      if (pathname.startsWith('/biology')) {
-        activeIndex = allNavItems.findIndex(item => 'href' in item && item.href === '/biology');
-      } else {
-        activeIndex = allNavItems.findIndex(item => 'href' in item && item.href === '/');
-      }
-    }
-    
-    const activeLink = linkRefs.current[activeIndex];
-    
-    if (activeLink) {
-        const { offsetLeft, clientWidth } = activeLink;
-        setPosition({ left: offsetLeft, width: clientWidth, opacity: 1 });
-    }
-  };
-
-  useEffect(() => {
-    const storedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(storedTheme);
-    document.documentElement.className = storedTheme;
-  }, []);
-  
-  useEffect(() => {
-    const timer = setTimeout(() => {
-        resetPillToActive();
-    }, 100);
-
-    const handleResize = () => resetPillToActive();
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('resize', handleResize);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -118,14 +32,6 @@ export function SiteHeader() {
     document.addEventListener('keydown', down)
     return () => document.removeEventListener('keydown', down)
   }, [])
-
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    document.documentElement.className = newTheme;
-    localStorage.setItem('theme', newTheme);
-  };
 
   useEffect(() => {
     if (menuOpen) {
@@ -142,7 +48,7 @@ export function SiteHeader() {
     setMenuOpen(!menuOpen);
   };
 
-  const isNavItemActive = (item) => {
+  const isNavItemActive = (item: { href: string }) => {
     if (item.href === '/') {
       return pathname === '/';
     }
@@ -162,40 +68,45 @@ export function SiteHeader() {
       
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center gap-4">
-        <ul
-          onMouseLeave={resetPillToActive}
-          className="nav-pill-container"
-        >
-          {navItems.map((item, index) => (
-            <Tab key={item.href} setPosition={setPosition}>
-              <Link href={item.href} ref={el => {
-                if (el) {
-                  const parentLi = el.parentElement as HTMLLIElement;
-                  linkRefs.current[index] = parentLi;
-                }
-              }} className="w-full h-full flex items-center justify-center px-3 py-1.5 md:px-5 md:py-3">{item.label}</Link>
-            </Tab>
-          ))}
-          <li className='nav-pill-separator'></li>
-          {actionItems.map((item, index) => (
-             <Tab key={item.label} setPosition={setPosition}>
-                <Link href={item.href} target="_blank" rel="noopener noreferrer" ref={el => {
-                  if (el) {
-                    const parentLi = el.parentElement as HTMLLIElement;
-                    linkRefs.current[navItems.length + 1 + index] = parentLi;
-                  }
-                }} className="w-full h-full flex items-center justify-center px-3 py-1.5 md:px-5 md:py-3">
+        {navItems.map((item) => {
+          const isActive = isNavItemActive(item);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                'px-3 py-2 rounded-md text-sm font-medium uppercase transition-colors',
+                isActive
+                  ? 'bg-accent text-accent-foreground'
+                  : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+              )}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
+        
+        <div className="flex items-center gap-1">
+            {actionItems.map((item) => (
+                <Link
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-full text-muted-foreground hover:bg-accent hover:text-foreground"
+                >
                     <item.icon className="h-5 w-5" />
                     <span className="sr-only">{item.label}</span>
                 </Link>
-             </Tab>
-          ))}
-          <Cursor position={position} />
-        </ul>
-        <button onClick={() => setSearchOpen(true)} className="p-2.5 rounded-full hover:bg-accent text-muted-foreground hover:text-foreground">
-          <Search className="h-5 w-5" />
-          <span className="sr-only">Search</span>
-        </button>
+            ))}
+            <button
+                onClick={() => setSearchOpen(true)}
+                className="p-2.5 rounded-full text-muted-foreground hover:bg-accent hover:text-foreground"
+            >
+                <Search className="h-5 w-5" />
+                <span className="sr-only">Search</span>
+            </button>
+        </div>
       </nav>
 
       {/* Mobile Menu Button */}
@@ -225,8 +136,8 @@ export function SiteHeader() {
                 href={item.href}
                 onClick={toggleMenu}
                 className={cn(
-                  'btn-hover-pop p-2 rounded-lg',
-                  isActive && 'btn-active-pop text-on-pop'
+                  'p-2 rounded-lg',
+                  isActive ? 'bg-accent text-accent-foreground' : ''
                 )}
               >
                 {item.label}
@@ -234,15 +145,15 @@ export function SiteHeader() {
             )
           })}
           <div className="flex gap-4">
-            <button onClick={() => { setSearchOpen(true); toggleMenu(); }} className="btn-hover-pop p-2 rounded-full border border-input">
+            <button onClick={() => { setSearchOpen(true); toggleMenu(); }} className="p-3 rounded-full hover:bg-accent border">
               <Search className="h-[1.2rem] w-[1.2rem]" />
               <span className="sr-only">Search</span>
             </button>
-            <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer" className="btn-hover-pop p-2 rounded-full border border-input">
+            <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer" className="p-3 rounded-full hover:bg-accent border">
               <Github className="h-[1.2rem] w-[1.2rem]" />
               <span className="sr-only">GitHub</span>
             </Link>
-            <Link href="https://docs.google.com/document/d/1VG5CmHf8K85TarJBt-SRZz5yli5HhpcNfcsmavNd59A/edit?usp=sharing" target="_blank" rel="noopener noreferrer" className="btn-hover-pop p-2 rounded-full border border-input">
+            <Link href="https://docs.google.com/document/d/1VG5CmHf8K85TarJBt-SRZz5yli5HhpcNfcsmavNd59A/edit?usp=sharing" target="_blank" rel="noopener noreferrer" className="p-3 rounded-full hover:bg-accent border">
               <FileText className="h-[1.2rem] w-[1.2rem]" />
               <span className="sr-only">Document</span>
             </Link>

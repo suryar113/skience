@@ -149,51 +149,6 @@ body {
     animation: animated-glowing-border-animation 8s ease infinite;
   }
 
-  /* Button pop-out effect */
-  .btn-hover-pop {
-    @apply relative;
-  }
-
-  .btn-hover-pop::before {
-    content: '';
-    position: absolute;
-    inset: -2px; /* controls thickness of the outline */
-    border-radius: inherit;
-    background: hsl(var(--primary));
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-    z-index: -1;
-  }
-
-  .btn-hover-pop:hover::before {
-    opacity: 1;
-  }
-  
-  .btn-active-pop::before {
-    opacity: 1;
-  }
-
-  .text-on-pop {
-    color: hsl(var(--primary-foreground)) !important;
-  }
-
-  /* Pill Navigation */
-  .nav-pill-container {
-    @apply relative mx-auto flex w-fit items-stretch self-stretch rounded-full border-2 border-primary bg-primary-foreground p-1;
-  }
-
-  .nav-pill {
-    @apply absolute z-0 h-7 rounded-full bg-primary md:h-12;
-  }
-  
-  .nav-pill-item {
-    @apply relative z-10 block cursor-pointer text-xs uppercase text-primary mix-blend-difference md:text-base;
-  }
-  
-  .nav-pill-separator {
-    @apply w-px bg-primary mx-2 z-10 self-stretch;
-  }
-
   .animate-blob {
     animation: blob-animation 10s infinite ease-in-out;
   }
