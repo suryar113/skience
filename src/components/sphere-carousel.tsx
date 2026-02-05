@@ -1,0 +1,303 @@
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "@/components/ui/carousel"
+import { QuizletModal } from "./quizlet-modal";
+
+type Note = {
+  topic: string;
+  notesUrl: string;
+  pagePath: string;
+  pdfUrl: string;
+  quizletSetId: string;
+};
+
+type NoteCardProps = {
+  note: Note;
+  isFocused: boolean;
+  onQuizletClick: (quizletSetId: string) => void;
+};
+
+function NoteCard({ note, isFocused, onQuizletClick }: NoteCardProps) {
+  return (
+    <div className="relative w-full h-full group">
+      <div
+        className={cn(
+          "absolute -inset-1 rounded-3xl z-0 transition-all duration-500",
+          isFocused ? "animated-glowing-border opacity-50" : "bg-border"
+        )}
+      ></div>
+      <Card
+        className={cn(
+          "w-full h-full rounded-[1.4rem] relative z-10 flex flex-col justify-between transition-opacity duration-500 bg-card/60 backdrop-blur-lg border border-white/10",
+          !isFocused && "opacity-60 group-hover:opacity-100"
+        )}
+      >
+        <CardHeader className="flex flex-col items-center text-center">
+          <CardTitle className="uppercase text-xl md:text-2xl font-headline">
+            {note.topic}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col items-center gap-4">
+          {note.pagePath ? (
+            <Button
+              asChild
+              variant="outline"
+              className={cn("btn-hover-pop bg-transparent", !isFocused && "pointer-events-none")}
+            >
+              <Link
+                href={note.pagePath}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Notes
+              </Link>
+            </Button>
+          ) : (
+            <Button variant="outline" disabled className="btn-hover-pop bg-transparent">
+              View Notes
+            </Button>
+          )}
+          {note.pdfUrl ? (
+            <Button
+              asChild
+              variant="outline"
+              className={cn("btn-hover-pop bg-transparent", !isFocused && "pointer-events-none")}
+            >
+              <Link
+                href={note.pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                PDF Link
+              </Link>
+            </Button>
+          ) : (
+            <Button variant="outline" disabled className="btn-hover-pop bg-transparent">
+              PDF Link
+            </Button>
+          )}
+          {note.quizletSetId ? (
+            <Button
+              variant="outline"
+              className={cn("btn-hover-pop bg-transparent", !isFocused && "pointer-events-none")}
+              onClick={(e) => {
+                e.stopPropagation();
+                onQuizletClick(note.quizletSetId);
+              }}
+            >
+              Quizlet
+            </Button>
+          ) : (
+            <Button variant="outline" disabled className="btn-hover-pop bg-transparent">
+              Quizlet
+            </Button>
+          )}
+        </CardContent>
+        <CardFooter className="justify-center"></CardFooter>
+      </Card>
+    </div>
+  );
+}
+
+export function SphereCarousel({ notes, onTopicChange }: { notes: Note[], onTopicChange: (topic: string) => void }) {
+  const [index, setIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [api, setApi] = useState<CarouselApi>()
+  const [isQuizletModalOpen, setIsQuizletModalOpen] = useState(false);
+  const [selectedQuizletSetId, setSelectedQuizletSetId] = useState<string | null>(null);
+
+  // This state will prevent rendering on the server and during initial client render.
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+
+  const handleQuizletClick = (quizletSetId: string) => {
+    setSelectedQuizletSetId(quizletSetId);
+    setIsQuizletModalOpen(true);
+  };
+
+  const totalPanels = notes.length;
+  const panelAngle = 360 / totalPanels;
+  
+  // Dynamically calculate radius to prevent overlap
+  const cardWidth = 240; // from w-[240px]
+  const cardGap = 20; // desired gap between cards
+  const circumference = totalPanels * (cardWidth + cardGap);
+  const radius = Math.max(200, circumference / (2 * Math.PI));
+
+
+  const rotationY = useMotionValue(0);
+  const springyRotationY = useSpring(rotationY, { stiffness: 300, damping: 50 });
+
+  useEffect(() => {
+    if (notes[index]) {
+      onTopicChange(notes[index].topic);
+    }
+  }, [index, notes, onTopicChange]);
+
+  useEffect(() => {
+    if (!hasMounted) return;
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, [hasMounted]);
+
+  useEffect(() => {
+    if (!api) {
+      return
+    }
+
+    setIndex(api.selectedScrollSnap())
+ 
+    const handleSelect = () => {
+      setIndex(api.selectedScrollSnap())
+    }
+
+    api.on('select', handleSelect)
+ 
+    return () => {
+      api.off('select', handleSelect)
+    }
+  }, [api])
+
+  const handleClick = useCallback((newIndex: number) => {
+    const currentIndex = index;
+    if (newIndex === currentIndex) return;
+
+    let diff = newIndex - currentIndex;
+    if (Math.abs(diff) > totalPanels / 2) {
+      if (diff > 0) {
+        diff -= totalPanels;
+      } else {
+        diff += totalPanels;
+      }
+    }
+    
+    setIndex(newIndex);
+    rotationY.set(rotationY.get() - diff * panelAngle);
+  }, [index, rotationY, totalPanels, panelAngle]);
+
+  const handlePrev = useCallback(() => {
+    const newIndex = (index - 1 + totalPanels) % totalPanels;
+    handleClick(newIndex);
+  }, [index, totalPanels, handleClick]);
+
+  const handleNext = useCallback(() => {
+    const newIndex = (index + 1) % totalPanels;
+    handleClick(newIndex);
+  }, [index, totalPanels, handleClick]);
+
+  useEffect(() => {
+    if (!hasMounted) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft") {
+        handlePrev();
+      } else if (event.key === "ArrowRight") {
+        handleNext();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handlePrev, handleNext, hasMounted]);
+
+  if (!hasMounted) {
+    // Return a placeholder or null to ensure server and client match.
+    // A placeholder that matches the approximate height can prevent layout shift.
+    return (
+      <div className="w-full flex flex-col items-center justify-center">
+          <div className="w-full max-w-[260px] h-[380px] md:h-[400px]" />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {isMobile ? (
+        <div className="w-full flex flex-col items-center justify-center">
+          <Carousel setApi={setApi} className="w-full max-w-[260px]">
+            <CarouselContent>
+              {notes.map((note, i) => (
+                <CarouselItem key={i}>
+                  <div className="p-1 h-[380px]">
+                    <NoteCard note={note} isFocused={i === index} onQuizletClick={handleQuizletClick} />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="btn-hover-pop -left-2" />
+            <CarouselNext className="btn-hover-pop -right-2" />
+          </Carousel>
+        </div>
+      ) : (
+        <div className="w-full flex flex-col items-center justify-center space-y-8 h-full">
+          <div
+            className="relative w-full h-[400px]"
+            style={{ perspective: "1500px" }}
+          >
+            <motion.div
+              className="w-full h-full absolute"
+              style={{
+                transformStyle: "preserve-3d",
+                rotateY: springyRotationY,
+              }}
+            >
+              {notes.map((note, i) => {
+                const isFocused = i === index;
+                return (
+                  <motion.div
+                    key={note.topic}
+                    className={cn(
+                      "absolute w-[240px] h-[360px] p-2 top-5 left-0 right-0 mx-auto",
+                      !isFocused && "cursor-pointer"
+                    )}
+                    style={{
+                      transform: `rotateY(${
+                        i * panelAngle
+                      }deg) translateZ(${radius}px)`,
+                    }}
+                    onClick={() => handleClick(i)}
+                  >
+                    <NoteCard note={note} isFocused={isFocused} onQuizletClick={handleQuizletClick} />
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          </div>
+        </div>
+      )}
+      <QuizletModal 
+        isOpen={isQuizletModalOpen}
+        onOpenChange={setIsQuizletModalOpen}
+        quizletSetId={selectedQuizletSetId}
+      />
+    </>
+  );
+}

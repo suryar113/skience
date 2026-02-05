@@ -8,10 +8,18 @@ export default {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
+        body: ['Pixelify Sans', 'sans-serif'],
+        headline: ['Bebas Neue', 'sans-serif'],
+        logo: ['Chunky Puffly', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
@@ -88,10 +96,15 @@ export default {
             height: '0',
           },
         },
+        "fade-in": {
+          "from": { "opacity": "0" },
+          "to": { "opacity": "1" }
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        "fade-in": "fade-in 1s ease-in-out",
       },
     },
   },
