@@ -10,6 +10,7 @@ const withPWA = withPWAInit({
 
 const nextConfig: NextConfig = {
   /* config options here */
+  output: 'export',
   turbopack: {},
   typescript: {
     ignoreBuildErrors: true,
