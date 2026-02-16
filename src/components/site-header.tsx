@@ -14,7 +14,7 @@ const navItems = [
 
 const actionItems = [
     { href: 'https://github.com/gtdsura/skience', icon: Github, label: 'GitHub' },
-    { href: './resources', icon: FileText, label: 'Document' },
+    { href: 'https://docs.google.com/document/d/1VG5CmHf8K85TarJBt-SRZz5yli5HhpcNfcsmavNd59A/edit?usp=sharing', icon: FileText, label: 'Document' },
 ];
 
 export function SiteHeader() {
