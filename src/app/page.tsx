@@ -7,7 +7,7 @@
  * - Animated background blobs with an added Tech-Grid layer.
  * - Floating Bio-Particles for atmospheric depth.
  * - Rainbow gradient headline with tracking and drop-shadows.
- * - Glassmorphic Call-to-action button.
+ * - Glassmorphic Call-to-action button with custom 21px radius.
  */
 
 import Link from 'next/link';
