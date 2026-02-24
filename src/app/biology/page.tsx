@@ -1,54 +1,171 @@
 'use client';
 
 /**
- * @fileoverview Biology Notes Main Selection Page.
+ * @fileoverview Biology Notes Main Selection Page with View Toggle.
  * 
- * Displays the 3D SphereCarousel where users can browse topics.
- * 
- * Logic:
- * - Manages the 'currentTopic' state based on carousel selection.
- * - Ensures the layout allows the carousel to fill the vertical length of the screen.
+ * Displays the 3D SphereCarousel or a minimalist Table View.
  */
 
 import { useState } from 'react';
 import { SiteHeader } from "@/components/site-header";
 import { SphereCarousel } from "@/components/sphere-carousel";
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { notes } from '@/lib/notes-data';
+import { Microscope, Atom, Dna, LayoutGrid, TableProperties, ExternalLink, FileText, GraduationCap } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import Link from 'next/link';
+import { QuizletModal } from '@/components/quizlet-modal';
 
 export default function BiologyPage() {
   const [currentTopic, setCurrentTopic] = useState(notes[0].topic);
+  const [viewMode, setViewMode] = useState<'carousel' | 'table'>('carousel');
+  const [isQuizletModalOpen, setIsQuizletModalOpen] = useState(false);
+  const [selectedQuizletSetId, setSelectedQuizletSetId] = useState<string | null>(null);
 
-  /**
-   * Update current topic when the carousel rotates to a new card.
-   * This can be used for contextual headers or background changes.
-   */
   const handleTopicChange = (topic: string) => {
     setCurrentTopic(topic);
   };
 
+  const handleOpenQuizlet = (setId: string) => {
+    setSelectedQuizletSetId(setId);
+    setIsQuizletModalOpen(true);
+  };
+
   return (
-    <div className="flex flex-col min-h-screen h-screen bg-background text-foreground select-none relative overflow-hidden">
-      {/* Ambient background animations for a biological/scientific feel */}
-      <div className="absolute top-0 -left-1/4 w-[32rem] h-[32rem] bg-purple-500 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
-      <div className="absolute top-0 -right-1/4 w-[32rem] h-[32rem] bg-blue-500 rounded-full filter blur-3xl opacity-20 animate-blob [animation-delay:2s]"></div>
-      <div className="absolute bottom-0 left-1/4 w-[32rem] h-[32rem] bg-pink-500 rounded-full filter blur-3xl opacity-20 animate-blob [animation-delay:4s]"></div>
+    <div className="flex flex-col h-screen bg-background text-foreground select-none relative overflow-hidden">
+      {/* Immersive Background Effects */}
+      <div className="absolute inset-0 bg-tech-grid pointer-events-none"></div>
       
+      {/* Ambient Blobs */}
+      <div className="absolute top-0 -left-1/4 w-[32rem] h-[32rem] bg-purple-500 rounded-full filter blur-3xl opacity-10 animate-blob"></div>
+      <div className="absolute top-0 -right-1/4 w-[32rem] h-[32rem] bg-blue-500 rounded-full filter blur-3xl opacity-10 animate-blob [animation-delay:2s]"></div>
+      <div className="absolute bottom-0 left-1/4 w-[32rem] h-[32rem] bg-pink-500 rounded-full filter blur-3xl opacity-10 animate-blob [animation-delay:4s]"></div>
+      
+      {/* Floating Bio-Particles for Depth */}
+      <motion.div animate={{ y: [0, -20, 0], opacity: [0.1, 0.2, 0.1] }} transition={{ duration: 5, repeat: Infinity }} className="absolute top-1/4 left-10 text-purple-400/10 pointer-events-none"><Atom size={80} /></motion.div>
+      <motion.div animate={{ y: [0, 20, 0], opacity: [0.05, 0.15, 0.05] }} transition={{ duration: 7, repeat: Infinity, delay: 1 }} className="absolute bottom-1/4 right-20 text-blue-400/10 pointer-events-none"><Dna size={120} /></motion.div>
+      <motion.div animate={{ scale: [1, 1.1, 1], opacity: [0.05, 0.1, 0.05] }} transition={{ duration: 6, repeat: Infinity, delay: 2 }} className="absolute top-1/2 right-1/3 text-pink-400/10 pointer-events-none"><Microscope size={60} /></motion.div>
+
       <SiteHeader />
 
+      {/* View Toggle Button */}
+      <div className="relative z-20 flex justify-center py-4 px-4">
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={() => setViewMode(viewMode === 'carousel' ? 'table' : 'carousel')}
+          className="bg-black/40 backdrop-blur-xl border-white/10 rounded-full px-6 py-5 hover:bg-white/10 transition-all duration-300 group"
+        >
+          {viewMode === 'carousel' ? (
+            <div className="flex items-center gap-3">
+              <TableProperties className="w-4 h-4 text-blue-400" />
+              <span className="font-headline tracking-widest text-sm">SWITCH TO TABLE VIEW</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <LayoutGrid className="w-4 h-4 text-purple-400" />
+              <span className="font-headline tracking-widest text-sm">SWITCH TO CAROUSEL</span>
+            </div>
+          )}
+        </Button>
+      </div>
+
       <motion.main
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6 }}
-        className="flex-1 flex flex-col items-center justify-center p-4 md:p-6 h-full overflow-hidden"
+        initial={false}
+        className="flex-1 flex flex-col items-center justify-center p-4 md:p-8 relative z-10 overflow-hidden mb-12"
       >
-        {/* 
-            The SphereCarousel 
-            - Now width and height aware.
-            - Spacing scales dynamically with the screen dimensions.
-        */}
-        <SphereCarousel notes={notes} onTopicChange={handleTopicChange} />
+        <AnimatePresence mode="wait">
+          {viewMode === 'carousel' ? (
+            <motion.div
+              key="carousel"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.5 }}
+              className="w-full h-full flex items-center justify-center"
+            >
+              <SphereCarousel notes={notes} onTopicChange={handleTopicChange} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="table"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+              className="w-full max-w-5xl mx-auto h-full flex flex-col"
+            >
+              <div className="bg-black/40 backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl flex-1 flex flex-col relative">
+                <div className="flex-1 overflow-y-auto overflow-x-hidden relative">
+                  <Table className="w-full border-collapse">
+                    <TableHeader className="sticky top-0 z-[100] bg-black shadow-lg">
+                      <TableRow className="hover:bg-transparent border-white/10">
+                        <TableHead className="py-5 text-sm font-headline tracking-[0.2em] text-muted-foreground pl-8 bg-black">TOPIC</TableHead>
+                        <TableHead className="py-5 text-sm font-headline tracking-[0.2em] text-muted-foreground text-center bg-black">NOTES</TableHead>
+                        <TableHead className="py-5 text-sm font-headline tracking-[0.2em] text-muted-foreground text-center bg-black">PDF</TableHead>
+                        <TableHead className="py-5 text-sm font-headline tracking-[0.2em] text-muted-foreground text-center pr-8 bg-black">QUIZLET</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {notes.map((note) => (
+                        <TableRow 
+                          key={note.topic} 
+                          className="hover-rainbow-row border-white/5 transition-all group relative"
+                        >
+                          <TableCell className="py-5 pl-8">
+                            <span className="font-headline text-lg tracking-wider text-foreground transition-colors">
+                              {note.topic}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <Button asChild variant="ghost" className="h-9 w-9 p-0 hover:bg-purple-500/20 text-muted-foreground hover:text-purple-400 rounded-xl">
+                              <Link href={note.pagePath} target="_blank">
+                                <ExternalLink className="w-4 h-4" />
+                              </Link>
+                            </Button>
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <Button asChild variant="ghost" className="h-9 w-9 p-0 hover:bg-blue-500/20 text-muted-foreground hover:text-blue-400 rounded-xl">
+                              <Link href={note.pdfUrl} target="_blank">
+                                <FileText className="w-4 h-4" />
+                              </Link>
+                            </Button>
+                          </TableCell>
+                          <TableCell className="text-center pr-8">
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => handleOpenQuizlet(note.quizletSetId)}
+                              disabled={!note.quizletSetId}
+                              className="h-9 w-9 p-0 hover:bg-yellow-500/20 text-muted-foreground hover:text-yellow-400 rounded-xl"
+                            >
+                              <GraduationCap className="w-4 h-4" />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.main>
+
+      <QuizletModal 
+        isOpen={isQuizletModalOpen} 
+        onOpenChange={setIsQuizletModalOpen} 
+        quizletSetId={selectedQuizletSetId} 
+      />
     </div>
   );
 }

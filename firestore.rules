@@ -1,103 +1,123 @@
-/**
- * @fileoverview Firestore Security Rules for the application.
- *
- * Core Philosophy:
- * This ruleset enforces a strict user-ownership model for user profiles and their associated pages.
- * Only authenticated users can create profiles, and they can only manage their own profiles and pages.
- * Themes are publicly readable but not writable by clients.
- *
- * Data Structure:
- * - /userProfiles/{userProfileId}: Stores user profile data, including device ID for access control.
- * - /themes/{themeId}: Stores website themes, publicly readable.
- * - /userProfiles/{userProfileId}/pages/{pageId}: Stores pages created by users, nested under their profiles.
- *
- * Key Security Decisions:
- * - User listing is disallowed for privacy.
- * - Themes are read-only for all users.
- * - Default security posture is strict owner-only access.
- *
- * Denormalization for Authorization:
- * - The deviceId is stored directly in the UserProfile document to facilitate per-device authorization.
- */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Controls access to user profiles.
-     * @path /userProfiles/{userProfileId}
-     * @allow (create) Authenticated user can create their own profile.
-     * @deny (create) Authenticated user cannot create a profile for another user.
-     * @allow (get, update, delete) Authenticated user can get, update, or delete their own profile.
-     * @deny (get, update, delete) Authenticated user cannot get, update, or delete another user's profile.
-     * @principle Enforces document ownership and validates that the user ID in the path matches the user ID in the document.
+     * CORE PHILOSOPHY
+     * This ruleset enforces a strict user-ownership model designed for a website builder platform. 
+     * Access control is primarily path-based, leveraging the hierarchical structure of the database 
+     * to ensure users can only access and modify their own content.
+     *
+     * DATA STRUCTURE
+     * - /users/{userId}: Private user profiles.
+     * - /users/{userId}/websites/{websiteId}: Websites owned by a specific user.
+     * - /users/{userId}/websites/{websiteId}/pages/{pageId}: Pages belonging to a specific website.
+     * - /websiteThemes/{themeId}: Publicly readable pre-defined themes.
+     * - /feedback/{feedbackId}: Publicly writable collection for user submissions.
+     *
+     * KEY SECURITY DECISIONS
+     * 1. Authorization Independence: Ownership is derived directly from the document path 
+     *    (e.g., /users/{userId}/...) or denormalized fields (e.g., feedback.userId). This avoids 
+     *    expensive `get()` calls in rules.
+     * 2. Prototyping Flexibility: Rules enforce WHO can write but do NOT enforce the exact 
+     *    shape of the data (schema) to allow for rapid iteration.
+     * 3. Relational Integrity: On creation, rules ensure that internal fields (like `userId` 
+     *    or `websiteId`) match the path parameters to prevent data corruption.
+     * 4. Secure Deletes: All updates and deletes require a check to ensure the document exists 
+     *    before the operation proceeds.
      */
-    match /userProfiles/{userProfileId} {
-      function isSignedIn() {
-        return request.auth != null;
+
+    // --- Global Helper Functions ---
+
+    /** Checks if the request is from an authenticated user. */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /** Checks if the authenticated user's UID matches the provided ID (usually from a path). */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /** Combined check for existence and ownership, used for updates and deletes. */
+    function isExistingOwner(userId) {
+      return resource != null && isOwner(userId);
+    }
+
+    // --- Collection Rules ---
+
+    /**
+     * @description Rules for user profile documents. Restricted to the user themselves.
+     * @path /users/{userId}
+     * @allow (create) User 'abc' creates document /users/abc.
+     * @deny (create) User 'abc' attempts to create document /users/xyz.
+     * @principle Enforces path-based ownership for user profiles.
+     */
+    match /users/{userId} {
+      allow get, list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isExistingOwner(userId);
+
+      /**
+       * @description Rules for websites owned by a user.
+       * @path /users/{userId}/websites/{websiteId}
+       * @allow (list) User 'abc' fetches all documents under /users/abc/websites.
+       * @deny (get) User 'abc' tries to get /users/def/websites/site1.
+       * @principle Inherits ownership from the parent user path.
+       */
+      match /websites/{websiteId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+        allow delete: if isExistingOwner(userId);
+
+        /**
+         * @description Rules for pages within a specific website.
+         * @path /users/{userId}/websites/{websiteId}/pages/{pageId}
+         * @allow (update) User 'abc' updates page 'p1' in their own website 'w1'.
+         * @deny (create) User 'abc' attempts to create a page in User 'def's website path.
+         * @principle Deeply nested ownership verification via path parameters.
+         */
+        match /pages/{pageId} {
+          allow get, list: if isOwner(userId);
+          allow create: if isOwner(userId) && request.resource.data.websiteId == websiteId;
+          allow update: if isExistingOwner(userId) && request.resource.data.websiteId == resource.data.websiteId;
+          allow delete: if isExistingOwner(userId);
+        }
       }
-
-      function isOwner(userProfileId) {
-        return request.auth.uid == userProfileId;
-      }
-
-      function isExistingOwner(userProfileId) {
-          return isOwner(userProfileId) && resource != null;
-      }
-
-      allow get: if isOwner(userProfileId);
-      allow list: if false; // User listing is disallowed for privacy
-
-      allow create: if isSignedIn()
-                   && request.resource.data.id == request.auth.uid
-                   && request.resource.data.deviceId is string; // Enforce deviceId presence
-
-      allow update: if isExistingOwner(userProfileId)
-                   && request.resource.data.id == resource.data.id //Enforce immutability of the userProfileId
-                   && request.resource.data.deviceId is string; //Enforce deviceId presence
-
-      allow delete: if isExistingOwner(userProfileId);
     }
 
     /**
-     * @description Controls access to themes.
-     * @path /themes/{themeId}
-     * @allow (get, list) All users can read themes.
-     * @deny (create, update, delete) No users can create, update, or delete themes.
-     * @principle Themes are publicly readable but not writable by clients.
+     * @description Rules for global website themes. Publicly readable, write-protected.
+     * @path /websiteThemes/{themeId}
+     * @allow (get) Any visitor (signed in or not) views a theme.
+     * @deny (create) Any user attempts to upload a new theme to the global collection.
+     * @principle Public read access for shared resources; admin-only writes (default denied).
      */
-    match /themes/{themeId} {
+    match /websiteThemes/{themeId} {
       allow get, list: if true;
-      allow create, update, delete: if false;
+      allow create, update, delete: if false; // TODO: Add admin validation once admin roles are defined.
     }
 
     /**
-     * @description Controls access to pages created by users.
-     * @path /userProfiles/{userProfileId}/pages/{pageId}
-     * @allow (create) Authenticated user can create a page under their own profile.
-     * @deny (create) Authenticated user cannot create a page under another user's profile.
-     * @allow (get, list, update, delete) Authenticated user can get, list, update, or delete their own pages.
-     * @deny (get, list, update, delete) Authenticated user cannot get, list, update, or delete another user's pages.
-     * @principle Enforces document ownership based on the path.
+     * @description Rules for feedback submissions. Users can submit; admins can read.
+     * @path /feedback/{feedbackId}
+     * @allow (create) An anonymous or signed-in user submits a feedback document.
+     * @deny (get) A standard user attempts to read feedback submitted by others.
+     * @principle "Drop-box" pattern: anyone can write, but reads are restricted.
      */
-    match /userProfiles/{userProfileId}/pages/{pageId} {
-      function isSignedIn() {
-        return request.auth != null;
-      }
-
-      function isOwner(userProfileId) {
-        return request.auth.uid == userProfileId;
-      }
-
-      function isExistingOwner(userProfileId) {
-          return isOwner(userProfileId) && resource != null;
-      }
-
-      allow get: if isOwner(userProfileId);
-      allow list: if isOwner(userProfileId);
-      allow create: if isSignedIn() && isOwner(userProfileId) && request.resource.data.userProfileId == userProfileId;
-      allow update: if isExistingOwner(userProfileId) && request.resource.data.userProfileId == resource.data.userProfileId;
-      allow delete: if isExistingOwner(userProfileId);
+    match /feedback/{feedbackId} {
+      allow get, list: if false; // Only administrators should read feedback.
+      allow create: if true; // Public submission allowed as per requirements.
+      allow update, delete: if false; // Feedback is immutable once sent.
     }
   }
 }
+
+/**
+ * PROTOTYPING MODE NOTICE:
+ * These rules prioritize authorization (who can access what) over data validation (schema).
+ * General content fields are not type-checked to allow for rapid UI/UX iteration.
+ * Immutability is enforced only on critical relational fields (ids and owners).
+ */

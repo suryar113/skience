@@ -61,9 +61,9 @@ export function SiteHeader() {
   return (
     <>
     <SearchCommand open={searchOpen} onOpenChange={setSearchOpen} />
-    <header className="flex justify-between items-center p-4 md:p-6 relative z-50">
-      <h1 className="text-2xl font-bold transition-transform duration-200 ease-in-out hover:scale-110 font-logo">
-        <Link href="/" className="text-gradient-rainbow" data-text="Skience">Skience</Link>
+    <header className="flex justify-between items-center p-4 md:p-6 relative z-40 bg-background/5 backdrop-blur-md border-b border-white/5">
+      <h1 className="text-2xl font-bold transition-all duration-300 ease-in-out hover:scale-110 font-logo group">
+        <Link href="/" className="text-gradient-rainbow drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] group-hover:drop-shadow-[0_0_25px_rgba(255,255,255,0.4)]" data-text="Skience">Skience</Link>
       </h1>
       
       {/* Desktop Navigation */}
@@ -75,25 +75,28 @@ export function SiteHeader() {
               key={item.href}
               href={item.href}
               className={cn(
-                'px-3 py-2 rounded-md font-logo text-2xl transition-colors',
+                'px-3 py-2 rounded-md font-logo text-2xl transition-all duration-300 relative group',
                 isActive
                   ? 'text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
               )}
             >
               {item.label}
+              {isActive && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 animated-glowing-border rounded-full" />
+              )}
             </Link>
           );
         })}
         
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 ml-4 border-l border-white/10 pl-4">
             {actionItems.map((item) => (
                 <Link
                     key={item.label}
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 rounded-full text-muted-foreground hover:bg-accent hover:text-foreground"
+                    className="p-2.5 rounded-full text-muted-foreground hover:bg-white/10 hover:text-foreground transition-all duration-200"
                 >
                     <item.icon className="h-5 w-5" />
                     <span className="sr-only">{item.label}</span>
@@ -101,10 +104,12 @@ export function SiteHeader() {
             ))}
             <button
                 onClick={() => setSearchOpen(true)}
-                className="p-2.5 rounded-full text-muted-foreground hover:bg-accent hover:text-foreground"
+                className="p-2.5 rounded-full text-muted-foreground hover:bg-white/10 hover:text-foreground transition-all duration-200 group flex items-center gap-2"
             >
-                <Search className="h-5 w-5" />
-                <span className="sr-only">Search</span>
+                <Search className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                <kbd className="hidden lg:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                    <span className="text-xs">⌘</span>K
+                </kbd>
             </button>
         </div>
       </nav>
@@ -124,7 +129,7 @@ export function SiteHeader() {
 
       {/* Mobile Menu Overlay */}
       <div className={cn(
-        "fixed inset-0 bg-background z-40 transition-opacity duration-300 ease-in-out md:hidden",
+        "fixed inset-0 bg-background/95 backdrop-blur-2xl z-40 transition-opacity duration-300 ease-in-out md:hidden",
         { "opacity-100 visible": menuOpen, "opacity-0 invisible": !menuOpen }
       )}>
         <nav className="flex flex-col items-center justify-center h-full gap-8">
@@ -136,7 +141,7 @@ export function SiteHeader() {
                 href={item.href}
                 onClick={toggleMenu}
                 className={cn(
-                  'p-2 rounded-lg font-logo text-5xl',
+                  'p-2 rounded-lg font-logo text-5xl transition-colors',
                   isActive ? 'text-foreground' : 'text-muted-foreground'
                 )}
               >
@@ -144,18 +149,12 @@ export function SiteHeader() {
               </Link>
             )
           })}
-          <div className="flex gap-4">
-            <button onClick={() => { setSearchOpen(true); toggleMenu(); }} className="p-3 rounded-full hover:bg-accent border">
-              <Search className="h-[1.2rem] w-[1.2rem]" />
-              <span className="sr-only">Search</span>
+          <div className="flex gap-6 mt-8">
+            <button onClick={() => { setSearchOpen(true); toggleMenu(); }} className="p-4 rounded-full bg-white/5 border border-white/10">
+              <Search className="h-6 w-6" />
             </button>
-            <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer" className="p-3 rounded-full hover:bg-accent border">
-              <Github className="h-[1.2rem] w-[1.2rem]" />
-              <span className="sr-only">GitHub</span>
-            </Link>
-            <Link href="https://docs.google.com/document/d/1VG5CmHf8K85TarJBt-SRZz5yli5HhpcNfcsmavNd59A/edit?usp=sharing" target="_blank" rel="noopener noreferrer" className="p-3 rounded-full hover:bg-accent border">
-              <FileText className="h-[1.2rem] w-[1.2rem]" />
-              <span className="sr-only">Document</span>
+            <Link href="https://github.com/gtdsura/skience" target="_blank" rel="noopener noreferrer" className="p-4 rounded-full bg-white/5 border border-white/10">
+              <Github className="h-6 w-6" />
             </Link>
           </div>
         </nav>

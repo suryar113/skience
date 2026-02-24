@@ -4,10 +4,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import NextTopLoader from 'nextjs-toploader';
+import { FirebaseClientProvider } from "@/firebase/client-provider";
+import { FeedbackNudge } from "@/components/feedback-nudge";
 
 export const metadata: Metadata = {
   title: "SKIENCE",
-  description: "A modern website for science notes",
+  description: "An interactive website for modern science notes.",
   manifest: "/manifest.json",
 };
 
@@ -34,7 +36,10 @@ export default function RootLayout({
           speed={200}
           shadow="0 0 10px #7a00ff,0 0 5px #7a00ff"
         />
-        {children}
+        <FirebaseClientProvider>
+          {children}
+          <FeedbackNudge />
+        </FirebaseClientProvider>
         <Toaster />
         <Analytics />
         <SpeedInsights />

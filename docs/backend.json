@@ -1,0 +1,330 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents an authenticated user of the Modern Weebly Clone platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the User entity."
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's email address, used for identification and communication.",
+          "format": "email"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The user's preferred display name."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the user account was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "displayName",
+        "createdAt"
+      ]
+    },
+    "Website": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Website",
+      "type": "object",
+      "description": "Represents a website created and managed by a user within the application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Website entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the User who owns this website. (Relationship: User 1:N Website)"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the website, chosen by the user."
+        },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly identifier for the website, typically derived from its name."
+        },
+        "description": {
+          "type": "string",
+          "description": "An optional description for the website."
+        },
+        "websiteThemeId": {
+          "type": "string",
+          "description": "Reference to the WebsiteTheme applied to this website. (Relationship: WebsiteTheme 1:N Website)"
+        },
+        "customCss": {
+          "type": "string",
+          "description": "Optional custom CSS provided by the user to override theme styles."
+        },
+        "customJs": {
+          "type": "string",
+          "description": "Optional custom JavaScript provided by the user for custom functionality."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the website was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the website was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "name",
+        "slug",
+        "websiteThemeId",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Page": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Page",
+      "type": "object",
+      "description": "Represents a single page within a website, containing structured content and elements.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Page entity."
+        },
+        "websiteId": {
+          "type": "string",
+          "description": "Reference to the Website this page belongs to. (Relationship: Website 1:N Page)"
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the page, displayed in navigation and browser tabs."
+        },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly identifier for the page, unique within its website."
+        },
+        "order": {
+          "type": "number",
+          "description": "The display order of the page within the website's navigation structure."
+        },
+        "contentJson": {
+          "type": "string",
+          "description": "The structured content of the page, stored as a JSON string representing the elements and their configurations for the drag-and-drop editor."
+        },
+        "isPublished": {
+          "type": "boolean",
+          "description": "Indicates whether the page is visible to visitors or still in draft mode."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the page was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the page was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "websiteId",
+        "title",
+        "slug",
+        "order",
+        "contentJson",
+        "isPublished",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "WebsiteTheme": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "WebsiteTheme",
+      "type": "object",
+      "description": "Represents a pre-defined theme that users can select for their websites, offering a modern and clean design base.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the WebsiteTheme entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the theme (e.g., 'Minimalist', 'Corporate')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the theme's style and features."
+        },
+        "previewImageUrl": {
+          "type": "string",
+          "description": "URL to an image showcasing the theme's appearance.",
+          "format": "uri"
+        },
+        "defaultCss": {
+          "type": "string",
+          "description": "The default CSS code that defines the theme's visual style."
+        },
+        "defaultJs": {
+          "type": "string",
+          "description": "The default JavaScript code for interactive elements and behaviors within the theme."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "defaultCss",
+        "defaultJs"
+      ]
+    },
+    "Feedback": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Feedback",
+      "type": "object",
+      "description": "Represents feedback submitted by a user about the application, intended for review by the administrators.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Feedback entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the User who submitted the feedback, if they were authenticated. (Relationship: User 1:N Feedback)"
+        },
+        "submitterEmail": {
+          "type": "string",
+          "description": "The email address provided by the feedback submitter, if not an authenticated user or if explicitly provided.",
+          "format": "email"
+        },
+        "message": {
+          "type": "string",
+          "description": "The actual feedback message or comment provided by the user."
+        },
+        "submittedAt": {
+          "type": "string",
+          "description": "Timestamp when the feedback was submitted.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "message",
+        "submittedAt"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profile data. Access is restricted to the authenticated user matching the {userId}. This path-based ownership makes authorization simple and atomic.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique ID of the user, matching `request.auth.uid`."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/websites/{websiteId}",
+        "definition": {
+          "entityName": "Website",
+          "schema": {
+            "$ref": "#/backend/entities/Website"
+          },
+          "description": "Stores websites owned by a specific user. The `userId` from the path provides implicit denormalized ownership for authorization independence. This structure enables secure `list` operations for a user's websites.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique ID of the user who owns the website, matching `request.auth.uid`."
+            },
+            {
+              "name": "websiteId",
+              "description": "The unique ID of the website."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/websites/{websiteId}/pages/{pageId}",
+        "definition": {
+          "entityName": "Page",
+          "schema": {
+            "$ref": "#/backend/entities/Page"
+          },
+          "description": "Stores individual pages belonging to a specific website, which in turn belongs to a user. The `userId` and `websiteId` from the path provide implicit denormalized context for authorization independence. This enables secure `list` operations for pages within a user's website.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique ID of the user who owns the website and page, matching `request.auth.uid`."
+            },
+            {
+              "name": "websiteId",
+              "description": "The unique ID of the parent website."
+            },
+            {
+              "name": "pageId",
+              "description": "The unique ID of the page."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/websiteThemes/{themeId}",
+        "definition": {
+          "entityName": "WebsiteTheme",
+          "schema": {
+            "$ref": "#/backend/entities/WebsiteTheme"
+          },
+          "description": "Stores predefined website themes. This collection is globally accessible for all users to browse and select themes, supporting QAPs for listing all available themes.",
+          "params": [
+            {
+              "name": "themeId",
+              "description": "The unique ID of the website theme."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/feedback/{feedbackId}",
+        "definition": {
+          "entityName": "Feedback",
+          "schema": {
+            "$ref": "#/backend/entities/Feedback"
+          },
+          "description": "Stores user feedback submissions. Includes denormalized 'userId' (if authenticated) and 'submitterEmail' for authorization independence, allowing direct checks in rules without `get()`. This collection is publicly creatable, with read access typically restricted to administrators.",
+          "params": [
+            {
+              "name": "feedbackId",
+              "description": "The unique ID of the feedback entry."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The proposed Firestore structure prioritizes secure, scalable, and debuggable authorization by adhering strictly to the core design principles and mandates. \n\n**Authorization Independence:**\n1.  **User, Website, and Page Data:** For `/users/{userId}/websites/{websiteId}` and `/users/{userId}/websites/{websiteId}/pages/{pageId}`, authorization independence is achieved by embedding the `userId` directly into the path. This means that Firestore security rules can always use `request.auth.uid == userId` (where `userId` is the wildcard in the path) to verify ownership without performing any `get()` operations on parent documents. The `websiteId` is similarly available in the path for `Page` documents, avoiding lookups.\n2.  **Feedback Data:** For `/feedback/{feedbackId}`, the `userId` (if authenticated) and `submitterEmail` are denormalized and stored directly within each `Feedback` document. This allows security rules to check `request.auth.uid == request.resource.data.userId` or other conditions based on `submitterEmail` without needing to fetch other user or submission-related documents.\n\n**Support for Querying, Authorization, and Permissions (QAPs):**\n1.  **Private User Data (`/users/{userId}`):** This path allows secure `get` and `list` operations for an authenticated user to access *only* their own profile data, as `request.auth.uid` must match `{userId}`. This prevents unauthorized access and ensures efficient queries.\n2.  **User-Owned Hierarchical Data (`/users/{userId}/websites/{websiteId}` and `/users/{userId}/websites/{websiteId}/pages/{pageId}`):** By nesting `Website` and `Page` under the user's path, all `list` operations (e.g., fetching all websites for `request.auth.uid`, or all pages for a specific website owned by `request.auth.uid`) automatically include the necessary ownership context in the query path. This enforces ownership and ensures that users can only query for data they own, making these operations inherently secure QAPs without requiring complex filtering in rules.\n3.  **Global Public Data (`/websiteThemes`):** This top-level collection holds all `WebsiteTheme` documents, which are intended to be publicly readable. A simple `allow read: true;` rule on this collection satisfies QAPs for fetching all available themes efficiently without any user-specific authorization checks.\n4.  **Feedback Submission (`/feedback/{feedbackId}`):** This collection is designed for user submissions. The denormalized `userId` and `submitterEmail` allow for simple write rules (e.g., `allow create: if request.auth.uid == request.resource.data.userId || request.resource.data.submitterEmail != null;`). Read access for administrators can be managed by specific rules (e.g., checking an admin role collection), ensuring that unauthorized users cannot list or read feedback submissions. This segregation ensures that the `create` QAP is handled cleanly and efficiently.\n\nThis structure ensures that security rules are clear, concise, and do not rely on expensive or insecure `get()` calls, making the application robust and easy to debug while scaling effectively."
+  }
+}

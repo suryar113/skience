@@ -81,57 +81,18 @@
   body {
     @apply bg-background text-foreground;
   }
-  kbd {
-    @apply pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100;
-  }
 }
 
 @keyframes gradient-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-@keyframes animated-glowing-border-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes fade-in {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-
-@keyframes blob-animation {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(80px, -100px) scale(1.1);
-  }
-  66% {
-    transform: translate(-60px, 70px) scale(0.9);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
+@keyframes grid-pulse {
+  0% { opacity: 0.1; }
+  50% { opacity: 0.2; }
+  100% { opacity: 0.1; }
 }
 
 @layer utilities {
@@ -140,23 +101,10 @@
     animation: gradient-animation 4s ease-in-out infinite;
   }
 
-  .text-gradient-purple {
-    @apply bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent animated-gradient;
-  }
-  .text-gradient-blue {
-    @apply bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent animated-gradient;
-  }
-  .text-gradient-green {
-    @apply bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent animated-gradient;
-  }
-  .text-gradient-orange {
-    @apply bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent animated-gradient;
-  }
   .text-gradient-rainbow {
-    @apply relative;
     background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     background-size: 400% 400%;
-    animation: animated-glowing-border-animation 8s ease infinite;
+    animation: gradient-animation 8s ease infinite;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -165,10 +113,67 @@
   .animated-glowing-border {
     background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     background-size: 400% 400%;
-    animation: animated-glowing-border-animation 8s ease infinite;
+    animation: gradient-animation 8s ease infinite;
   }
 
   .animate-blob {
     animation: blob-animation 10s infinite ease-in-out;
   }
+
+  .bg-tech-grid {
+    background-image: 
+      linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: grid-pulse 4s infinite ease-in-out;
+  }
+
+  /* Enhanced Rainbow Table Row */
+  .hover-rainbow-row {
+    position: relative;
+    z-index: 1;
+    transition: background 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* Permanent radius for the bottom row to ensure immediate alignment on hover */
+  .hover-rainbow-row:last-child {
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+  }
+
+  .hover-rainbow-row:hover {
+    background: linear-gradient(90deg, rgba(255,0,0,0.15), rgba(255,115,0,0.15), rgba(255,251,0,0.15), rgba(72,255,0,0.15), rgba(0,255,213,0.15), rgba(0,43,255,0.15), rgba(122,0,255,0.15), rgba(255,0,200,0.15), rgba(255,0,0,0.15));
+    background-size: 400% 400%;
+    animation: gradient-animation 8s ease infinite;
+    box-shadow: inset 0 0 40px rgba(122,0,255,0.15), 0 0 20px rgba(122,0,255,0.1);
+  }
+
+  /* Optimized Border Gradient with Instant Corner Awareness */
+  .hover-rainbow-row::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border: 1px solid transparent;
+    background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: gradient-animation 8s ease infinite;
+    z-index: 2;
+    border-radius: inherit; /* Correctly inherits from row's permanent radius */
+  }
+
+  .hover-rainbow-row:hover::after {
+    opacity: 1;
+  }
+}
+
+@keyframes blob-animation {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(80px, -100px) scale(1.1); }
+  66% { transform: translate(-60px, 70px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
 }
