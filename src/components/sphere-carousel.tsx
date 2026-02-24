@@ -53,12 +53,12 @@ function NoteCard({ note, isFocused, onQuizletClick, onRotateClick }: NoteCardPr
             : "bg-black/80 backdrop-blur-md opacity-40 group-hover:opacity-100"
         )}
       >
-        {/* Holographic Glow - Contained within card by overflow-hidden */}
+        {/* Holographic Glow - Extended vertically across the card */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isFocused ? {
-            opacity: [0.4, 0.7, 0.4],
-            scale: [1, 1.05, 1],
+            opacity: [0.5, 0.8, 0.5],
+            scale: [1, 1.02, 1],
           } : { opacity: 0 }}
           transition={{
             duration: 4,
@@ -66,12 +66,12 @@ function NoteCard({ note, isFocused, onQuizletClick, onRotateClick }: NoteCardPr
             ease: "easeInOut"
           }}
           className={cn(
-            "absolute inset-0 z-0 pointer-events-none animated-glowing-border blur-[60px]",
+            "absolute -inset-12 z-0 pointer-events-none animated-glowing-border blur-[70px]",
             !isFocused && "hidden"
           )}
           style={{
-            maskImage: 'radial-gradient(ellipse at center, black 0%, transparent 80%)',
-            WebkitMaskImage: 'radial-gradient(ellipse at center, black 0%, transparent 80%)'
+            maskImage: 'radial-gradient(ellipse 80% 90% at center, black 0%, transparent 80%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 80% 90% at center, black 0%, transparent 80%)'
           }}
         />
 
