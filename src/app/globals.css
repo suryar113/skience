@@ -87,51 +87,26 @@
 }
 
 @keyframes gradient-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-@keyframes animated-glowing-border-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+@keyframes float-animation {
+  0% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-20px) translateX(10px); }
+  100% { transform: translateY(0px) translateX(0px); }
 }
 
-@keyframes fade-in {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
+@keyframes grid-pulse {
+  0% { opacity: 0.1; }
+  50% { opacity: 0.2; }
+  100% { opacity: 0.1; }
 }
 
-@keyframes blob-animation {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(80px, -100px) scale(1.1);
-  }
-  66% {
-    transform: translate(-60px, 70px) scale(0.9);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
+@keyframes faze-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.15); }
 }
 
 @layer utilities {
@@ -140,23 +115,10 @@
     animation: gradient-animation 4s ease-in-out infinite;
   }
 
-  .text-gradient-purple {
-    @apply bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent animated-gradient;
-  }
-  .text-gradient-blue {
-    @apply bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent animated-gradient;
-  }
-  .text-gradient-green {
-    @apply bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent animated-gradient;
-  }
-  .text-gradient-orange {
-    @apply bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent animated-gradient;
-  }
   .text-gradient-rainbow {
-    @apply relative;
     background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     background-size: 400% 400%;
-    animation: animated-glowing-border-animation 8s ease infinite;
+    animation: gradient-animation 8s ease infinite;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -165,10 +127,33 @@
   .animated-glowing-border {
     background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     background-size: 400% 400%;
-    animation: animated-glowing-border-animation 8s ease infinite;
+    animation: gradient-animation 8s ease infinite;
   }
 
   .animate-blob {
     animation: blob-animation 10s infinite ease-in-out;
   }
+
+  .animate-float {
+    animation: float-animation 6s infinite ease-in-out;
+  }
+
+  .animate-faze {
+    animation: faze-pulse 5s infinite ease-in-out;
+  }
+
+  .bg-tech-grid {
+    background-image: 
+      linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: grid-pulse 4s infinite ease-in-out;
+  }
+}
+
+@keyframes blob-animation {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(80px, -100px) scale(1.1); }
+  66% { transform: translate(-60px, 70px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
 }

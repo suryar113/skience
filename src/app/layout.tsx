@@ -7,7 +7,7 @@ import NextTopLoader from 'nextjs-toploader';
 
 export const metadata: Metadata = {
   title: "SKIENCE",
-  description: "A modern website for science notes",
+  description: "An interactive website for modern science notes.",
   manifest: "/manifest.json",
 };
 

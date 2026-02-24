@@ -1,17 +1,15 @@
 "use client";
 
 /**
- * @fileoverview Fully Responsive Unified 3D SphereCarousel Component
- * 
- * A 3D interactive carousel optimized for both Desktop and Mobile devices.
- * The geometry (radius, card size, and spacing) adapts dynamically to screen width and height.
+ * @fileoverview Enhanced Unified 3D SphereCarousel Component
  * 
  * Features:
- * - Fluid Responsive Geometry: Cards "come together" as the screen shrinks on all devices.
- * - Mobile Spacing Parity: Transitions smoothly from large mobile to standard desktop spacing.
- * - Glassy Black Style: bg-black/75, backdrop blur, and thin borders for non-focused cards.
- * - Refined Typography: 'tracking-wider' letter spacing and balanced font scaling.
- * - Throttled Controls: 350ms cooldown for keyboard (WASD + Arrows) and button interactions.
+ * - Glassy black styling for cards.
+ * - HUD-inspired focused card with scanlines and glow.
+ * - Optimized glow boundaries to fit the card shape vertically.
+ * - Vibrant rainbow gradient with motion-driven pulsing.
+ * - Dynamic radius calculation responsive to all screen sizes.
+ * - Throttled keyboard controls (WASD + Arrows).
  */
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
@@ -44,31 +42,53 @@ type NoteCardProps = {
   onRotateClick?: () => void;
 };
 
-/**
- * NoteCard Component
- * 
- * Renders an individual card with a 3D focused state and a glassy black non-focused state.
- */
 function NoteCard({ note, isFocused, onQuizletClick, onRotateClick }: NoteCardProps) {
+  const [showGlow, setShowGlow] = useState(false);
+
+  useEffect(() => {
+    // Glow appears immediately when focused as requested
+    setShowGlow(isFocused);
+  }, [isFocused]);
+
   return (
     <div className="relative w-full h-full group">
-      {/* Animated glow effect behind the focused card */}
-      <div
+      {/* HUD Glow for focused card - Softened ellipse edges for organic feel */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={showGlow ? {
+          opacity: [0.6, 0.9, 0.6],
+          scale: [1, 1.03, 1],
+        } : { opacity: 0 }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
         className={cn(
-          "absolute -inset-0.5 rounded-[2rem] z-0 transition-all duration-500",
-          isFocused ? "animated-glowing-border opacity-30 blur-md" : "bg-transparent opacity-0"
+          "absolute -inset-y-16 -inset-x-8 z-0 pointer-events-none animated-glowing-border blur-[100px]",
+          "rounded-[3rem]",
+          !isFocused && "hidden"
         )}
-      ></div>
+        style={{
+          maskImage: 'radial-gradient(ellipse at center, black 0%, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at center, black 0%, transparent 80%)'
+        }}
+      />
       
       <Card
         className={cn(
-          "w-full h-full rounded-[1.8rem] relative z-10 flex flex-col justify-between transition-all duration-500 overflow-hidden",
+          "w-full h-full rounded-[2rem] relative z-10 flex flex-col justify-between transition-all duration-500 overflow-hidden border-white/5",
           isFocused 
-            ? "bg-card/60 backdrop-blur-xl border-white/20 shadow-2xl" 
-            : "bg-black/75 backdrop-blur-md border-[0.5px] border-white/5 opacity-40 group-hover:opacity-100"
+            ? "bg-black/50 backdrop-blur-3xl border-white/20 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)]" 
+            : "bg-black/80 backdrop-blur-md opacity-40 group-hover:opacity-100"
         )}
       >
-        {/* Rotation trigger for non-focused cards */}
+        {/* Subtle Scanline Texture for focused HUD effect */}
+        {isFocused && (
+          <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] z-20"></div>
+        )}
+
+        {/* Clickable overlay to rotate to this card if not focused */}
         {!isFocused && onRotateClick && (
           <div 
             className="absolute inset-0 z-[100] cursor-pointer"
@@ -79,36 +99,35 @@ function NoteCard({ note, isFocused, onQuizletClick, onRotateClick }: NoteCardPr
           />
         )}
 
-        <CardHeader className="flex flex-col items-center text-center p-4 md:p-6 pb-2">
+        <CardHeader className="flex flex-col items-center text-center p-6 pb-2">
           <CardTitle 
             className={cn(
-              "uppercase font-headline tracking-wider transition-all duration-500 leading-tight",
+              "uppercase font-headline transition-all duration-500 leading-tight text-center tracking-wider",
               isFocused 
-                ? "text-xl md:text-2xl text-foreground drop-shadow-[0_2px_12px_rgba(255,255,255,0.4)]" 
-                : "text-base md:text-lg text-muted-foreground/60"
+                ? "text-2xl md:text-3xl text-foreground drop-shadow-[0_4px_20px_rgba(255,255,255,0.3)]" 
+                : "text-lg md:text-xl text-muted-foreground/50"
             )}
           >
             {note.topic}
           </CardTitle>
         </CardHeader>
 
-        {/* Responsive Content: px-6 on mobile, px-12 on desktop for narrower feel */}
-        <CardContent className="flex flex-col items-center gap-2 md:gap-3 px-6 md:px-12 pb-6 md:pb-8">
+        <CardContent className="flex flex-col items-center gap-3 px-6 md:px-10 pb-8">
           <Button
             asChild
             variant="outline"
             size="sm"
             className={cn(
-              "w-full h-9 md:h-10 btn-hover-pop bg-transparent border-white/10 hover:bg-white/10 rounded-2xl transition-all",
-              !isFocused && "pointer-events-none"
+              "w-full h-11 btn-hover-pop bg-white/5 border-white/10 hover:bg-white/10 rounded-2xl transition-all font-body tracking-wide group",
+              !isFocused && "pointer-events-none opacity-50"
             )}
           >
             {note.pagePath ? (
-              <Link href={note.pagePath} target="_blank" rel="noopener noreferrer">
-                View Notes
+              <Link href={note.pagePath} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
+                 <span>VIEW NOTES</span>
               </Link>
             ) : (
-              <span className="opacity-50">View Notes</span>
+              <span className="opacity-50">VIEW NOTES</span>
             )}
           </Button>
 
@@ -117,16 +136,16 @@ function NoteCard({ note, isFocused, onQuizletClick, onRotateClick }: NoteCardPr
             variant="outline"
             size="sm"
             className={cn(
-              "w-full h-9 md:h-10 btn-hover-pop bg-transparent border-white/10 hover:bg-white/10 rounded-2xl transition-all",
-              !isFocused && "pointer-events-none"
+              "w-full h-11 btn-hover-pop bg-white/5 border-white/10 hover:bg-white/10 rounded-2xl transition-all font-body tracking-wide group",
+              !isFocused && "pointer-events-none opacity-50"
             )}
           >
             {note.pdfUrl ? (
-              <Link href={note.pdfUrl} target="_blank" rel="noopener noreferrer">
-                PDF Link
+              <Link href={note.pdfUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
+                 <span>PDF LINK</span>
               </Link>
             ) : (
-              <span className="opacity-50">PDF Link</span>
+              <span className="opacity-50">PDF LINK</span>
             )}
           </Button>
 
@@ -134,8 +153,8 @@ function NoteCard({ note, isFocused, onQuizletClick, onRotateClick }: NoteCardPr
             variant="outline"
             size="sm"
             className={cn(
-              "w-full h-9 md:h-10 btn-hover-pop bg-transparent border-white/10 hover:bg-white/10 rounded-2xl transition-all",
-              !isFocused && "pointer-events-none"
+              "w-full h-11 btn-hover-pop bg-white/5 border-white/10 hover:bg-white/10 rounded-2xl transition-all font-body tracking-wide group",
+              !isFocused && "pointer-events-none opacity-50"
             )}
             onClick={(e) => {
               e.stopPropagation();
@@ -143,10 +162,10 @@ function NoteCard({ note, isFocused, onQuizletClick, onRotateClick }: NoteCardPr
             }}
             disabled={!note.quizletSetId}
           >
-            Quizlet
+            <span>QUIZLET</span>
           </Button>
         </CardContent>
-        <CardFooter className="h-2 md:h-4"></CardFooter>
+        <CardFooter className="h-4"></CardFooter>
       </Card>
     </div>
   );
@@ -159,9 +178,8 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: any[], onTopic
   const [hasMounted, setHasMounted] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({ width: 0, height: 0 });
 
-  // Cooldown logic to prevent rapid spinning (Throttling)
   const lastRotationTime = useRef(0);
-  const ROTATION_COOLDOWN = 350; 
+  const ROTATION_COOLDOWN = 350;
 
   useEffect(() => {
     setHasMounted(true);
@@ -178,40 +196,26 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: any[], onTopic
   const totalPanels = notes.length;
   const panelAngle = 360 / totalPanels;
 
-  /**
-   * FLUID DYNAMIC RADIUS CALCULATION:
-   * Scales based on viewport dimensions to ensure the sphere is responsive.
-   * Mobile multiplier is higher (0.8) to keep cards visible in narrow viewports.
-   * Desktop multiplier is lower (0.55) for a spacious 3D feel.
-   * The cards "come together" naturally as the screen size (baseSize) decreases.
-   */
   const radius = useMemo(() => {
     if (typeof window === 'undefined' || windowDimensions.width === 0) return 400;
     const { width, height } = windowDimensions;
     const baseSize = Math.min(width, height);
-    
     const isMobile = width < 768;
-    const multiplier = isMobile ? 0.8 : 0.55;
-    const minRadius = isMobile ? 280 : 450;
-
-    const calculatedRadius = baseSize * multiplier;
-    return Math.max(minRadius, calculatedRadius);
+    const multiplier = isMobile ? 0.85 : 0.6;
+    const minRadius = isMobile ? 300 : 500;
+    return Math.max(minRadius, baseSize * multiplier);
   }, [windowDimensions]);
 
   const rotationY = useMotionValue(0);
-  const springyRotationY = useSpring(rotationY, { stiffness: 180, damping: 35 });
+  const springyRotationY = useSpring(rotationY, { stiffness: 150, damping: 40 });
 
   useEffect(() => {
-    if (notes[index]) {
-      onTopicChange(notes[index].topic);
-    }
+    if (notes[index]) onTopicChange(notes[index].topic);
   }, [index, notes, onTopicChange]);
 
   useEffect(() => {
     if (!hasMounted) return;
-    const handleResize = () => {
-        setWindowDimensions({ width: window.innerWidth, height: window.innerHeight });
-    };
+    const handleResize = () => setWindowDimensions({ width: window.innerWidth, height: window.innerHeight });
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [hasMounted]);
@@ -219,9 +223,8 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: any[], onTopic
   const handleRotateTo = useCallback((newIndex: number) => {
     const currentIndex = index;
     if (newIndex === currentIndex) return;
-
+    
     let diff = newIndex - currentIndex;
-    // Find shortest path around the circle
     if (Math.abs(diff) > totalPanels / 2) {
       if (diff > 0) diff -= totalPanels;
       else diff += totalPanels;
@@ -235,36 +238,22 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: any[], onTopic
     const now = Date.now();
     if (now - lastRotationTime.current < ROTATION_COOLDOWN) return;
     lastRotationTime.current = now;
-
-    const newIndex = (index - 1 + totalPanels) % totalPanels;
-    handleRotateTo(newIndex);
+    handleRotateTo((index - 1 + totalPanels) % totalPanels);
   }, [index, totalPanels, handleRotateTo]);
 
   const handleNext = useCallback(() => {
     const now = Date.now();
     if (now - lastRotationTime.current < ROTATION_COOLDOWN) return;
     lastRotationTime.current = now;
-
-    const newIndex = (index + 1) % totalPanels;
-    handleRotateTo(newIndex);
+    handleRotateTo((index + 1) % totalPanels);
   }, [index, totalPanels, handleRotateTo]);
 
-  /**
-   * Keyboard Controls:
-   * Throttled support for Arrows and WASD.
-   * W, D, ArrowRight -> Move forward.
-   * A, S, ArrowLeft -> Move backward.
-   */
   useEffect(() => {
     if (!hasMounted) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       const key = event.key.toLowerCase();
-      if (key === "arrowleft" || key === "a" || key === "s") {
-        handlePrev();
-      } 
-      else if (key === "arrowright" || key === "w" || key === "d") {
-        handleNext();
-      }
+      if (key === "arrowleft" || key === "a" || key === "s") handlePrev();
+      else if (key === "arrowright" || key === "w" || key === "d") handleNext();
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -275,25 +264,17 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: any[], onTopic
   return (
     <>
       <div className="w-full flex-1 flex flex-col items-center justify-center h-full relative">
-        {/* Main 3D Container - Scaled perspective for depth */}
-        <div
-          className="relative w-full h-full flex items-center justify-center overflow-visible"
-          style={{ perspective: "4000px" }}
-        >
+        <div className="relative w-full h-full flex items-center justify-center overflow-visible" style={{ perspective: "3000px" }}>
           <motion.div
             className="w-full h-full absolute flex items-center justify-center"
-            style={{
-              transformStyle: "preserve-3d",
-              rotateY: springyRotationY,
-            }}
+            style={{ transformStyle: "preserve-3d", rotateY: springyRotationY }}
           >
             {notes.map((note, i) => {
               const isFocused = i === index;
               return (
                 <motion.div
                   key={note.topic}
-                  // Fluid Card Sizing: Adapts based on screen width breakpoint
-                  className="absolute w-[220px] h-[340px] md:w-[280px] h-[400px] p-2 md:p-4"
+                  className="absolute w-[240px] h-[360px] md:w-[300px] h-[440px] p-2 md:p-4"
                   style={{
                     transform: `rotateY(${i * panelAngle}deg) translateZ(${radius}px)`,
                     zIndex: isFocused ? 50 : 1,
@@ -303,7 +284,7 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: any[], onTopic
                     note={note} 
                     isFocused={isFocused} 
                     onQuizletClick={handleQuizletOpen} 
-                    onRotateClick={() => handleRotateTo(i)}
+                    onRotateClick={() => handleRotateTo(i)} 
                   />
                 </motion.div>
               );
@@ -311,34 +292,20 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: any[], onTopic
           </motion.div>
         </div>
 
-        {/* Navigation Overlays (Always visible for touch/click support) */}
+        {/* Navigation Overlays */}
         <div className="absolute inset-y-0 left-0 w-16 md:w-32 flex items-center justify-center z-[60] pointer-events-none">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handlePrev}
-            className="pointer-events-auto h-12 w-12 rounded-full bg-background/20 backdrop-blur-sm border border-white/10 hover:bg-white/10"
-          >
+          <Button variant="ghost" size="icon" onClick={handlePrev} className="pointer-events-auto h-14 w-14 rounded-full bg-black/40 backdrop-blur-xl border border-white/10 hover:bg-white/20 shadow-xl transition-all active:scale-90">
             <ChevronLeft className="h-8 w-8" />
           </Button>
         </div>
         <div className="absolute inset-y-0 right-0 w-16 md:w-32 flex items-center justify-center z-[60] pointer-events-none">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleNext}
-            className="pointer-events-auto h-12 w-12 rounded-full bg-background/20 backdrop-blur-sm border border-white/10 hover:bg-white/10"
-          >
+          <Button variant="ghost" size="icon" onClick={handleNext} className="pointer-events-auto h-14 w-14 rounded-full bg-black/40 backdrop-blur-xl border border-white/10 hover:bg-white/20 shadow-xl transition-all active:scale-90">
             <ChevronRight className="h-8 w-8" />
           </Button>
         </div>
       </div>
 
-      <QuizletModal 
-        isOpen={isQuizletModalOpen}
-        onOpenChange={setIsQuizletModalOpen}
-        quizletSetId={selectedQuizletSetId}
-      />
+      <QuizletModal isOpen={isQuizletModalOpen} onOpenChange={setIsQuizletModalOpen} quizletSetId={selectedQuizletSetId} />
     </>
   );
 }
