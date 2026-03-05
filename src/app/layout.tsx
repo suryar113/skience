@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/next";
@@ -6,6 +8,31 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import NextTopLoader from 'nextjs-toploader';
 import { FirebaseClientProvider } from "@/firebase/client-provider";
 import { FeedbackNudge } from "@/components/feedback-nudge";
+import { cn } from "@/lib/utils";
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const chunkyPuffly = localFont({
+  src: '../../public/fonts/editundo.ttf', // Assuming path based on previous CSS
+  variable: '--font-logo',
+  display: 'swap',
+});
+
+const bebasNeue = localFont({
+  src: '../../public/fonts/BebasNeue.ttf',
+  variable: '--font-headline',
+  display: 'swap',
+});
+
+const pixelifySans = localFont({
+  src: '../../public/fonts/editundo.ttf',
+  variable: '--font-body',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: {
@@ -47,14 +74,20 @@ export default function RootLayout({
         <meta name="google-site-verification" content="4P07Vz0gAuX8McY0xvnFrFDUxShRHFNpjCKRfMeJT1g" />
         <meta name="theme-color" content="#09090b" />
       </head>
-      <body className="font-body antialiased bg-background text-foreground" suppressHydrationWarning={true}>
+      <body className={cn(
+        "antialiased bg-background text-foreground",
+        inter.variable,
+        chunkyPuffly.variable,
+        bebasNeue.variable,
+        pixelifySans.variable
+      )} suppressHydrationWarning={true}>
         <NextTopLoader
           color="#7a00ff"
           initialPosition={0.08}
           crawlSpeed={200}
           height={3}
           crawl={true}
-          showSpinner={true}
+          showSpinner={false}
           easing="ease"
           speed={200}
           shadow="0 0 10px #7a00ff,0 0 5px #7a00ff"

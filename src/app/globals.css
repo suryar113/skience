@@ -1,27 +1,3 @@
-@font-face {
-  font-family: 'Chunky Puffly';
-  src: url('/fonts/editundo.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Bebas Neue';
-  src: url('/fonts/BebasNeue.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Pixelify Sans';
-  src: url('/fonts/editundo.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -128,14 +104,12 @@
     animation: grid-pulse 4s infinite ease-in-out;
   }
 
-  /* Enhanced Rainbow Table Row */
   .hover-rainbow-row {
     position: relative;
     z-index: 1;
     transition: background 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   }
 
-  /* Permanent radius for the bottom row to ensure immediate alignment on hover */
   .hover-rainbow-row:last-child {
     border-bottom-left-radius: 2rem;
     border-bottom-right-radius: 2rem;
@@ -148,7 +122,6 @@
     box-shadow: inset 0 0 40px rgba(122,0,255,0.15), 0 0 20px rgba(122,0,255,0.1);
   }
 
-  /* Optimized Border Gradient with Instant Corner Awareness */
   .hover-rainbow-row::after {
     content: "";
     position: absolute;
@@ -163,7 +136,7 @@
     transition: opacity 0.3s ease;
     animation: gradient-animation 8s ease infinite;
     z-index: 2;
-    border-radius: inherit; /* Correctly inherits from row's permanent radius */
+    border-radius: inherit;
   }
 
   .hover-rainbow-row:hover::after {
