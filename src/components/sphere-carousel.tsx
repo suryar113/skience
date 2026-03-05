@@ -4,9 +4,9 @@
  * @fileoverview Refined Unified 3D SphereCarousel Component
  * 
  * Features:
- * - Compact Card Dimensions: Optimized for minimalist biological research feel.
+ * - Compact Card Dimensions: Optimized for shorter viewports and minimalist feel.
  * - Pure HUD Brackets: L-shaped corners using drop-shadows to avoid square highlights.
- * - Standardized Sizing: 240x380 desktop / 200x300 mobile.
+ * - Standardized Sizing: 240x340 desktop / 200x280 mobile.
  */
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
@@ -118,20 +118,20 @@ function NoteCard({ note, isFocused, onQuizletClick, onRotateClick }: NoteCardPr
           />
         )}
 
-        <CardHeader className="flex flex-col items-center text-center p-6 pb-2 relative z-30">
+        <CardHeader className="flex flex-col items-center text-center p-4 pb-2 relative z-30">
           <CardTitle 
             className={cn(
               "uppercase font-headline transition-all duration-500 leading-tight text-center tracking-wider",
               isFocused 
-                ? "text-xl md:text-2xl text-foreground drop-shadow-[0_4px_20px_rgba(255,255,255,0.4)]" 
-                : "text-lg text-muted-foreground/40"
+                ? "text-lg md:text-xl text-foreground drop-shadow-[0_4px_20px_rgba(255,255,255,0.4)]" 
+                : "text-base text-muted-foreground/40"
             )}
           >
             {note.topic}
           </CardTitle>
         </CardHeader>
 
-        <CardContent className="flex flex-col items-center gap-3 px-6 pb-6 relative z-30">
+        <CardContent className="flex flex-col items-center gap-2.5 px-6 pb-4 relative z-30">
           <Button
             asChild
             variant="outline"
@@ -216,11 +216,17 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: any[], onTopic
     if (typeof window === 'undefined' || windowDimensions.width === 0) return 350;
     const { width, height } = windowDimensions;
     const isMobile = width < 768;
-    const multiplier = isMobile ? 0.8 : 0.6;
+    const isShort = height < 700;
+    
+    // Adjust multiplier for vertically constrained screens
+    const multiplier = isMobile ? 0.8 : (isShort ? 0.5 : 0.6);
     const baseSize = Math.min(width, height);
-    const minRadius = isMobile ? 260 : 450; 
+    const minRadius = isMobile ? 240 : (isShort ? 350 : 420); 
+    
     return Math.max(minRadius, baseSize * multiplier);
   }, [windowDimensions]);
+
+  const isShortScreen = windowDimensions.height < 700;
 
   const rotationY = useMotionValue(0);
   const springyRotationY = useSpring(rotationY, { stiffness: 120, damping: 30 });
@@ -290,7 +296,11 @@ export function SphereCarousel({ notes, onTopicChange }: { notes: any[], onTopic
               return (
                 <motion.div
                   key={note.topic}
-                  className="absolute w-[200px] h-[300px] md:w-[240px] h-[380px] overflow-visible"
+                  className={cn(
+                    "absolute transition-[height] duration-500 overflow-visible",
+                    "w-[200px] md:w-[240px]",
+                    isShortScreen ? "h-[280px]" : "h-[340px]"
+                  )}
                   style={{
                     transform: `rotateY(${i * panelAngle}deg) translateZ(${radius}px)`,
                     zIndex: isFocused ? 50 : 1,

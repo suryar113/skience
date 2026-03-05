@@ -1,3 +1,10 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Biotechnology & Genetic Engineering',
+  description: 'Explore the modern world of CRISPR, recombinant DNA, and transgenic organisms in biology.',
+};
+
 const EMBED_URL = "https://drinks-hunt-3eb.craft.me/EbV5EcCkPEtKHL";
 
 export default function NotesPage() {
@@ -7,6 +14,7 @@ export default function NotesPage() {
         src={EMBED_URL}
         className="w-full h-full border-0"
         allowFullScreen
+        title="Biotechnology Notes"
       />
     </div>
   );

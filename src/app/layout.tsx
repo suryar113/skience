@@ -8,8 +8,31 @@ import { FirebaseClientProvider } from "@/firebase/client-provider";
 import { FeedbackNudge } from "@/components/feedback-nudge";
 
 export const metadata: Metadata = {
-  title: "SKIENCE",
-  description: "An interactive website for modern science notes.",
+  title: {
+    default: "SKIENCE | Interactive Biology Notes & Study Tools",
+    template: "%s | SKIENCE"
+  },
+  description: "Explore interactive, high-tech biology notes. Featuring 3D visualizations, Quizlet integration, and comprehensive study guides for modern science students.",
+  keywords: ["biology notes", "science education", "interactive learning", "study biology", "cell biology", "genetics", "biotechnology"],
+  authors: [{ name: "SKIENCE Team" }],
+  creator: "SKIENCE",
+  metadataBase: new URL("https://skience.vercel.app"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://skience.vercel.app",
+    title: "SKIENCE | Interactive Biology Notes",
+    description: "Modern, interactive biology notes with 3D visualizations and integrated study tools.",
+    siteName: "SKIENCE",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SKIENCE | Interactive Biology Notes",
+    description: "Modern, interactive biology notes with 3D visualizations and integrated study tools.",
+  },
   manifest: "/manifest.json",
 };
 
