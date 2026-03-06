@@ -103,15 +103,15 @@ export default function BiologyPage() {
               transition={{ duration: 0.5 }}
               className="w-full max-w-5xl mx-auto h-full flex flex-col"
             >
-              <div className="bg-black/40 backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl flex-1 flex flex-col relative">
-                <div className="flex-1 overflow-y-auto overflow-x-hidden relative">
-                  <Table className="w-full border-collapse">
-                    <TableHeader className="sticky top-0 z-[100] bg-black shadow-lg">
+              <div className="bg-black/40 backdrop-blur-3xl border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(122,0,255,0.15)] flex-1 flex flex-col relative">
+                <div className="flex-1 overflow-y-auto overflow-x-hidden relative scrollbar-hide">
+                  <Table className="w-full border-separate border-spacing-0">
+                    <TableHeader className="sticky top-0 z-[100] bg-black">
                       <TableRow className="hover:bg-transparent border-white/10">
-                        <TableHead className="py-5 text-sm font-headline tracking-[0.2em] text-muted-foreground pl-8 bg-black">TOPIC</TableHead>
-                        <TableHead className="py-5 text-sm font-headline tracking-[0.2em] text-muted-foreground text-center bg-black">NOTES</TableHead>
-                        <TableHead className="py-5 text-sm font-headline tracking-[0.2em] text-muted-foreground text-center bg-black">PDF</TableHead>
-                        <TableHead className="py-5 text-sm font-headline tracking-[0.2em] text-muted-foreground text-center pr-8 bg-black">QUIZLET</TableHead>
+                        <TableHead className="py-6 text-lg font-headline tracking-[0.2em] text-muted-foreground pl-8 bg-black">TOPIC</TableHead>
+                        <TableHead className="py-6 w-32 text-lg font-headline tracking-[0.2em] text-muted-foreground text-center bg-black">NOTES</TableHead>
+                        <TableHead className="py-6 w-32 text-lg font-headline tracking-[0.2em] text-muted-foreground text-center bg-black">PDF</TableHead>
+                        <TableHead className="py-6 w-32 text-lg font-headline tracking-[0.2em] text-muted-foreground text-center pr-8 bg-black">QUIZLET</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -121,33 +121,33 @@ export default function BiologyPage() {
                           className="hover-rainbow-row border-white/5 transition-all group relative"
                         >
                           <TableCell className="py-5 pl-8">
-                            <span className="font-headline text-lg tracking-wider text-foreground transition-colors">
+                            <span className="font-headline text-lg tracking-wider text-foreground transition-colors group-hover:text-white drop-shadow-sm">
                               {note.topic}
                             </span>
                           </TableCell>
-                          <TableCell className="text-center">
-                            <Button asChild variant="ghost" className="h-9 w-9 p-0 hover:bg-purple-500/20 text-muted-foreground hover:text-purple-400 rounded-xl">
+                          <TableCell className="text-center w-32">
+                            <Button asChild variant="ghost" className="h-10 w-10 p-0 hover:bg-purple-500/20 text-muted-foreground hover:text-purple-400 rounded-xl transition-all">
                               <Link href={note.pagePath} target="_blank">
-                                <ExternalLink className="w-4 h-4" />
+                                <ExternalLink className="w-5 h-5" />
                               </Link>
                             </Button>
                           </TableCell>
-                          <TableCell className="text-center">
-                            <Button asChild variant="ghost" className="h-9 w-9 p-0 hover:bg-blue-500/20 text-muted-foreground hover:text-blue-400 rounded-xl">
+                          <TableCell className="text-center w-32">
+                            <Button asChild variant="ghost" className="h-10 w-10 p-0 hover:bg-blue-500/20 text-muted-foreground hover:text-blue-400 rounded-xl transition-all">
                               <Link href={note.pdfUrl} target="_blank">
-                                <FileText className="w-4 h-4" />
+                                <FileText className="w-5 h-5" />
                               </Link>
                             </Button>
                           </TableCell>
-                          <TableCell className="text-center pr-8">
+                          <TableCell className="text-center w-32 pr-8">
                             <Button 
                               variant="ghost" 
                               size="sm"
                               onClick={() => handleOpenQuizlet(note.quizletSetId)}
                               disabled={!note.quizletSetId}
-                              className="h-9 w-9 p-0 hover:bg-yellow-500/20 text-muted-foreground hover:text-yellow-400 rounded-xl"
+                              className="h-10 w-10 p-0 hover:bg-yellow-500/20 text-muted-foreground hover:text-yellow-400 rounded-xl transition-all"
                             >
-                              <GraduationCap className="w-4 h-4" />
+                              <GraduationCap className="w-5 h-5" />
                             </Button>
                           </TableCell>
                         </TableRow>
