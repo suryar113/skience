@@ -15,19 +15,10 @@ The goal is to make studying easier by turning class notes into **clean, easy-to
 
 # 📸 Preview
 
-*(Add a screenshot of the homepage here)*
+<p align="center">
+  <img src="/assets/skience-preview.png" alt="Skience Screenshot" width="600">
+</p>
 
-```
-assets/skience-preview.png
-```
-
-Example:
-
-```markdown
-![Skience Screenshot](/assets/skience-preview.png)
-```
-
-Screenshots help people immediately understand the project.
 
 ---
 
