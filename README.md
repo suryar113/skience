@@ -36,11 +36,19 @@ The goal is to make studying easier by turning class notes into **clean, easy-to
 
 Current topics include:
 
+* Characteristics of Living Things
+* Organic Molecules
 * Enzymes
+* The Cell
+* Cellular Transport
+* Cell Energy
+* Cell Division/Reproduction
+* DNA, RNA, & Proteins
+* Mutations
+* Biotech & Genetic Engineering
 * Genetics
 * Pedigrees
-* Environmental influences on traits
-* Additional units from the biology curriculum
+* Environmental Influences
 
 More topics are added as the course progresses.
 
@@ -117,7 +125,7 @@ However, suggestions are welcome. If you notice:
 * confusing explanations
 * missing topics
 
-feel free to open an **Issue**.
+Feel free to open an **Issue**.
 
 ---
 
