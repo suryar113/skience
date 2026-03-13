@@ -1,4 +1,4 @@
-# 🧬 Skience
+# Skience
 
 ![Vercel](https://img.shields.io/badge/deployed%20on-vercel-black?logo=vercel)
 ![Next JS](https://img.shields.io/badge/built%20with-Next.js-black?logo=nextdotjs)
