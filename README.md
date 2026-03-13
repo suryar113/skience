@@ -18,13 +18,13 @@ The goal is to make studying easier by turning class notes into **clean, easy-to
 *(Add a screenshot of the homepage here)*
 
 ```
-skience-preview.png
+assets/skience-preview.png
 ```
 
 Example:
 
 ```markdown
-![Skience Screenshot](skience-preview.png)
+![Skience Screenshot](/assets/skience-preview.png)
 ```
 
 Screenshots help people immediately understand the project.
