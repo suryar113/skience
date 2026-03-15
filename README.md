@@ -7,7 +7,7 @@
 
 Skience is a **student-built biology notes website** designed to organize and simplify the biology curriculum into clear, structured explanations.
 
-🌐 **Live site:** https://skience.vercel.app
+🌐 **Live site:** https://skience.io
 
 The goal is to make studying easier by turning class notes into **clean, easy-to-review web pages**.
 
